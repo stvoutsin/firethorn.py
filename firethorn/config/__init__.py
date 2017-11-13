@@ -1,0 +1,1 @@
+from firethorn_config import *
