@@ -6,12 +6,14 @@ Created on Nov 4, 2017
 import logging
 from models.table import Table
 from core.query_engine import QueryEngine
-import urllib2
+import urllib.request
+from _io import StringIO
 try:
     import simplejson as json
 except ImportError:
     import json
 from config import firethorn_config as config
+import sys
 
 
 class Query(object):
@@ -32,15 +34,16 @@ class Query(object):
         self.queryspace = queryspace
         self.firethorn_query_engine = QueryEngine()
         self.queryident = queryident
+        pass
        
        
-    def __get_json(self, url): 
-        query_json=[]
+    def _get_json(self, url): 
+        query_json=None
+        request=None
         try:
-            request = urllib2.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
-            f_read = urllib2.urlopen(request)
-            query_json = json.loads(f_read.read())
-            f_read.close()
+            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
+            with urllib.request.urlopen(request) as response:
+                query_json =  json.loads(response.read().decode('ascii'))
         except Exception as e:
             logging.exception(e)
         return query_json   
@@ -76,12 +79,12 @@ class Query(object):
         self.__queryident = queryident    
         
                      
-    def run (self, mode="SYNC"):
+    def run (self):
         '''
         Run Query
         '''
         try: 
-            self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email, mode)
+            self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email, "SYNC")
         except Exception as e:
             logging.exception(e)    
         return 
@@ -93,8 +96,7 @@ class Query(object):
         '''
         try: 
             if not self.table.tableident:
-                self.table = Table(self.__get_json(self.queryident).get("results",[]).get("table",None))
-                print (self.__get_json(self.queryident))
+                self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None))
         except Exception as e:
             logging.exception(e)    
 
@@ -124,7 +126,7 @@ class Query(object):
         '''
         try: 
             if not self.error:
-                self.error = self.__get_json(self.queryident).get("syntax",[]).get("friendly",None)
+                self.error = Query._get_json(self, self.queryident).get("syntax",[]).get("friendly",None)
         except Exception as e:
             logging.exception(e) 
                
@@ -134,4 +136,78 @@ class Query(object):
     def __str__(self):
         return 'Queryspace ID: %s \nQuery: %s\nQuery ID: %s\n ' %(self.queryspace, self.querystring, self.queryident) 
     
+
+
+class AsyncQuery(Query):
+    '''
+    AsyncQuery class
+    '''
+
+    def __init__(self, querystring=None, queryspace=None, queryident=None):
+        '''
+        Constructor
+        
+        Parameters
+        ----------
+        '''
+        super().__init__(querystring, queryspace, queryident)
+
+                     
+    def run (self):
+        '''
+        Run Query
+        '''
+        try: 
+            self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email,  "ASYNC")
+        except Exception as e:
+            logging.exception(e)    
+        return 
     
+
+    def results (self):
+        '''
+        Get Results
+        '''
+        try: 
+            if not self.table.tableident:
+                self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None))
+        except Exception as e:
+            logging.exception(e)    
+
+        return self.table
+
+
+
+    def status (self):
+        '''
+        Get Status message for query
+        '''
+        
+        status = "UNKNOWN"
+        
+        try:
+            statusjson = self.firethorn_query_engine.get_status(self.queryident)
+            status = json.loads(statusjson).get("status","UNKNOWN")
+        except Exception as e:
+            logging.exception(e)
+        
+        return status
+                   
+                   
+    def get_error (self):
+        '''
+        Get Error message
+        '''
+        try: 
+            if not self.error:
+                self.error = Query._get_json(self, self.queryident).get("syntax",[]).get("friendly",None)
+        except Exception as e:
+            logging.exception(e) 
+               
+        return self.error
+
+                        
+    def __str__(self):
+        return 'Queryspace ID: %s \nQuery: %s\nQuery ID: %s\n ' %(self.queryspace, self.querystring, self.queryident) 
+    
+        

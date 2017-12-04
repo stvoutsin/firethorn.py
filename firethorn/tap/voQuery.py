@@ -7,7 +7,6 @@ Query TAP (and other VO) Services
 """
 
 import os
-import urllib2
 import urllib
 import time
 import xml.dom.minidom
@@ -21,7 +20,7 @@ import logging
 import datetime
 from time import gmtime,  strftime
 from astropy.table import Table
-from cStringIO import StringIO
+from io import StringIO
 import xml.etree.ElementTree as ET
 
 class VOQuery():
@@ -71,9 +70,9 @@ class VOQuery():
         res = ''
         f = ''
         try:
-            req = urllib2.Request(endpointURL + extension)
-            f = urllib2.urlopen(req)
-            res =  f.read()
+            req = urllib.request.Request(endpointURL + extension)
+            with urllib.request.urlopen(req) as response:
+                res = response.read().decode('ascii')
             f.close()
         except Exception as e:
             if f!='':
@@ -132,9 +131,9 @@ class VOQuery():
         """
 
         if (maxrec!=None):
-            params = urllib.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q, 'MAXREC' : maxrec})
+            params = urllib.parse.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q, 'MAXREC' : maxrec}).encode('ascii')
         else:
-            params = urllib.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q})
+            params = urllib.parse.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q}).encode('ascii')
 
         full_url = url+"/"+mode_local
 
@@ -142,13 +141,13 @@ class VOQuery():
         jobId= 'None'
         try:
             #Submit job and get job id
-            req = urllib2.Request(full_url, params)
-            opener = urllib2.build_opener()
+            req = urllib.request.Request(full_url, params)
+            opener = urllib.request.build_opener()
 
             f = opener.open(req)
             jobId = f.url
             #Execute job and start loop requests for table
-            req2 = urllib2.Request(jobId+'/phase',urllib.urlencode({'PHASE' : 'RUN'}))
+            req2 = urllib.request.Request(jobId+'/phase',urllib.parse.urlencode({'PHASE' : 'RUN'}).encode("ascii"))
             f2 = opener.open(req2) #@UnusedVariable
 
             # Return table as a votable object

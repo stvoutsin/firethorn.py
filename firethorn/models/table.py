@@ -5,8 +5,8 @@ Created on Nov 4, 2017
 '''
 
 from astropy.table import Table as astropy_Table
-from cStringIO import StringIO
-import urllib2
+from io import StringIO
+import urllib.request
 import logging
 try:
     import simplejson as json
@@ -31,7 +31,7 @@ class Table(object):
         '''
         self.tableident = tableident
         if (self.tableident):
-            self.astropy_table = astropy_Table.read(StringIO(self.__get_votable(tableident + "/votable")), format="votable")
+            self.astropy_table = astropy_Table.read(tableident + "/votable", format="votable")        
         else:
             self.astropy_table = None
         
@@ -41,22 +41,21 @@ class Table(object):
     def __get_json(self, url): 
         query_json=[]
         try:
-            request = urllib2.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
-            f_read = urllib2.urlopen(request)
-            query_json = json.loads(f_read.read())
-            f_read.close()
+            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
+            with urllib.request.urlopen(request) as response:
+                query_json = json.loads(response.read().decode('ascii'))            
         except Exception as e:
             logging.exception(e)
         return query_json    
              
              
     def __get_votable(self, url): 
-        query_xml=[]
+        query_xml=""
+        request=None
         try:
-            request = urllib2.Request(url, headers={"firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
-            f_read = urllib2.urlopen(request)
-            query_xml = f_read.read()
-            f_read.close()
+            request = urllib.request.Request(url, headers={"firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
+            with urllib.request.urlopen(request) as response:
+                query_xml =  response.read().decode('ascii')   
         except Exception as e:
             logging.exception(e)
         return query_xml  

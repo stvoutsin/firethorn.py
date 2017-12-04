@@ -7,3 +7,5 @@ from utils import *
 from tap import *
 from models import *
 from core import *
+import workspace
+from pyfirethorn import *

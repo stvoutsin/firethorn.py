@@ -4,8 +4,7 @@ Created on Jun 4, 2014
 @author: stelios
 '''
 
-import urllib2
-import urllib
+import urllib.request
 import time
 import signal
 try:
@@ -54,12 +53,13 @@ class QueryEngine(object):
         '''
         self.id = 1
         
+        
     def get_status(self, url):
-        request2 = urllib2.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
-        f_read = urllib2.urlopen(request2)
-        query_json = f_read.read()
-        f_read.close()
+        request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+        with urllib.request.urlopen(request) as response:
+            query_json = response.read().decode('ascii')
         return query_json            
+            
             
     def _getRows(self, query_results):
         '''
@@ -91,10 +91,9 @@ class QueryEngine(object):
 
 
         def read_json(url):
-            request2 = urllib2.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
-            f_read = urllib2.urlopen(request2)
-            query_json = f_read.read()
-            f_read.close()
+            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+            with urllib.request.urlopen(request) as response:
+                query_json = response.read().decode('ascii')
             return query_json        
 
         try :
@@ -104,22 +103,29 @@ class QueryEngine(object):
                 query_name = 'query-' + t.strftime("%y%m%d_%H%M%S")
                      
             urlenc = { query_name_param : query_name,  query_param : query, query_mode_param : query_mode}
-            data = urllib.urlencode(urlenc)
-            request = urllib2.Request(query_space + query_create_uri, data, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+            data = urllib.parse.urlencode(urlenc).encode('ascii')
+            request = urllib.request.Request(query_space + query_create_uri, data, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
     
-            f = urllib2.urlopen(request)
-            query_create_result = json.loads(f.read())
+            with urllib.request.urlopen(request) as response:
+                query_create_result = json.loads(response.read().decode('ascii'))
             query_identity = query_create_result["ident"]
             
             # Update query
             urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time }
-            data_updt = urllib.urlencode(urlenc_updt)
-            request_updt = urllib2.Request(query_identity, data_updt, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
-            f_updt = urllib2.urlopen(request_updt)
-            f_updt.close()
+            data_updt = urllib.parse.urlencode(urlenc_updt).encode('ascii')
+            request_updt = urllib.request.Request(query_identity, data_updt, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+            
+            with urllib.request.urlopen(request_updt) as response:
+                response.read().decode('ascii')
 
             if mode.upper()=="SYNC":
                 self.start_query_loop(query_identity)
+            else:
+                data = urllib.parse.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('ascii')
+                request = urllib.request.Request(query_identity, data, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})            
+                with urllib.request.urlopen(request) as response:
+                    json.loads(response.read().decode('ascii'))
+                    
 
         except Exception as e:
             if (type(e).__name__=="Timeout"):
@@ -150,12 +156,11 @@ class QueryEngine(object):
         
         try:
     
-            data = urllib.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000})
-
-            #data = urllib.urlencode({ query_status_update : "RUNNING", 'adql.query.update.delay.every' : '10000', 'adql.query.update.delay.first':'10000', 'adql.query.update.delay.la$
-            request = urllib2.Request(url, data, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
-            f_update = urllib2.urlopen(request)
-            query_json =  json.loads(f_update.read())
+            data = urllib.parse.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('ascii')
+            request = urllib.request.Request(url, data, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+            
+            with urllib.request.urlopen(request) as response:
+                query_json =  json.loads(response.read().decode('ascii'))
             query_status = "QUEUED"
 
             while query_status=="QUEUED" or query_status=="RUNNING" and elapsed_time<MAX_ELAPSED_TIME:

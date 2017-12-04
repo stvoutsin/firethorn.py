@@ -3,7 +3,8 @@ Created on Nov 7, 2012
 
 @author: stelios
 '''
-from urllib import quote_plus, unquote, unquote_plus
+from urllib.parse import quote_plus, unquote, unquote_plus
+from io import StringIO
 
 class string_functions:
 
@@ -12,5 +13,5 @@ class string_functions:
         
         
     def decode(self, _string):
-        return unquote_plus(_string.encode("utf8")).decode("utf8")
+        return unquote_plus(str(_string.encode("utf8").decode("utf8")))
         
