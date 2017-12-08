@@ -75,6 +75,7 @@ class QueryEngine(object):
             row_length = len(rows[1])
         return row_length
     
+    
                 
     def run_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", mode="SYNC", **kwargs):
         '''
@@ -109,12 +110,11 @@ class QueryEngine(object):
             with urllib.request.urlopen(request) as response:
                 query_create_result = json.loads(response.read().decode('ascii'))
             query_identity = query_create_result["ident"]
-            
             # Update query
             urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time }
             data_updt = urllib.parse.urlencode(urlenc_updt).encode('ascii')
             request_updt = urllib.request.Request(query_identity, data_updt, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
-            
+                            
             with urllib.request.urlopen(request_updt) as response:
                 response.read().decode('ascii')
 
@@ -126,20 +126,87 @@ class QueryEngine(object):
                 with urllib.request.urlopen(request) as response:
                     json.loads(response.read().decode('ascii'))
                     
-
         except Exception as e:
             if (type(e).__name__=="Timeout"):
                 raise
             else:
                 logging.exception(e)
 
+                    
+        return query_identity 
+     
+    
+    def create_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", **kwargs):
+        '''
+        Create query on a resource
+               
+        :param query:
+        :param query_name:
+        :param query_space:
+        :param query_mode:
+        :param test_email:
+        '''
         
-        if f!='':
-            f.close()
+        query_space = string_functions.decode(query_space)
+        query_identity = ""
+
+
+        def read_json(url):
+            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+            with urllib.request.urlopen(request) as response:
+                query_json = response.read().decode('ascii')
+            return query_json        
+
+        try :
+            from datetime import datetime
+            t = datetime.now()
+            if query_name=="":
+                query_name = 'query-' + t.strftime("%y%m%d_%H%M%S")
+                     
+            urlenc = { query_name_param : query_name,  query_param : query, query_mode_param : query_mode}
+            data = urllib.parse.urlencode(urlenc).encode('ascii')
+            request = urllib.request.Request(query_space + query_create_uri, data, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
+    
+            with urllib.request.urlopen(request) as response:
+                query_create_result = json.loads(response.read().decode('ascii'))
+            query_identity = query_create_result["ident"]
+                    
+        except Exception as e:
+            if (type(e).__name__=="Timeout"):
+                raise
+            else:
+                logging.exception(e)
+
+        return query_identity 
+
+
+    def update_query_status(self, query_identity, status, **kwargs):
+        '''
+        Update a query
+               
+        :param queryident:
+        :param status:
+        '''
+    
+  
+        try :
+            # Update query
+            urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time, query_status_update : status }
+            data_updt = urllib.parse.urlencode(urlenc_updt).encode('ascii')
+            request_updt = urllib.request.Request(query_identity, data_updt, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
             
-        return query_identity  
-    
-    
+            with urllib.request.urlopen(request_updt) as response:
+                response.read().decode('ascii')
+                    
+        except Exception as e:
+            if (type(e).__name__=="Timeout"):
+                raise
+            else:
+                logging.exception(e)
+                    
+        return  
+
+
     
     def start_query_loop(self, url, test_email=""):
         '''

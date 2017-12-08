@@ -14,7 +14,7 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": Workspace(resource="http://localhost:8081/firethorn/adql/resource/2308497",queryspace="http://localhost:8081/firethorn/adql/schema/5210118")}
+    __predefined_workspaces__ = {"OSA": Workspace(ident="http://localhost:8081/firethorn/adql/resource/2308497",queryspace="http://localhost:8081/firethorn/adql/schema/5210118")}
     __id__ = ""
     
     
@@ -68,26 +68,31 @@ class Firethorn(object):
         Returns
         -------
         """
-        return self.__predefined_workspaces__.keys()
+        return list(self.__predefined_workspaces__.keys())
     
 
 
 if __name__ == "__main__":
     ft = Firethorn(endpoint="http://localhost:8081/firethorn")
-    osa = ft.get_workspace("OSA")
-    #myquery = osa.query_async("SELECT * FROM ATLASDR1.Filter")
-    #myquery.run()
-    #while myquery.status()=="RUNNING" or myquery.status()=="READY" :
-        #print (myquery.status())
-        #time.sleep(5)
-    #print (myquery.results().as_astropy())
-    
-    qry = osa.query("Select top 2 * from ATLASDR1.Filter")
+    print (ft.get_public_workspaces())
 
-    print (qry.results().as_astropy())
+    osa = ft.get_workspace("OSA")
+    myquery = osa.query_async("SELECT * FROM ATLASDR1.Filter")
+    myquery.run()
+    while myquery.status()=="RUNNING" or myquery.status()=="READY":
+        time.sleep(5)
+        
+    print (myquery.results().as_astropy())
+    
     wspace = ft.new_workspace("ATLAS")
-    print (wspace.queryspace )
-    #print (osa.get_tables(schema="TAP_SCHEMA"))
+    wspace.import_schema(osa.get_schema("ATLASDR1"))
+    print (wspace.get_tables("ATLASDR1"))
+
+    
+    
+    qry = wspace.query("Select top 2 * from ATLASDR1.Filter")
+    print (qry.results().as_astropy())
+
     #print (osa.get_columns(table="TAP_SCHEMA.tables"))
     #table = osa.query("SELECT TOP 10 table_name as tname from TAP_SCHEMA.tables")
     #print (table.get_table())

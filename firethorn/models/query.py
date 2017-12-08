@@ -87,6 +87,7 @@ class Query(object):
             self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email, "SYNC")
         except Exception as e:
             logging.exception(e)    
+                
         return 
     
 
@@ -152,15 +153,23 @@ class AsyncQuery(Query):
         '''
         super().__init__(querystring, queryspace, queryident)
 
+        try: 
+            self.queryident = self.firethorn_query_engine.create_query(self.querystring, "", self.queryspace, "AUTO", config.test_email)
+        except Exception as e:
+            logging.exception(e)    
+        
+        return 
+        
                      
     def run (self):
         '''
         Run Query
         '''
         try: 
-            self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email,  "ASYNC")
+            self.firethorn_query_engine.update_query_status(self.queryident, "COMPLETED")
         except Exception as e:
             logging.exception(e)    
+            
         return 
     
 

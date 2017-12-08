@@ -1,6 +1,7 @@
 import logging
 from models.query import Query, AsyncQuery
 from core.firethorn_engine import FirethornEngine
+from schema import Schema
 
 class Workspace(object):
     """
@@ -12,14 +13,15 @@ class Workspace(object):
     __id__ = ""
     
     
-    def __init__(self, resource=None, queryspace=None):
+    def __init__(self, ident=None, queryspace=None):
         '''
         Constructor
         
         Parameters
         ----------
         '''
-        self.resource = resource
+        self.firethorn_engine = FirethornEngine()
+        self.ident = ident
         self.queryspace = queryspace             
         return        
 
@@ -31,7 +33,8 @@ class Workspace(object):
         
     @ident.setter
     def ident(self, ident):
-        self.__ident = ident
+        self.__ident = ident 
+        self.firethorn_engine.adqlspace = ident
 
 
     @property
@@ -60,8 +63,7 @@ class Workspace(object):
         
         try:
             if (not self.queryspace):
-                fEng = FirethornEngine()
-                self.queryspace = fEng.create_query_schema(self.resource)
+                self.queryspace = self.firethorn_engine.create_query_schema(self.ident)
         except Exception as e:
             logging.exception(e)   
              
@@ -86,10 +88,55 @@ class Workspace(object):
         
         try:
             if (not self.queryspace):
-                fEng = FirethornEngine()
-                self.queryspace = fEng.create_query_schema(self.resource)
+                self.queryspace = self.firethorn_engine.create_query_schema(self.ident)
         except Exception as e:
             logging.exception(e)   
              
         return AsyncQuery(query, self.queryspace)
 
+
+    def get_schema(self, name=""):
+        """        
+        Import a schema into this workspace
+        
+        Parameters
+        ----------
+        schema : str, required
+            The URL for the schema to import 
+            
+        Returns
+        -------
+        """
+        
+        return Schema(self.firethorn_engine.select_by_name(name, self.ident), name, self.ident)
+        
+
+    def import_schema(self, schema):
+        """        
+        Import a schema into this workspace
+        
+        Parameters
+        ----------
+        schema : str, required
+            The URL for the schema to import 
+            
+        Returns
+        -------
+        """
+        
+        self.firethorn_engine.import_query_schema(schema.name, schema.ident, self.ident)
+        
+        
+    def get_tables(self, schemaname):
+        """        
+        Get list of tables
+        
+        Parameters
+        ----------
+        schema : str, required
+            The parent Schema name 
+            
+        Returns
+        -------
+        """     
+        return self.firethorn_engine.get_tables(schemaname)

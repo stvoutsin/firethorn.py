@@ -268,7 +268,7 @@ class FirethornEngine(object):
 
     def import_query_schema(self, name, import_schema, workspace):
         '''
-        Import into a Schema into workspace
+        Import a Schema into workspace
         '''
         try:
             importname = name
@@ -276,7 +276,8 @@ class FirethornEngine(object):
             if importname!="":
                 data = urllib.parse.urlencode({config.workspace_import_schema_base : import_schema, config.workspace_import_schema_name : importname}).encode("utf-8")
                 req = urllib.request.Request( workspace + config.workspace_import_uri, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"}) 
-                response = urllib.request.urlopen(req, data)
+                with urllib.request.urlopen(req, data) as response:
+                    response.read()
         except Exception as e:
             logging.exception(e)
             
@@ -378,6 +379,65 @@ class FirethornEngine(object):
         logging.info("query_schema: " + str(self.query_schema))
         logging.info("schema_name: " + str(self.schema_name))
         logging.info("schema_alias: " + str(self.schema_alias))     
+    
+    
+    def select_by_name(self, name, resource):
+        attr_val = []
+        try :
+            req_exc = urllib.request.Request( resource + "/select?name=" + name, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" :"public (unknown)"})
+
+            #with urllib.request.urlopen(req_exc) as response:
+            #    response_exc_json =  response.read().decode('utf-8')
+        except Exception as e:
+            logging.exception(e)      
+              
+        return "http://localhost:8081/firethorn/adql/schema/2308582"
+    
+    
+    def get_tables(self, schemaname):
+        '''
+        Get list of Tables for a Schema
+        
+        :param schemaname:
+        '''
+        schemaident = self.select_by_name(schemaname, self.adqlspace)
+        response_json = None
+        table_list = []
+        
+        try :
+            req_exc = urllib.request.Request( schemaident + "/tables/select", headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" :"public (unknown)"})
+            with urllib.request.urlopen(req_exc) as response:
+                response_json =  json.loads(response.read().decode('utf-8'))
+            for val in response_json:
+                table_list.append(val["name"])
+     
+        except Exception as e:
+            logging.exception(e)
+            
+        return table_list
+
+    
+    def get_columns(self, tablename):
+        '''
+        Get list of Tables for a Schema
+        
+        :param schemaname:
+        '''
+        tableident = self.select_by_name(tablename, self.adqlspace)
+        response_json = None
+        column_list = []
+        
+        try :
+            req_exc = urllib.request.Request( tableident + "/column/select", headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" :"public (unknown)"})
+            with urllib.request.urlopen(req_exc) as response:
+                response_json =  json.loads(response.read().decode('utf-8'))
+            for val in response_json:
+                column_list.append(val["name"])
+     
+        except Exception as e:
+            logging.exception(e)
+            
+        return column_list
     
     
     def get_attribute(self, ident, attr):
