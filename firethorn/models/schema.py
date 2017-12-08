@@ -3,22 +3,22 @@ from models.query import Query, AsyncQuery
 from core.firethorn_engine import FirethornEngine
 
 class Schema(object):
-    """
-    Schema  class
-         
-    Attributes:
-    """
-
-    __id__ = ""
+    """Schema class, equivalent to a Firethorn ADQL Schema
     
+    Attributes
+    ----------
+    ident: string, optional
+        The Identity URL of the schema
+        
+    name: string, optional
+        The Name of the Schema
+        
+    resource: string, optional
+        The URL of the parent resource    
+    """
+        
     
     def __init__(self, ident=None, name=None, resource=None):
-        '''
-        Constructor
-        
-        Parameters
-        ----------
-        '''
         self.ident = ident        
         self.name = name             
         self.firethorn_engine = FirethornEngine()

@@ -17,17 +17,22 @@ import sys
 
 
 class Query(object):
-    '''
-    Query class
-    '''
+    """Query Class, stores information for a Firethorn query 
+    
+    Attributes
+    ----------
+    querystring: string, optional
+        The Query as a sring
+                    
+    queryspace: string, optional
+        The query parent resource
+
+    queryident: string, optional
+        The query object URL
+                    
+    """
 
     def __init__(self, querystring=None, queryspace=None, queryident=None):
-        '''
-        Constructor
-        
-        Parameters
-        ----------
-        '''
         self.table = Table()
         self.error = None
         self.querystring = querystring
@@ -38,6 +43,19 @@ class Query(object):
        
        
     def _get_json(self, url): 
+        """Get request to a JSON service
+        
+        Parameters
+        ----------
+        url: string, required
+            JSON Web Resource URL
+            
+        Returns    
+        -------
+        query_json: json
+            JSON object returned by GET request
+        
+        """
         query_json=None
         request=None
         try:
@@ -80,9 +98,9 @@ class Query(object):
         
                      
     def run (self):
-        '''
-        Run Query
-        '''
+        """Run a query
+        
+        """
         try: 
             self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email, "SYNC")
         except Exception as e:
@@ -92,9 +110,9 @@ class Query(object):
     
 
     def results (self):
-        '''
-        Get Results
-        '''
+        """Get Results
+        
+        """
         try: 
             if not self.table.tableident:
                 self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None))
@@ -106,9 +124,8 @@ class Query(object):
 
 
     def status (self):
-        '''
-        Get Status message for query
-        '''
+        """Get Status message for query
+        """
         
         status = "UNKNOWN"
         
@@ -122,9 +139,8 @@ class Query(object):
                    
                    
     def get_error (self):
-        '''
-        Get Error message
-        '''
+        """Get Error message
+        """
         try: 
             if not self.error:
                 self.error = Query._get_json(self, self.queryident).get("syntax",[]).get("friendly",None)
@@ -135,22 +151,29 @@ class Query(object):
 
                         
     def __str__(self):
+        """ Print class as string
+        """
         return 'Queryspace ID: %s \nQuery: %s\nQuery ID: %s\n ' %(self.queryspace, self.querystring, self.queryident) 
     
 
 
 class AsyncQuery(Query):
-    '''
-    AsyncQuery class
-    '''
+    """AsyncQuery Model, stores information for a Firethorn query 
+    
+    Attributes
+    ----------
+    querystring: string, optional
+        The Query as a sring
+                    
+    queryspace: string, optional
+        The query parent resource
+
+    queryident: string, optional
+        The query object URL
+                    
+    """
 
     def __init__(self, querystring=None, queryspace=None, queryident=None):
-        '''
-        Constructor
-        
-        Parameters
-        ----------
-        '''
         super().__init__(querystring, queryspace, queryident)
 
         try: 
@@ -162,9 +185,9 @@ class AsyncQuery(Query):
         
                      
     def run (self):
-        '''
+        """
         Run Query
-        '''
+        """
         try: 
             self.firethorn_query_engine.update_query_status(self.queryident, "COMPLETED")
         except Exception as e:
@@ -174,9 +197,9 @@ class AsyncQuery(Query):
     
 
     def results (self):
-        '''
+        """
         Get Results
-        '''
+        """
         try: 
             if not self.table.tableident:
                 self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None))
@@ -188,9 +211,9 @@ class AsyncQuery(Query):
 
 
     def status (self):
-        '''
+        """
         Get Status message for query
-        '''
+        """
         
         status = "UNKNOWN"
         
@@ -204,9 +227,9 @@ class AsyncQuery(Query):
                    
                    
     def get_error (self):
-        '''
+        """
         Get Error message
-        '''
+        """
         try: 
             if not self.error:
                 self.error = Query._get_json(self, self.queryident).get("syntax",[]).get("friendly",None)
@@ -217,6 +240,8 @@ class AsyncQuery(Query):
 
                         
     def __str__(self):
+        """ Print Class as string
+        """
         return 'Queryspace ID: %s \nQuery: %s\nQuery ID: %s\n ' %(self.queryspace, self.querystring, self.queryident) 
     
         

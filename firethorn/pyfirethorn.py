@@ -8,9 +8,20 @@ class Firethorn(object):
     """
     Firethorn client class
     Query WFAU and VO services
-     
-
-    Attributes:
+    
+    Parameters
+    ----------
+    user : string, optional
+        Username
+        
+    password : string, optional
+        Password
+        
+    endpoint : string, optional
+        URL Endpoint to intialise Firethorn class with
+        
+    driver : string, optional
+        Driver used in Firethorn JDBC Connections    
     """
 
 
@@ -19,12 +30,6 @@ class Firethorn(object):
     
     
     def __init__(self, user=None, password=None, endpoint = None, driver="net.sourceforge.jtds.jdbc.Driver"):
-        '''
-        Constructor
-        
-        Parameters
-        ----------
-        '''
         self.user = user
         self.password = password
         self.endpoint = endpoint
@@ -34,24 +39,33 @@ class Firethorn(object):
 
 
     def get_workspace(self, name):
-        """
+        """ Select a workspace from the predefined list of workspaces, by name
+        
         Parameters
         ----------
-                    
+        name : string, optional
+            The workspace name
+                      
         Returns
         -------
+        Workspace : Workspace
+            A copy of the selected Workspace object
         """
         return self.__predefined_workspaces__.get(name,None)
     
     
     def new_workspace(self, name=None):
-        """
+        """ Create a new workspace
+        
         Parameters
         ----------
-                    
+        name : string, optional
+            The workspace name
+                      
         Returns
         -------
-        
+        Workspace : Workspace
+            The newly created Workspace
         """
         
         resource = self.firethorn_engine.create_adql_space(name)
@@ -61,12 +75,12 @@ class Firethorn(object):
     
     
     def get_public_workspaces(self):
-        """
-        Parameters
-        ----------
-                    
+        """ Get a list of available public predefined workspaces
+               
         Returns
         -------
+        list : list
+            List of workspace names (strings)
         """
         return list(self.__predefined_workspaces__.keys())
     

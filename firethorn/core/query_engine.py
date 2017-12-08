@@ -40,21 +40,30 @@ class Timeout():
 
 
 class QueryEngine(object):
-    '''
-    Query Engine
-    
-    Used to drive queries through the core service
-    '''
+    """Query engine, used to drive queries through the core Firethorn service 
+    """
+
 
 
     def __init__(self):
-        '''
-        Constructor
-        '''
         self.id = 1
         
         
     def get_status(self, url):
+        """Wrapper function to send a GET request to get the status of a resource and return the JSON
+        
+        Parameters
+        ----------
+        url: string, required
+            URL to query
+                   
+        Returns    
+        -------
+        query_json: string
+            The JSON response as a string
+        
+        """
+ 
         request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : test_email, "firethorn.auth.community" : "public (unknown)"})
         with urllib.request.urlopen(request) as response:
             query_json = response.read().decode('ascii')
@@ -62,29 +71,39 @@ class QueryEngine(object):
             
             
     def _getRows(self, query_results):
-        '''
-        Get rows from a query result
+        """Get rows from a query result
+
         
-        :param query_results:
-        '''
+        Parameters
+        ----------
+        query_results: string, required
+            Query results
+                   
+        Returns    
+        -------
+        row_length: integer
+            The number of rows
+        
+        """
         rows = json.loads(query_results)
         row_length = -1
         if len(rows)<=1:
             return row_length
         else :
             row_length = len(rows[1])
+ 
         return row_length
     
     
                 
     def run_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", mode="SYNC", **kwargs):
-        '''
+        """
         Run a query on a resource
                
         :param query:
         :param query_name:
         :param query_space:
-        '''
+        """
         
         f=''
         query_space = string_functions.decode(query_space)
@@ -137,7 +156,7 @@ class QueryEngine(object):
      
     
     def create_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", **kwargs):
-        '''
+        """
         Create query on a resource
                
         :param query:
@@ -145,7 +164,7 @@ class QueryEngine(object):
         :param query_space:
         :param query_mode:
         :param test_email:
-        '''
+        """
         
         query_space = string_functions.decode(query_space)
         query_identity = ""
@@ -181,12 +200,12 @@ class QueryEngine(object):
 
 
     def update_query_status(self, query_identity, status, **kwargs):
-        '''
+        """
         Update a query
                
         :param queryident:
         :param status:
-        '''
+        """
     
   
         try :
@@ -209,12 +228,12 @@ class QueryEngine(object):
 
     
     def start_query_loop(self, url, test_email=""):
-        '''
+        """
         Start the query loop
         
         @param url: A URL string to be used
         @return: Results of query
-        '''
+        """
         
         delay = INITIAL_DELAY
         start_time = time.time()

@@ -7,19 +7,18 @@ class Workspace(object):
     """
     Workspace client class
          
-    Attributes:
+    Attributes
+    ----------
+      
+    ident: string, optional
+        The identity URL of the Workspace
+        
+    queryspace: string, optional
+        The URL of the query schema of the workspace
+        
     """
 
-    __id__ = ""
-    
-    
     def __init__(self, ident=None, queryspace=None):
-        '''
-        Constructor
-        
-        Parameters
-        ----------
-        '''
         self.firethorn_engine = FirethornEngine()
         self.ident = ident
         self.queryspace = queryspace             
@@ -59,6 +58,7 @@ class Workspace(object):
         Returns
         -------
         query : `Query`
+            The created Query
         """
         
         try:
@@ -83,7 +83,8 @@ class Workspace(object):
             
         Returns
         -------
-        query : `Query`
+        query : `AsyncQuery`
+            The created AsyncQuery
         """
         
         try:
@@ -106,6 +107,9 @@ class Workspace(object):
             
         Returns
         -------
+        Schema : `Schema`
+            The Schema requested      
+
         """
         
         return Schema(self.firethorn_engine.select_by_name(name, self.ident), name, self.ident)
@@ -120,8 +124,6 @@ class Workspace(object):
         schema : str, required
             The URL for the schema to import 
             
-        Returns
-        -------
         """
         
         self.firethorn_engine.import_query_schema(schema.name, schema.ident, self.ident)
@@ -138,5 +140,7 @@ class Workspace(object):
             
         Returns
         -------
+        list: list
+            List of Tables as strings
         """     
         return self.firethorn_engine.get_tables(schemaname)

@@ -15,23 +15,39 @@ from io import StringIO
 
 
 class FirethornEngine(object):
-    '''
-    FirethornEngine
+    """ Provides the low level methods to setup Firethorn services, including JDBC connections and importing IVOA or local resources
     
-    Class that provides the infrastructure to use the Firethorn project
-    '''
+    Attributes
+    ----------
+    jdbcspace: string, optional
+        JDBC URL Endpoint for the Firethorn service
+        
+    adqlspace: string, optional
+        ADQL Resource URL Endpoint for the Firethorn service
+
+    adqlschema: string, optional
+        ADQL Schema URL to initialize with
+
+    query_schema: string, optional 
+         Query schema URL for the Firethorn resource
+   
+    schema_name: string, optional
+        Name of the ADQL Schema URL to initialize with
+
+    schema_alias: string, optional
+        Alias of the ADQL Schema URL to initialize with
+        
+    driver: string, optional
+        Driver used in Firethorn JDBC Connections    
+
+    endpoint: string, optional
+        Endpoint used for the Firethorn services    
+
+    """
+
 
     def __init__(self, jdbcspace="", adqlspace="", adqlschema="", query_schema="", schema_name="", schema_alias="", driver="", endpoint = "" , **kwargs):
-        '''
-        Constructor
-        :param jdbcspace:
-        :param adqlspace:
-        :param adqlschema:
-        :param query_schema:
-        :param schema_name:
-        :param schema_alias:
-        '''
-       
+
         self.jdbcspace = ""
         self.adqlspace =  ""
         self.adqlschema = ""
@@ -49,19 +65,45 @@ class FirethornEngine(object):
         
         
     def setup_firethorn_environment(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass=""):
-        '''
-        Initialise the Firethorn environment
+        """Initialise the Firethorn environment
         Import metadata, setup initial workspace, import schemas, tables
         
-        :param resourcename:
-        :param resourceuri:
-        :param catalogname:
-        :param ogsadainame:
-        :param adqlspacename:
-        :param jdbccatalogname:
-        :param jdbcschemaname:
-        :param metadocfile:
-        '''
+        Parameters
+        ----------
+        resourcename: string, required
+            Resource name
+            
+        resourceuri: string, required
+            Resource URI
+            
+        catalogname: string, required
+            Catalog name
+            
+        ogsadainame: string, required
+            OGSADAI name
+            
+        adqlspacename: string, required
+            ADQL Space name
+            
+        jdbccatalogname: string, required
+            JDBC Catalog name
+            
+        jdbcschemaname: string, required
+            JDBC Schema name
+            
+        metadocfile:  string, required
+            Metadocfile
+            
+        jdbc_resource_user: string, optional
+            JDBC resource username
+            
+        jdbc_resource_pass: string, optional
+            JDBC resource password
+            
+        """
+
+        
+
         try:
 
             self.initialise_metadata_import(resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user, jdbc_resource_pass)
@@ -73,20 +115,42 @@ class FirethornEngine(object):
 
                     
     def initialise_metadata_import(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass="" ):
-        '''
-        Import metadata, fetch Schema from file provided
+        """Import metadata, fetch Schema from file provided
         
-        :param resourcename:
-        :param resourceuri:
-        :param catalogname:
-        :param ogsadainame:
-        :param adqlspacename:
-        :param jdbccatalogname:
-        :param jdbcschemaname:
-        :param metadocfile:
-	    :param jdbc_resource_user
-	    :param jdbc_resource_pass
-        '''
+        Parameters
+        ----------
+        resourcename: string, required
+            Resource name
+            
+        resourceuri: string, required
+            Resource URI
+            
+        catalogname: string, required
+            Catalog name
+            
+        ogsadainame: string, required
+            OGSADAI name
+            
+        adqlspacename: string, required
+            ADQL Space name
+            
+        jdbccatalogname: string, required
+            JDBC Catalog name
+            
+        jdbcschemaname: string, required
+            JDBC Schema name
+            
+        metadocfile:  string, required
+            Metadocfile
+            
+        jdbc_resource_user: string, optional
+            JDBC resource username
+            
+        jdbc_resource_pass: string, optional
+            JDBC resource password
+            
+        """
+
         self.jdbcspace = self.create_jdbc_space(resourcename ,resourceuri, catalogname, ogsadainame, jdbc_resource_user, jdbc_resource_pass)
         if (self.adqlspace=="" or self.adqlspace==None):
             self.adqlspace = self.create_adql_space(adqlspacename)
@@ -94,13 +158,35 @@ class FirethornEngine(object):
          
          
     def create_jdbc_space(self, resourcename ,resourceuri, catalogname, ogsadainame, jdbc_resource_user="", jdbc_resource_pass=""):
-        '''
-        Create a JDBC resource 
-        :param resourcename:
-        :param resourceuri:
-        :param catalogname:
-        :param ogsadainame:
-        '''
+        """Import metadata, fetch Schema from file provided
+        
+        Parameters
+        ----------
+        resourcename: string, required
+            Resource name
+            
+        resourceuri: string, required
+            Resource URI
+            
+        catalogname: string, required
+            Catalog name
+            
+        ogsadainame: string, required
+            OGSADAI name
+      
+        jdbc_resource_user: string, optional
+            JDBC resource username
+            
+        jdbc_resource_pass: string, optional
+            JDBC resource password
+        
+        
+        Returns    
+        -------
+        jdbcspace: string
+            The URL of the created JDBC resource
+        
+        """
         
         jdbcspace=""
         try:
@@ -136,14 +222,32 @@ class FirethornEngine(object):
     
 
     def import_jdbc_metadoc(self, adqlspace="", jdbcspace="", jdbccatalogname='', jdbcschemaname='dbo',metadocfile=""):
-        '''
-        Import a JDBC metadoc
-        :param adqlspace:
-        :param jdbcspace:
-        :param jdbccatalogname:
-        :param jdbcschemaname:
-        :param metadocfile:
-        '''
+        """Import a JDBC Metadoc
+        
+        Parameters
+        ----------
+        adqlspace: string, required
+            ADQL Resource URL
+            
+        jdbcspace: string, required
+            JDBC Resource URL
+            
+        jdbccatalogname: string, required
+            JDBC Catalog name
+            
+        jdbcschemaname: string, required
+            JDBC schema name (defaults to 'dbo')
+      
+        metadocfile: string, optional
+            Metadocfile location string 
+            
+        
+        Returns    
+        -------
+        adqlschema: string
+            The URL of the created ADQL Schema
+        
+        """
       
         jdbcschemaident = ""
         adqlschema=""
@@ -190,12 +294,20 @@ class FirethornEngine(object):
     
     
     def create_adql_space(self, adqlspacename=None):
-        '''
-        Create an ADQL resource
-
-        :param adqlspacename:
-        '''
-     
+        """Create an ADQL Resource
+        
+        Parameters
+        ----------
+        adqlspacename: string, required
+            ADQL Space name 
+            
+        
+        Returns    
+        -------
+        adqlspace: string
+            The URL of the created ADQL Resource
+        
+        """
         adqlspace = ""
         try:
             ### Create workspace
@@ -209,15 +321,24 @@ class FirethornEngine(object):
             response.close()
         except Exception as e:
             logging.exception(e)
+            
         return adqlspace
                          
                          
     def create_query_schema(self, resource=""):
-        '''
-        Create a query schema
- 
-        :param resource:
-        '''
+        """Create a query schema
+        
+        Parameters
+        ----------
+        resource: string, required
+            ADQL Resource URL
+        
+        Returns    
+        -------
+        query_schema: string
+            The URL of the created Query Schema
+        
+        """
         query_schema = ""
         try:    
             ### Create Query Schema 
@@ -228,18 +349,31 @@ class FirethornEngine(object):
             response.close()
         except Exception as e:
             logging.exception(e)
+            
         return query_schema
     
         
     def create_initial_workspace(self, initial_catalogue_fullname, initial_catalogue_alias, initial_catalogue_ident):
-        '''
-        Create the inital workspace given a name, alias and catalogue identifier
+
+        """Create the inital workspace given a name, alias and catalogue identifier
         
-        :param initial_catalogue_fullname:
-        :param initial_catalogue_alias:
-        :param initial_catalogue_ident:
-        '''
-      
+        Parameters
+        ----------
+        initial_catalogue_fullname: string, required
+            Initial Catalogue Fullname
+
+        initial_catalogue_alias: string, required
+            Initial Catalogue Alias
+
+        initial_catalogue_ident: string, required
+            Initial Catalogue Ident
+        
+        Returns    
+        -------
+        query_schema: string
+            The URL of the created Query Schema
+        
+        """
         importname = ""
         t = datetime.now()
         workspace = self.create_adql_space()
@@ -267,9 +401,22 @@ class FirethornEngine(object):
     
 
     def import_query_schema(self, name, import_schema, workspace):
-        '''
-        Import a Schema into workspace
-        '''
+        """Import a schema into a workspace for querying
+        
+        Parameters
+        ----------
+        name: string, required
+            Name of schema
+
+        import_schema: string, required
+            Schema to import
+
+        workspace: string, required
+            Workspace URL
+        
+        
+        """
+
         try:
             importname = name
 
@@ -285,9 +432,22 @@ class FirethornEngine(object):
 
 
     def create_ivoa_space(self, ivoa_space_name, url):
-        '''
-        Create an IVOA space
-        '''
+        """Create an IVOA resource
+        
+        Parameters
+        ----------
+        ivoa_space_name: string, required
+            Name of IVOA resource
+
+        url: string, required
+            URL of IVOA resource to import
+            
+        Returns
+        -------
+        ivoaspace: String
+            The IVOA resource URL 
+        
+        """
         try:
             data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
             req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"}) 
@@ -301,10 +461,22 @@ class FirethornEngine(object):
 
 
     def import_vosi(self, vosi_name, ivoa_resource):
-        '''
-        Import a VOSI
-        :param vosi_name:
-        '''
+        """Import VOSI
+        
+        Parameters
+        ----------
+        vosi_name: string, required
+            VOSI name
+
+        ivoa_resource: string, required
+            IVOA resource
+            
+        Returns
+        -------
+        schema: String
+            The Schema URL
+        
+        """
       
         import pycurl
         import cStringIO
@@ -337,11 +509,22 @@ class FirethornEngine(object):
 
 
     def get_ivoa_schema(self, findname="", ivoa_resource=""):
-        '''
-        Get IVOA Schema
-        :param findname:
-        :param ivoa_resource:
-        '''
+        """Get IVOA Schema
+        
+        Parameters
+        ----------
+        findname: string, required
+            name of Schema to find
+
+        ivoa_resource: string, required
+            IVOA resource
+            
+        Returns
+        -------
+        schemaident: String
+            The Schema URL
+        
+        """
 
 
         schemaident=""
@@ -358,10 +541,31 @@ class FirethornEngine(object):
         return schemaident   
 
 
-    def import_ivoa_schema(self, ivoa_resource_name, ivoa_resource_url, ivoa_resource_xml, ivoa_resource_alias, ivoa_schema_import, query_resource):
-        '''
-        Import a Schema from an IVOA resource into an ADQL resource
-        '''
+    def import_ivoa_schema(self, ivoa_resource_name, ivoa_resource_url, ivoa_resource_xml, ivoa_resource_alias, ivoa_schema_import, query_resource):        
+        """Import a Schema from an IVOA resource into an ADQL resource
+        
+        Parameters
+        ----------
+        ivoa_resource_name: string, required 
+            IVOA Resource name
+
+        ivoa_resource_url: string, required
+            IVOA Resource URL  
+
+        ivoa_resource_xml: string, required  
+            IVOA Resource XML file  
+        
+        ivoa_resource_alias: string, required  
+            IVOA Resource Alias  
+
+        ivoa_schema_import: string, required  
+            IVOA Resource Import  
+
+        query_resource: string, required 
+            Query Resource 
+         
+        
+        """
         ivoaspace = self.create_ivoa_space(ivoa_resource_name, ivoa_resource_url)
         ivoaschema = self.import_vosi(ivoa_resource_xml, ivoaspace)
         schema = self.get_ivoa_schema(ivoa_schema_import, ivoaspace)
@@ -370,9 +574,8 @@ class FirethornEngine(object):
 
     
     def print_class_vars(self):
-        '''
-        Print out the class (Firethorn environment) variables
-        '''
+        """Print out the class (Firethorn environment) variables
+        """
         logging.info("jdbcspace: " + self.jdbcspace)
         logging.info("adqlspace: " + str(self.adqlspace))
         logging.info("adqlschema: " + str(self.adqlschema))
@@ -382,7 +585,22 @@ class FirethornEngine(object):
     
     
     def select_by_name(self, name, resource):
-        attr_val = []
+        """Select by name
+        
+        Parameters
+        ----------
+        name: string, required
+            The name of the entity being searched for
+            
+        resource: string, required 
+            Resource to search 
+         
+        Returns
+        -------
+        string: string
+            The URL of the entity found
+        """
+        
         try :
             req_exc = urllib.request.Request( resource + "/select?name=" + name, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" :"public (unknown)"})
 
@@ -395,11 +613,18 @@ class FirethornEngine(object):
     
     
     def get_tables(self, schemaname):
-        '''
-        Get list of Tables for a Schema
+        """Get tables
         
-        :param schemaname:
-        '''
+        Parameters
+        ----------
+        schemaname: string, required
+            The name of the schema for which to return the children tables
+         
+        Returns
+        -------
+        table_list: list
+            List of table names
+        """
         schemaident = self.select_by_name(schemaname, self.adqlspace)
         response_json = None
         table_list = []
@@ -418,11 +643,19 @@ class FirethornEngine(object):
 
     
     def get_columns(self, tablename):
-        '''
-        Get list of Tables for a Schema
+        """Get columns
         
-        :param schemaname:
-        '''
+        Parameters
+        ----------
+        tablename: string, required
+            The name of the table for which to return the children columns
+         
+        Returns
+        -------
+        column_list: list
+            List of column names
+        """
+        
         tableident = self.select_by_name(tablename, self.adqlspace)
         response_json = None
         column_list = []
@@ -441,13 +674,22 @@ class FirethornEngine(object):
     
     
     def get_attribute(self, ident, attr):
-        '''
-        Get an attribute of a JSON HTTP resource
+        """Get an attribute of a JSON HTTP resource
         
-        :param ident:
-        :param attr:
-        '''
-    
+        Parameters
+        ----------
+        ident: string, required
+            The URL being queried
+
+        attr: string, required
+            The attribute of the JSON response being asked for  
+                   
+        Returns
+        -------
+        attr_val: string
+            Value of the attribute requested
+        """
+        
         attr_val = []
         try :
             req_exc = urllib.request.Request( ident, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" :"public (unknown)"}).encode("utf-8")
