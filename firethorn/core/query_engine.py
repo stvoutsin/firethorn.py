@@ -65,7 +65,7 @@ class QueryEngine(object):
         
         """
  
-        request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+        request = urllib.request.Request(url,headers=self.user.get_user_as_headers())
         with urllib.request.urlopen(request) as response:
             query_json = response.read().decode('utf-8')
         return query_json            
@@ -112,7 +112,7 @@ class QueryEngine(object):
 
 
         def read_json(url):
-            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request = urllib.request.Request(url,headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json = response.read().decode('utf-8')
             return query_json        
@@ -125,7 +125,7 @@ class QueryEngine(object):
                      
             urlenc = { query_name_param : query_name,  query_param : query, query_mode_param : query_mode}
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
-            request = urllib.request.Request(query_space + query_create_uri, data, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request = urllib.request.Request(query_space + query_create_uri, data,headers=self.user.get_user_as_headers())
     
             with urllib.request.urlopen(request) as response:
                 query_create_result = json.loads(response.read().decode('utf-8'))
@@ -133,7 +133,7 @@ class QueryEngine(object):
             # Update query
             urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time }
             data_updt = urllib.parse.urlencode(urlenc_updt).encode('utf-8')
-            request_updt = urllib.request.Request(query_identity, data_updt, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request_updt = urllib.request.Request(query_identity, data_updt,headers=self.user.get_user_as_headers())
                             
             with urllib.request.urlopen(request_updt) as response:
                 response.read().decode('utf-8')
@@ -142,7 +142,7 @@ class QueryEngine(object):
                 self.start_query_loop(query_identity)
             else:
                 data = urllib.parse.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('utf-8')
-                request = urllib.request.Request(query_identity, data, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})            
+                request = urllib.request.Request(query_identity, data,headers=self.user.get_user_as_headers())            
                 with urllib.request.urlopen(request) as response:
                     json.loads(response.read().decode('utf-8'))
                     
@@ -172,7 +172,7 @@ class QueryEngine(object):
 
 
         def read_json(url):
-            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request = urllib.request.Request(url,headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json = response.read().decode('UTF-8')
             return query_json        
@@ -186,7 +186,7 @@ class QueryEngine(object):
             urlenc = { query_name_param : query_name,  query_param : query, query_mode_param : query_mode}
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
             
-            request = urllib.request.Request(query_space + query_create_uri, data, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request = urllib.request.Request(query_space + query_create_uri, data,headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
                 rez = json.loads(response.read().decode('UTF-8'))
                 query_create_result = rez
@@ -214,7 +214,7 @@ class QueryEngine(object):
             # Update query
             urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time, query_status_update : status }
             data_updt = urllib.parse.urlencode(urlenc_updt).encode('utf-8')
-            request_updt = urllib.request.Request(query_identity, data_updt, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request_updt = urllib.request.Request(query_identity, data_updt,headers=self.user.get_user_as_headers())
             
             with urllib.request.urlopen(request_updt) as response:
                 response.read().decode('utf-8')
@@ -245,7 +245,7 @@ class QueryEngine(object):
         try:
     
             data = urllib.parse.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('utf-8')
-            request = urllib.request.Request(url, data, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request = urllib.request.Request(url, data,headers=self.user.get_user_as_headers())
             
             with urllib.request.urlopen(request) as response:
                 query_json =  json.loads(response.read().decode('utf-8'))

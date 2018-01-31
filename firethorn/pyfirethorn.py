@@ -53,8 +53,8 @@ class Firethorn(object):
         return
 
 
-    def username(self):
-        return self.firethorn_engine.username
+    def user(self):
+        return self.firethorn_engine.user.username
     
     
     def get_workspace(self, name):
@@ -105,27 +105,27 @@ class Firethorn(object):
 
 if __name__ == "__main__":
     ft = Firethorn()
-    ft.login("", "", "")
-    #print (ft.get_public_workspaces())
+    #ft.login("", "", "")
+    print (ft.get_public_workspaces())
     osa = ft.get_workspace("OSA")
-    """
-    myquery = osa.query_async("SELECT * FROM ATLASDR1.Filter")
+    
+    print (ft.user())
+    myquery = osa.query_async("SELECT top 1 filterID FROM ATLASDR1.Filter")
     myquery.run()
     while myquery.status()=="RUNNING" or myquery.status()=="READY":
         print (myquery.status())
         time.sleep(5)
     
     print (myquery.results().as_astropy())
-    """
+    
     wspace = ft.new_workspace("ATLAS")
     wspace.import_schema(osa.get_schema("ATLASDR1"))
-    #print (wspace.get_tables("ATLASDR1"))
+    print (wspace.get_tables("ATLASDR1"))
 
     
     
     qry = wspace.query("Select top 3 * from ATLASDR1.Filter")
     print (qry.results().as_astropy())
-    print (qry.results())
     #print (osa.get_columns(table="TAP_SCHEMA.tables"))
     #table = osa.query("SELECT TOP 10 table_name as tname from TAP_SCHEMA.tables")
     #print (table.get_table())

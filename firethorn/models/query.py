@@ -67,7 +67,7 @@ class Query(object):
         query_json=None
         request=None
         try:
-            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.community" : self.user.community, "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password})
+            request = urllib.request.Request(url, headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json =  json.loads(response.read().decode('UTF-8'))
         except Exception as e:

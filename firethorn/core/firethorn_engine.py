@@ -88,7 +88,7 @@ class FirethornEngine(object):
         try :
             
             
-            req = urllib.request.Request(self.endpoint + config.system_info, headers={"Accept" : "application/json", "firethorn.auth.username" : username, "firethorn.auth.password" : password, "firethorn.auth.community" : community})
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(req) as response:
                 response.read().decode('utf-8')     
                 if (response.getcode()==200):
@@ -271,7 +271,7 @@ class FirethornEngine(object):
 
 
 
-            req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers={"Accept" : "application/json",  "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" : self.user.community})
+            req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.user.get_user_as_headers())
             response = urllib.request.urlopen(req,data)
             jdbcspace = json.loads(response.read())["self"]
             response.close()
@@ -317,7 +317,7 @@ class FirethornEngine(object):
         try:
             data = urllib.parse.urlencode({"jdbc.schema.catalog" : jdbccatalogname,
                                      "jdbc.schema.schema" : jdbcschemaname}).encode("utf-8")
-            req = urllib.request.Request( jdbcspace + "/schemas/select", headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password,  "firethorn.auth.community" : self.user.community})
+            req = urllib.request.Request( jdbcspace + "/schemas/select", headers=self.user.get_user_as_headers())
             #response = urllib.request.urlopen(req,data)
             with urllib.request.urlopen(req, data) as response:
                 js =  json.loads(response.read().decode('utf-8tf-8'))
@@ -339,10 +339,23 @@ class FirethornEngine(object):
             c.setopt(c.URL, str(url))
             c.setopt(c.HTTPPOST, values)
             c.setopt(c.WRITEFUNCTION, buf.write)
-            c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                          "firethorn.auth.password", self.user.password,
-                                          "firethorn.auth.community",self.user.community
-                                          ])
+            if (self.user.password!=None and self.user.community!=None):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.password", self.user.password,
+                                              "firethorn.auth.community",self.user.community
+                                            ])
+            elif (self.user.password!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.password", self.user.password,
+                                            ])    
+            elif (self.user.community!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.community", self.user.community,
+                                            ])    
+            else:
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                            ])    
+                                                          
             c.perform()
             c.close()
             adqlschema = json.loads(buf.getvalue())[0]["self"]
@@ -376,7 +389,7 @@ class FirethornEngine(object):
                 t = datetime.now()
                 adqlspacename = 'workspace-' + t.strftime("%y%m%d_%H%M%S") 
             data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json'] : adqlspacename}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" : self.user.community})
+            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 adqlspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -405,7 +418,7 @@ class FirethornEngine(object):
             ### Create Query Schema 
             data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json'] : "query_schema"}).encode("utf-8")
 
-            req = urllib.request.Request( resource +  config.schema_create_uri, headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" : self.user.community})
+            req = urllib.request.Request( resource +  config.schema_create_uri, headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 query_schema =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -454,7 +467,7 @@ class FirethornEngine(object):
 
             if importname!="":
                 data = urllib.parse.urlencode({config.workspace_import_schema_base : ident, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( workspace + config.workspace_import_uri, headers={"Accept" : "application/json" , "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" : self.user.community}) 
+                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.user.get_user_as_headers()) 
                 response = urllib.request.urlopen(req, data)
         except Exception as e:
             logging.exception(e)
@@ -483,7 +496,7 @@ class FirethornEngine(object):
             importname = name
             if importname!="":
                 data = urllib.parse.urlencode({config.workspace_import_schema_base : import_schema, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( workspace + config.workspace_import_uri, headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" : self.user.community}) 
+                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.user.get_user_as_headers()) 
                 with urllib.request.urlopen(req, data) as response:
                     response.read()
         except Exception as e:
@@ -510,7 +523,7 @@ class FirethornEngine(object):
         """
         try:
             data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" : self.user.community}) 
+            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.user.get_user_as_headers()) 
             with urllib.request.urlopen(req, data) as response:
                 ivoaspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -554,10 +567,23 @@ class FirethornEngine(object):
             c.setopt(c.URL, str(url))
             c.setopt(c.HTTPPOST, values)
             c.setopt(c.WRITEFUNCTION, buf.write)
-            c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                          "firethorn.auth.password", self.user.password,
-                                          "firethorn.auth.community",self.user.community
-                                          ])
+            if (self.user.password!=None and self.user.community!=None):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.password", self.user.password,
+                                              "firethorn.auth.community",self.user.community
+                                            ])
+            elif (self.user.password!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.password", self.user.password,
+                                            ])    
+            elif (self.user.community!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.community", self.user.community,
+                                            ])    
+            else:
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                            ])    
+                                                   
             c.perform()
             c.close()
             schema = json.loads(buf.getvalue())[0]["self"]
@@ -591,7 +617,7 @@ class FirethornEngine(object):
         schemaident=""
         try:
             data = urllib.parse.urlencode({ "ivoa.schema.name" : findname }).encode("utf-8")
-            req = urllib.request.Request( ivoa_resource + "/schemas/select", headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" :self.user.community})
+            req = urllib.request.Request( ivoa_resource + "/schemas/select", headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 schemaident =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -667,7 +693,7 @@ class FirethornEngine(object):
         
         try :
             data = urllib.parse.urlencode({config.schema_select_by_name_param : name}).encode("utf-8")
-            req = urllib.request.Request( resource + "/schemas/select", headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" :self.user.community})
+            req = urllib.request.Request( resource + "/schemas/select", headers=self.user.get_user_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
@@ -696,7 +722,7 @@ class FirethornEngine(object):
         table_list = []
         
         try :
-            req_exc = urllib.request.Request( schemaident + "/tables/select", headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" :self.user.community})
+            req_exc = urllib.request.Request( schemaident + "/tables/select", headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
             for val in response_json:
@@ -727,7 +753,7 @@ class FirethornEngine(object):
         column_list = []
         
         try :
-            req_exc = urllib.request.Request( tableident + "/column/select", headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" :self.user.community})
+            req_exc = urllib.request.Request( tableident + "/column/select", headers=self.user.get_user_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
             for val in response_json:
@@ -758,7 +784,7 @@ class FirethornEngine(object):
         
         attr_val = []
         try :
-            req_exc = urllib.request.Request( ident, headers={"Accept" : "application/json", "firethorn.auth.username" : self.user.username, "firethorn.auth.password" : self.user.password, "firethorn.auth.community" :self.user.community}).encode("utf-8")
+            req_exc = urllib.request.Request( ident, headers=self.user.get_user_as_headers()).encode("utf-8")
             with urllib.request.urlopen(req_exc) as response:
                 response_exc_json =  response.read().decode('utf-8')       
             attr_val = json.loads(response_exc_json)[attr]

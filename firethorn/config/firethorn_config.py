@@ -38,8 +38,10 @@ get_adql_resources_url = "/firethorn/adql/resource/select"
 
 get_param = 'id'
 
-workspace_import_schema_name = "adql.resource.schema.import.name"#"adql.schema.name"
-workspace_import_schema_base = "adql.resource.schema.import.base"#adql.schema.base"
+system_info = "/system/info"
+
+workspace_import_schema_name = "adql.schema.name"
+workspace_import_schema_base = "adql.schema.base"
 workspace_import_uri = "/schemas/import"
 
 schema_import_schema_name = "adql.schema.table.import.name"
