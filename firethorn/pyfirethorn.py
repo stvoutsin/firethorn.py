@@ -1,6 +1,7 @@
 import logging
 from models.query import Query
 from models.workspace import Workspace 
+from models import User
 from core.firethorn_engine import FirethornEngine
 import time
 
@@ -25,19 +26,37 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": Workspace(ident="http://localhost:8081/firethorn/adql/resource/2308497",queryspace="http://localhost:8081/firethorn/adql/schema/5210118")}
+    __predefined_workspaces__ = {"OSA": "http://localhost:8081/firethorn/adql/resource/54"}
     __id__ = ""
     
     
-    def __init__(self, user=None, password=None, endpoint = None, driver="net.sourceforge.jtds.jdbc.Driver"):
-        self.user = user
-        self.password = password
+    def __init__(self, username=None, password=None, endpoint = "http://localhost:8081/firethorn", community=None, driver="net.sourceforge.jtds.jdbc.Driver"):
         self.endpoint = endpoint
         self.firethorn_engine =  FirethornEngine(driver = driver, endpoint=endpoint)
 
+        if username!=None:
+            self.firethorn_engine.login(username, password, community)            
+        else:
+            self.firethorn_engine.create_temporary_user()
         return        
 
 
+    def login(self, username=None, password=None, community=None):
+        if username!=None:
+            if (self.firethorn_engine.login(username, password, community)):
+                print ("Successfully logged in as: " + username)
+            else:
+                print ("Incorrect username/password")
+        else:
+            print ("Please enter a valid username")
+            
+        return
+
+
+    def username(self):
+        return self.firethorn_engine.username
+    
+    
     def get_workspace(self, name):
         """ Select a workspace from the predefined list of workspaces, by name
         
@@ -51,7 +70,7 @@ class Firethorn(object):
         Workspace : Workspace
             A copy of the selected Workspace object
         """
-        return self.__predefined_workspaces__.get(name,None)
+        return Workspace(ident=self.__predefined_workspaces__.get(name,None), firethorn_engine=self.firethorn_engine)
     
     
     def new_workspace(self, name=None):
@@ -69,9 +88,7 @@ class Firethorn(object):
         """
         
         resource = self.firethorn_engine.create_adql_space(name)
-        queryspace = self.firethorn_engine.create_query_schema(resource)
-
-        return Workspace(resource, queryspace)
+        return Workspace(resource, firethorn_engine = self.firethorn_engine)
     
     
     def get_public_workspaces(self):
@@ -87,28 +104,30 @@ class Firethorn(object):
 
 
 if __name__ == "__main__":
-    ft = Firethorn(endpoint="http://localhost:8081/firethorn")
-    print (ft.get_public_workspaces())
-
+    ft = Firethorn()
+    ft.login("", "", "")
+    #print (ft.get_public_workspaces())
     osa = ft.get_workspace("OSA")
+    """
     myquery = osa.query_async("SELECT * FROM ATLASDR1.Filter")
     myquery.run()
     while myquery.status()=="RUNNING" or myquery.status()=="READY":
+        print (myquery.status())
         time.sleep(5)
-        
-    print (myquery.results().as_astropy())
     
+    print (myquery.results().as_astropy())
+    """
     wspace = ft.new_workspace("ATLAS")
     wspace.import_schema(osa.get_schema("ATLASDR1"))
-    print (wspace.get_tables("ATLASDR1"))
+    #print (wspace.get_tables("ATLASDR1"))
 
     
     
-    qry = wspace.query("Select top 2 * from ATLASDR1.Filter")
+    qry = wspace.query("Select top 3 * from ATLASDR1.Filter")
     print (qry.results().as_astropy())
-
+    print (qry.results())
     #print (osa.get_columns(table="TAP_SCHEMA.tables"))
     #table = osa.query("SELECT TOP 10 table_name as tname from TAP_SCHEMA.tables")
     #print (table.get_table())
-
+    
 

@@ -36,7 +36,7 @@ class OgsaChecker(object):
             quit()
         else:
             # 200
-            body = resp.read().decode('ascii')
+            body = resp.read().decode('utf-8')
         return
 
     def start_ogsa_check(self):

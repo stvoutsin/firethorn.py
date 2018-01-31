@@ -72,7 +72,7 @@ class VOQuery():
         try:
             req = urllib.request.Request(endpointURL + extension)
             with urllib.request.urlopen(req) as response:
-                res = response.read().decode('ascii')
+                res = response.read().decode('utf-8')
             f.close()
         except Exception as e:
             if f!='':
@@ -131,9 +131,9 @@ class VOQuery():
         """
 
         if (maxrec!=None):
-            params = urllib.parse.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q, 'MAXREC' : maxrec}).encode('ascii')
+            params = urllib.parse.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q, 'MAXREC' : maxrec}).encode('utf-8')
         else:
-            params = urllib.parse.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q}).encode('ascii')
+            params = urllib.parse.urlencode({'REQUEST': request, 'LANG': lang, 'FORMAT': voformat, 'QUERY' : q}).encode('utf-8')
 
         full_url = url+"/"+mode_local
 
@@ -147,7 +147,7 @@ class VOQuery():
             f = opener.open(req)
             jobId = f.url
             #Execute job and start loop requests for table
-            req2 = urllib.request.Request(jobId+'/phase',urllib.parse.urlencode({'PHASE' : 'RUN'}).encode("ascii"))
+            req2 = urllib.request.Request(jobId+'/phase',urllib.parse.urlencode({'PHASE' : 'RUN'}).encode("utf-8"))
             f2 = opener.open(req2) #@UnusedVariable
 
             # Return table as a votable object

@@ -1,5 +1,6 @@
 import logging
 from models.query import Query, AsyncQuery
+from models import User
 from core.firethorn_engine import FirethornEngine
 from schema import Schema
 
@@ -18,8 +19,8 @@ class Workspace(object):
         
     """
 
-    def __init__(self, ident=None, queryspace=None):
-        self.firethorn_engine = FirethornEngine()
+    def __init__(self, ident=None, queryspace=None, firethorn_engine=None):
+        self.firethorn_engine = firethorn_engine
         self.ident = ident
         self.queryspace = queryspace             
         return        
@@ -63,11 +64,11 @@ class Workspace(object):
         
         try:
             if (not self.queryspace):
-                self.queryspace = self.firethorn_engine.create_query_schema(self.ident)
+                self.queryspace = self.ident
         except Exception as e:
             logging.exception(e)   
              
-        query = Query(query, self.queryspace)
+        query = Query(query, self.queryspace, user=self.firethorn_engine.user, firethorn_engine = self.firethorn_engine)
         query.run()
         return query
     
@@ -89,11 +90,11 @@ class Workspace(object):
         
         try:
             if (not self.queryspace):
-                self.queryspace = self.firethorn_engine.create_query_schema(self.ident)
+                self.queryspace = self.ident
         except Exception as e:
             logging.exception(e)   
              
-        return AsyncQuery(query, self.queryspace)
+        return AsyncQuery(query, self.queryspace, user=self.firethorn_engine.user, firethorn_engine = self.firethorn_engine)
 
 
     def get_schema(self, name=""):
