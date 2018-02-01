@@ -48,6 +48,10 @@ schema_import_schema_name = "adql.schema.table.import.name"
 schema_import_schema_base = "adql.table.base"
 schema_import_uri = "/tables/import"
 
+
+jdbc_schema_catalog = "jdbc.schema.catalog"
+jdbc_schema_schema = "jdbc.schema.schema"
+
 query_create_uri = "/queries/create"
 query_update_uri = "/queries/update"
 query_name_param = "adql.query.name"

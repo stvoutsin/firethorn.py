@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vosi:capabilities xmlns:tr="http://www.ivoa.net/xml/TAPRegExt/v1.0" 
+		xmlns:vosi="http://www.ivoa.net/xml/VOSICapabilities/v1.0" 
+		xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.0" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://www.ivoa.net/xml/VOSICapabilities/v1.0 http://www.ivoa.net/xml/VOSICapabilities/v1.0 
+			http://www.ivoa.net/xml/TAPRegExt/v1.0 http://www.ivoa.net/xml/TAPRegExt/v1.0 
+			http://www.ivoa.net/xml/VODataService/v1.0 http://www.ivoa.net/xml/VODataService/v1.0"> 
+	<capability standardID="ivo://ivoa.net/std/TAP" xsi:type="tr:TableAccess">
+		<interface role="std" xsi:type="vs:ParamHTTP">
+			<accessURL use="base">http://gea.esac.esa.int/tap-server/tap/tap</accessURL>
+		</interface>
+		<language>
+			<name>ADQL</name>
+			<version ivo-id="ivo://ivoa.net/std/ADQL#v2.0">2.0</version>
+			<description>ADQL 2.0</description>
+		</language>
+		<outputFormat>
+			<mime>application/x-votable+xml</mime>
+			<alias>votable</alias>
+		</outputFormat>
+		<outputFormat>
+			<mime>text/csv</mime>
+			<alias>csv</alias>
+		</outputFormat>
+		<outputFormat>
+			<mime>application/json</mime>
+			<alias>json</alias>
+		</outputFormat>
+			<uploadMethod ivo-id="ivo://ivoa.org/tap/uploadmethods#inline" />
+			<uploadMethod ivo-id="ivo://ivoa.org/tap/uploadmethods#http" />
+			<uploadMethod ivo-id="ivo://ivoa.org/tap/uploadmethods#ftp" />
+			<uploadMethod ivo-id="ivo://ivoa.net/std/TAPRegExt#upload-inline" />
+			<uploadMethod ivo-id="ivo://ivoa.net/std/TAPRegExt#upload-http" />
+			<uploadMethod ivo-id="ivo://ivoa.net/std/TAPRegExt#upload-ftp" />
+		<retentionPeriod>
+			<default>259200</default>
+			<hard>259200</hard>
+		</retentionPeriod>
+		<executionDuration>
+			<default>30</default>
+			<hard>30</hard>
+		</executionDuration>
+		<outputLimit>
+			<default unit="row">3000000</default>
+			<hard unit="row">3000000</hard>
+		</outputLimit>
+		<uploadLimit>
+			<default unit="byte">100000000</default>
+			<hard unit="byte">100000000</hard>
+		</uploadLimit>
+	</capability>
+	<capability standardID="ivo://ivoa.net/std/VOSI#availability">
+		<interface xsi:type="vs:ParamHTTP" role="std">
+			<accessURL use="full"> http://gea.esac.esa.int/tap-server/tap/availability </accessURL>
+		</interface>
+	</capability>
+	<capability standardID="ivo://ivoa.net/std/VOSI#capabilities">
+		<interface xsi:type="vs:ParamHTTP" role="std">
+			<accessURL use="full"> http://gea.esac.esa.int/tap-server/tap/capabilities </accessURL>
+		</interface>
+	</capability>
+
+</vosi:capabilities>

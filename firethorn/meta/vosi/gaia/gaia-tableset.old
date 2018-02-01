@@ -1,0 +1,4379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vod:tableset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:vod="http://www.ivoa.net/xml/VODataService/v1.1" xmlns:gaiatap="http://esa.int/xml/GaiaTap" xsi:type="vod:TableSet" xsi:schemaLocation="http://www.ivoa.net/xml/VODataService/v1.1 http://www.ivoa.net/xml/VODataService/v1.1 http://esa.int/xml/GaiaTap http://geadev.esac.esa.int/tap-dev/xml/esaGaiaAttributes.xsd">
+  <schema>
+    <name>public</name>
+    <table type="base_table" gaiatap:size="1000">
+      <name>public.g10_fuzzy_1000</name>
+      <description>GUMS10 Milky Way table with noise introduced. 1000 sources</description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_fuzzy_1000_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>age</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_fe</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bond_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminus_i</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>eccentricity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>fe_h</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>flag_interacting</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>geom_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>has_photocenter_motion</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>host</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>inclination</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>logg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>longitude_ascending_node</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mbol</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>nc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>nt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>orbit_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_argument</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_date</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>population</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>radius</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>r_env_r_star</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>semimajor_axis</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>spectral_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>teff</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_amplitude</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>vsini</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="1222598530">
+      <name>public.igsl_source_catalog_ids</name>
+      <description>Initial Gaia Source List correspondences to other Catalogues</description>
+      <column std="false">
+        <name>igsl_source_catalog_ids_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>id_epc_bytes</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>id_gsc23</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>id_hip</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>id_lqrf</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>id_ogle</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>id_ppmxl</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>id_sdss</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>id_tmass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>id_tycho</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>id_ucac</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>solution_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="2539913">
+      <name>public.tycho2</name>
+      <description>Tycho 2</description>
+      <column std="false">
+        <name>dec</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>id_tycho2</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ra</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>tycho2_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bt_mag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>ccdm_hip</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>corr</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>cx</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>cx_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>cy</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>cy_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>cz</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>cz_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>dec_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>e_bt_mag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>e_dec</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>e_dec_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>ep_dec</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>ep_dec_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>e_pm_dec</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>e_pm_ra</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>ep_ra</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>ep_ra_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>e_ra</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>e_ra_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>e_vt_mag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>hip_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>n_upos</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>objid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>p_flag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>pm_dec</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>pm_ra</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>prox</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>q_dec_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>q_pm_dec</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>q_pm_ra</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>q_ra_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>ra_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>t_flag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>tycho1_flag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>tycho2_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>vt_mag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="100000">
+      <name>public.g10_fuzzy_100000</name>
+      <description>GUMS10 Milky Way table with noise introduced. 100000 sources</description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_fuzzy_100000_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>age</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_fe</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bond_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminus_i</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>eccentricity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>fe_h</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>flag_interacting</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>geom_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>has_photocenter_motion</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>host</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>inclination</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>logg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>longitude_ascending_node</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mbol</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>nc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>nt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>orbit_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_argument</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_date</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>population</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>radius</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>r_env_r_star</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>semimajor_axis</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>spectral_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>teff</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_amplitude</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>vsini</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="37831194">
+      <name>public.g10_gal</name>
+      <description>GUMS10 Galaxies table </description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_gal_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>redshift</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>attached_supernova_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminusi</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>hubble_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_abs_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>shape</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="979315">
+      <name>public.g10_quasars</name>
+      <description>GUMS10 Quasars table </description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_quasars_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>red_shift</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>slope</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>w</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="1">
+      <name>public.dual</name>
+      <description>auxiliary table to be used as dummy "from"</description>
+    </table>
+    <table type="base_table" gaiatap:size="1000000">
+      <name>public.g10_fuzzy_1000000</name>
+      <description>GUMS10 Milky Way table with noise introduced. 1000000 sources</description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_fuzzy_1000000_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>age</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_fe</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bond_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminus_i</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>eccentricity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>fe_h</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>flag_interacting</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>geom_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>has_photocenter_motion</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>host</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>inclination</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>logg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>longitude_ascending_node</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mbol</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>nc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>nt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>orbit_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_argument</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_date</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>population</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>radius</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>r_env_r_star</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>semimajor_axis</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>spectral_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>teff</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_amplitude</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>vsini</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="941986000">
+      <name>public.twomass_psc</name>
+      <description>2 MASS PSC</description>
+      <column std="false">
+        <name>decl</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>id_tmass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ra</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>twomass_psc_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>a</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>bl_flg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>b_m_opt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>cc_flg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>coadd</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>coadd_key</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>date</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>designation</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>dist_edge_ew</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>dist_edge_flg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>dist_edge_ns</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>dist_opt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>dup_src</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>err_ang</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>err_maj</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>err_min</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>ext_key</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>gal_contam</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>glat</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>glon</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>h_cmsig</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>hemis</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>h_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>h_msigcom</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>h_msig_stdap</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>h_m_stdap</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>h_psfchi</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>h_snr</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>j_cmsig</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>jdate</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>j_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>j_msigcom</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>j_msig_stdap</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>j_m_stdap</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>j_psfchi</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>j_snr</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_cmsig</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_m</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_msigcom</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_msig_stdap</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_m_stdap</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_psfchi</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>k_snr</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>mp_flg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>ndet</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>nopt_mchs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>phi_opt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>ph_qual</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>prox</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>pts_key</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>pxcntr</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>pxpa</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>rd_flg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">CHAR</dataType>
+      </column>
+      <column std="false">
+        <name>scan</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>scan_key</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>use_src</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">SMALLINT</dataType>
+      </column>
+      <column std="false">
+        <name>vr_m_opt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+      <column std="false">
+        <name>x_scan</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">REAL</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="49814">
+      <name>public.g10_sn</name>
+      <description>GUMS10 Super Novae</description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_sn_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_v_minus_i</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>epoch</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>red_shift</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="1250384">
+      <name>public.g10_smc</name>
+      <description>GUMS10 SMC sources table </description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>fe_h</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_smc_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>teff</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>variability_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>age</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_fe</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bond_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminus_i</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>eccentricity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>flag_interacting</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>geom_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>has_photocenter_motion</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>host</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>inclination</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>logg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>longitude_ascending_node</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mbol</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>nc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>nt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>orbit_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_argument</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_date</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>population</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>radius</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>r_env_r_star</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>semimajor_axis</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>spectral_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>variability_amplitude</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>vsini</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="2143475885">
+      <name>public.g10_mw</name>
+      <description>GUMS10 Milky Way sources table</description>
+      <column std="false">
+        <name>alpha</name>
+        <description>Right ascention of the baricenter at J2010 reference epoch in the ICRS frame</description>
+        <unit>deg</unit>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description>Distance from the baricenter of the Solar System to the baricenter of the source at J2010 reference epoch</description>
+        <unit>pc</unit>
+        <ucd>pos.distance;pos.heliocentric</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description>Declination of the baricenter at J2010 reference epoch in the ICRS frame</description>
+        <unit>deg</unit>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>fe_h</name>
+        <description>Metallicity</description>
+        <unit>dex</unit>
+        <ucd>phys.abund.Z</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_mw_oid</name>
+        <description>TTable primary identifier</description>
+        <unit/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>logg</name>
+        <description>Gravity</description>
+        <unit>dex</unit>
+        <ucd>phys.gravity</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description>Apparent magnitude at J2010 reference epoch</description>
+        <unit>mag</unit>
+        <ucd>phot.mag;em.opt</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mbol</name>
+        <description>Absolute bolometric magnitude at J2010 reference epoch</description>
+        <unit>mag</unit>
+        <ucd>phys.magAbs.bol</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description>Proper  motion along right ascention at J2010 reference epoch</description>
+        <unit>mas/year</unit>
+        <ucd>pos.pm;pos.eq.ra</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description>Proper motion along declination at J2010 reference epoch</description>
+        <unit>mas/year</unit>
+        <ucd>pos.pm;pos.eq.dec</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description>Radial Velocity at J2010 reference epoch</description>
+        <unit>km/s</unit>
+        <ucd>spect.dopplerVeloc;pos.heliocentric</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description>Long identifier</description>
+        <ucd>meta.record</ucd>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>spectral_type</name>
+        <description>For stars only: 1=O,2=B,3=A,4=F,5=G,6=K,7=M,8=AGB,0=WD (e.g. 5.7 = G7), to be extended to brown dwarfs</description>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>teff</name>
+        <description>Effective temperature</description>
+        <unit>K</unit>
+        <ucd>phys.temperature.effective</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>variability_type</name>
+        <description>deltascuti ACV cepheid RRab ...</description>
+        <ucd>meta.note</ucd>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description>Interstellar absortion in the G band</description>
+        <unit>mag</unit>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>age</name>
+        <description>Age</description>
+        <unit>Gyear</unit>
+        <ucd>time.age</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_fe</name>
+        <description>Alpha elements</description>
+        <unit>dex</unit>
+        <ucd>phys.abund.Z</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description>Interstellar absorption in the V-band</description>
+        <unit>mag</unit>
+        <ucd>phot.mag</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bond_albedo</name>
+        <description>Exoplanets only</description>
+        <ucd>phys.albedo</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminus_i</name>
+        <description>Intrinsec V-I color</description>
+        <unit>mag</unit>
+        <ucd>phot.color;em.opt.V;em.opt.I</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>eccentricity</name>
+        <description>Eccentricity</description>
+        <ucd>src.orbital.eccentricity</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>flag_interacting</name>
+        <description>Only for star system</description>
+        <ucd>meta.code.multip</ucd>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>geom_albedo</name>
+        <description>Exoplanets only</description>
+        <ucd>phys.albedo</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>has_photocenter_motion</name>
+        <description>Boolean describing if the photocenter has or not motion</description>
+        <ucd>meta.code</ucd>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>host</name>
+        <description>1=Milky way</description>
+        <ucd>meta.code</ucd>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>inclination</name>
+        <description>Inclination</description>
+        <unit>deg</unit>
+        <ucd>src.orbital.inclination</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>longitude_ascending_node</name>
+        <description>Longitude of ascending node</description>
+        <unit>deg</unit>
+        <ucd>src.orbital.node</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description>Apparent magnitude at J2010 reference epoch</description>
+        <unit>mag</unit>
+        <ucd>phot.mag;em.opt.B</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description>Apparent magnitude at J2010 reference epoch</description>
+        <unit>mag</unit>
+        <ucd>phot.mag;em.opt.R</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description>Apparent magnitude at J2010 reference epoch</description>
+        <unit>mag</unit>
+        <ucd>phot.mag;em.opt.I</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mass</name>
+        <description>Mass</description>
+        <unit>Solar Mass</unit>
+        <ucd>phys.mass</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description>Mean absolute V magnitude</description>
+        <unit>mag</unit>
+        <ucd>phot.mag</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>nc</name>
+        <description>Number of components</description>
+        <ucd>meta.number</ucd>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>nt</name>
+        <description>Total number of object</description>
+        <ucd>meta.code</ucd>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>orbit_period</name>
+        <description>Period of the orbit</description>
+        <unit>day</unit>
+        <ucd>time.period</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_argument</name>
+        <description>Periastron argument</description>
+        <unit>deg</unit>
+        <ucd>src.orbital.periastron</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_date</name>
+        <description>0:P at J2010 reference epoch</description>
+        <unit>day</unit>
+        <ucd>src.orbital.periastron</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>phase</name>
+        <description>Exoplanets only</description>
+        <ucd>time.phase</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>population</name>
+        <description>Population</description>
+        <ucd>meta.code;obs</ucd>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>radius</name>
+        <description>Radius</description>
+        <unit>Solar Radius</unit>
+        <ucd>pos.angDistance</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>r_env_r_star</name>
+        <description>Envelop characterisic for Be stars</description>
+        <ucd>meta.note</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description>Extinction parameter</description>
+        <unit>mag</unit>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>semimajor_axis</name>
+        <description>Para hiper bolic orbits</description>
+        <unit>AU</unit>
+        <ucd>phys.angSize;src</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description>Extended source identifier</description>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>variability_amplitude</name>
+        <description>The amplitude</description>
+        <unit>mag</unit>
+        <ucd>src.var.amplitude</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_period</name>
+        <description>The period</description>
+        <unit>day</unit>
+        <ucd>src.var</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_phase</name>
+        <description>aphase</description>
+        <ucd>src.var</ucd>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>vsini</name>
+        <description>v sin i</description>
+        <unit>km/s</unit>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="1222598530">
+      <name>public.igsl_source</name>
+      <description>Initial Gaia Source List</description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_epc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_gsc23</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_hip</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_lqrf</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_ogle</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_ppmxl</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_sdss</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_tmass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_tycho</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>aux_ucac</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>igsl_source_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>alpha_epoch</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>classification</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>delta_epoch</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>delta_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>ecliptic_lat</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>ecliptic_lon</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>galactic_lat</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>galactic_lon</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_b_j</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_b_j_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_grvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_grvs_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_r_f</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_r_f_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_alpha_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mu_delta_error</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>solution_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+      </column>
+      <column std="false">
+        <name>source_classification</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>source_mag_b_j</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>source_mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>source_mag_grvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>source_mag_r_f</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>source_mu</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>source_position</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARBINARY</dataType>
+      </column>
+      <column std="false">
+        <name>toggle_asc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+    </table>
+    <table type="base_table" gaiatap:size="7559826">
+      <name>public.g10_lmc</name>
+      <description>GUMS10 LMC sources table </description>
+      <column std="false">
+        <name>alpha</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.ra;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C1</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>bdistance</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>delta</name>
+        <description/>
+        <unit/>
+        <ucd>pos.eq.dec;meta.main</ucd>
+        <utype>Char.SpatialAxis.Coverage.Location.Coord.Position2D.Value2.C2</utype>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>fe_h</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>g10_lmc_oid</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mag_g</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_alpha</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>mu_delta</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>radial_velocity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>source_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BIGINT</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>teff</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>variability_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+        <flag>indexed</flag>
+      </column>
+      <column std="false">
+        <name>ag</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>age</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>alpha_fe</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>av</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>bond_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>color_vminus_i</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>eccentricity</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>flag_interacting</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>geom_albedo</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>has_photocenter_motion</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">BOOLEAN</dataType>
+      </column>
+      <column std="false">
+        <name>host</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>inclination</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>logg</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>longitude_ascending_node</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_bp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rp</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mag_g_rvs</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mass</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mbol</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>mean_absolute_v</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>nc</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>nt</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>orbit_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_argument</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>periastron_date</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>population</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>radius</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>r_env_r_star</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>rv</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>semimajor_axis</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>source_extended_id</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>spectral_type</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>variability_amplitude</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_period</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>variability_phase</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+      <column std="false">
+        <name>vsini</name>
+        <description/>
+        <unit/>
+        <ucd/>
+        <utype/>
+        <dataType xsi:type="vod:TAPType">DOUBLE</dataType>
+      </column>
+    </table>
+  </schema>
+  <schema>
+    <name>tap_schema</name>
+    <table type="base_table">
+      <name>tap_schema.tables</name>
+      <description>TAP SCHEMA tables</description>
+      <column std="false">
+        <name>description</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>schema_name</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>size</name>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>table_name</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>table_type</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>utype</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+    </table>
+    <table type="base_table">
+      <name>tap_schema.schemas</name>
+      <description>TAP SCHEMA schemas</description>
+      <column std="false">
+        <name>description</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>schema_name</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>utype</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+    </table>
+    <table type="base_table">
+      <name>tap_schema.keys</name>
+      <description>TAP SCHEMA keys</description>
+      <column std="false">
+        <name>description</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>from_table</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>key_id</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>target_table</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>utype</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+    </table>
+    <table type="base_table">
+      <name>tap_schema.key_columns</name>
+      <description>TAP SCHEMA key columns</description>
+      <column std="false">
+        <name>from_column</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>key_id</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>target_column</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+    </table>
+    <table type="base_table">
+      <name>tap_schema.columns</name>
+      <description>TAP SCHEMA columns</description>
+      <column std="false">
+        <name>column_name</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>datatype</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>description</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>indexed</name>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>principal</name>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>schema_name</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>size</name>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>std</name>
+        <dataType xsi:type="vod:TAPType">INTEGER</dataType>
+      </column>
+      <column std="false">
+        <name>table_name</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>ucd</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>unit</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+      <column std="false">
+        <name>utype</name>
+        <dataType xsi:type="vod:TAPType">VARCHAR</dataType>
+      </column>
+    </table>
+  </schema>
+</vod:tableset>

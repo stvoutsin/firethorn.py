@@ -5,8 +5,7 @@ Helper functions for type checking etc
 
 @author: stelios
 '''
-from config import firethorn_config as config
-
+import config as config
 
 
 def isCatalog(value):

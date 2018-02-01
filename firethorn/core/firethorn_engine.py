@@ -3,16 +3,17 @@ Created on Jul 22, 2013
 
 @author: stelios
 '''
-
-import urllib
-import json
-import logging
-from datetime import datetime
-import config.firethorn_config as config
-from models import User
-from io import StringIO
-
-
+try:
+    import urllib
+    import json
+    import logging
+    from datetime import datetime
+    import config as config
+    from models import User
+    import pycurl
+    import io
+except Exception as e:
+    logging.exception(e)
 
 
 class FirethornEngine(object):
@@ -103,6 +104,17 @@ class FirethornEngine(object):
         else : 
             return False
 
+
+    def system_info_check(self):
+        try :
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.user.get_user_as_headers())
+            with urllib.request.urlopen(req) as response:
+                return (json.loads(response.read().decode('utf-8')))
+        except Exception as e:
+            logging.exception(e)
+            
+        return
+                     
 
     def create_temporary_user(self):
         """
@@ -213,10 +225,10 @@ class FirethornEngine(object):
         self.jdbcspace = self.create_jdbc_space(resourcename ,resourceuri, catalogname, ogsadainame, jdbc_resource_user, jdbc_resource_pass)
         if (self.adqlspace=="" or self.adqlspace==None):
             self.adqlspace = self.create_adql_space(adqlspacename)
-        self.adqlschema = self.import_jdbc_metadoc(self.adqlspace, self.jdbcspace, jdbccatalogname, jdbcschemaname, metadocfile)
+        self.adqlschema = self.import_jdbc(self.adqlspace, self.jdbcspace, jdbccatalogname, jdbcschemaname, metadocfile)
          
          
-    def create_jdbc_space(self, resourcename ,resourceuri, catalogname, ogsadainame, jdbc_resource_user="", jdbc_resource_pass=""):
+    def create_jdbc_space(self, resourcename ,resourceurl, catalogname, jdbc_name, jdbc_resource_user="", jdbc_resource_pass=""):
         """Import metadata, fetch Schema from file provided
         
         Parameters
@@ -252,9 +264,9 @@ class FirethornEngine(object):
          
             if jdbc_resource_user!="" and jdbc_resource_pass!="":
                 data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json'] : resourcename,
-                                     "jdbc.connection.url" : resourceuri,	
+                                     "jdbc.connection.url" : resourceurl,	
                                      "jdbc.resource.catalog" : catalogname,
-                                     "jdbc.resource.name" : ogsadainame,
+                                     "jdbc.resource.name" : jdbc_name,
                                      "jdbc.connection.driver" : self.driver,
                                      "jdbc.connection.user" : jdbc_resource_user,
                                      "jdbc.connection.pass" : jdbc_resource_pass
@@ -263,9 +275,9 @@ class FirethornEngine(object):
 
             else :
                 data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json'] : resourcename ,
-                                     "jdbc.connection.url" : resourceuri,
+                                     "jdbc.connection.url" : resourceurl,
                                      "jdbc.catalog.name" : catalogname,
-				     "jdbc.connection.driver" : self.driver,
+                				     "jdbc.connection.driver" : self.driver,
 
                                     }).encode("utf-8")
 
@@ -273,7 +285,7 @@ class FirethornEngine(object):
 
             req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.user.get_user_as_headers())
             response = urllib.request.urlopen(req,data)
-            jdbcspace = json.loads(response.read())["self"]
+            jdbcspace = json.loads(response.read().decode("utf-8"))["self"]
             response.close()
             
         except Exception as e:
@@ -281,8 +293,73 @@ class FirethornEngine(object):
         return jdbcspace    
     
 
-    def import_jdbc_metadoc(self, adqlspace="", jdbcspace="", jdbccatalogname='', jdbcschemaname='dbo',metadocfile=""):
+    def import_jdbc_metadoc(self, adqlspace="", jdbcschema="", metadocfile=""):
         """Import a JDBC Metadoc
+        
+        Parameters
+        ----------
+        adqlspace: string, required
+            ADQL Resource URL
+            
+        jdbcschema: string, required
+            JDBC Schema
+            
+        metadocfile: string, optional
+            Metadocfile location string 
+            
+        
+        Returns    
+        -------
+        adqlschema: string
+            The URL of the created ADQL Schema
+        
+        """
+      
+        adqlschema=""
+        #buf = StringIO()
+        buf = io.BytesIO()
+        try:
+           
+            c = pycurl.Curl()   
+            
+            url = adqlspace + "/metadoc/import"        
+            values = [  
+                      ("metadoc.base", str(jdbcschema)),
+                      ("metadoc.file", (c.FORM_FILE, metadocfile))]
+ 
+            c.setopt(c.URL, str(url))
+            c.setopt(c.HTTPPOST, values)
+            c.setopt(c.WRITEFUNCTION, buf.write)
+            if (self.user.password!=None and self.user.community!=None):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.password", self.user.password,
+                                              "firethorn.auth.community",self.user.community
+                                            ])
+            elif (self.user.password!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.password", self.user.password,
+                                            ])    
+            elif (self.user.community!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                              "firethorn.auth.community", self.user.community,
+                                            ])    
+            else:
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                                            ])    
+                     
+            c.perform()
+            c.close()
+            adqlschema = json.loads(buf.getvalue().decode("utf-8"))[0]["self"]
+            buf.close() 
+            
+        except Exception as e:
+            logging.exception(e)
+     
+        return adqlschema
+    
+
+    def import_jdbc(self, adqlspace="", jdbcspace="", jdbccatalogname='', jdbcschemaname='dbo',metadocfile=""):
+        """Import a JDBC Schema
         
         Parameters
         ----------
@@ -308,64 +385,11 @@ class FirethornEngine(object):
             The URL of the created ADQL Schema
         
         """
-      
-        jdbcschemaident = ""
-        adqlschema=""
-        import pycurl
-        
-        buf = StringIO.StringIO()
-        try:
-            data = urllib.parse.urlencode({"jdbc.schema.catalog" : jdbccatalogname,
-                                     "jdbc.schema.schema" : jdbcschemaname}).encode("utf-8")
-            req = urllib.request.Request( jdbcspace + "/schemas/select", headers=self.user.get_user_as_headers())
-            #response = urllib.request.urlopen(req,data)
-            with urllib.request.urlopen(req, data) as response:
-                js =  json.loads(response.read().decode('utf-8tf-8'))
-            
-            jdbcschemaident = json.loads(js)["self"]
-            response.close()
-        except Exception as e:
-            logging.exception(e)
-    
-        try:
-           
-            c = pycurl.Curl()   
-            
-            url = adqlspace + "/metadoc/import"        
-            values = [  
-                      ("metadoc.base", str(jdbcschemaident)),
-                      ("metadoc.file", (c.FORM_FILE, metadocfile))]
-                       
-            c.setopt(c.URL, str(url))
-            c.setopt(c.HTTPPOST, values)
-            c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.user.password!=None and self.user.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.password", self.user.password,
-                                              "firethorn.auth.community",self.user.community
-                                            ])
-            elif (self.user.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.password", self.user.password,
-                                            ])    
-            elif (self.user.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.community", self.user.community,
-                                            ])    
-            else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                            ])    
-                                                          
-            c.perform()
-            c.close()
-            adqlschema = json.loads(buf.getvalue())[0]["self"]
-            buf.close() 
-            
-        except Exception as e:
-            logging.exception(e)
-     
+               
+        jdbcschemaident = self.jdbc_select_by_name(jdbcspace, jdbccatalogname, jdbcschemaname)
+        adqlschema = self.jdbc_select_by_name(adqlspace, jdbcschemaident, metadocfile)
         return adqlschema
-    
+
     
     def create_adql_space(self, adqlspacename=None):
         """Create an ADQL Resource
@@ -475,7 +499,7 @@ class FirethornEngine(object):
         return workspace
     
 
-    def import_query_schema(self, name, import_schema, workspace):
+    def import_schema(self, name, import_schema, workspace):
         """Import a schema into a workspace for querying
         
         Parameters
@@ -533,7 +557,7 @@ class FirethornEngine(object):
         return ivoaspace
 
 
-    def import_vosi(self, vosi_name, ivoa_resource):
+    def import_vosi(self, vosi_file, ivoa_resource):
         """Import VOSI
         
         Parameters
@@ -551,18 +575,17 @@ class FirethornEngine(object):
         
         """
       
-        import pycurl
-        import cStringIO
-        
-        buf = cStringIO.StringIO()
+
         schema = "" 
+        buf = io.BytesIO()
+
         try:
            
             c = pycurl.Curl()   
             
             url = ivoa_resource + "/vosi/import"        
             values = [  
-                      ("vosi.tableset", (c.FORM_FILE, vosi_name ))]
+                      ("vosi.tableset", (c.FORM_FILE, vosi_file ))]
                        
             c.setopt(c.URL, str(url))
             c.setopt(c.HTTPPOST, values)
@@ -586,7 +609,7 @@ class FirethornEngine(object):
                                                    
             c.perform()
             c.close()
-            schema = json.loads(buf.getvalue())[0]["self"]
+            schema = json.loads(buf.getvalue().decode("utf-8"))[0]["self"]
             buf.close() 
             
         except Exception as e:
@@ -595,7 +618,25 @@ class FirethornEngine(object):
         return schema
 
 
-    def get_ivoa_schema(self, findname="", ivoa_resource=""):
+    def list_schemas(self, workspace):
+        """List Schemas in a workspace
+        """
+
+
+        try:
+            req = urllib.request.Request( workspace + "/schemas/select", headers=self.user.get_user_as_headers())
+            with urllib.request.urlopen(req) as response:
+                schemas =  json.loads(response.read().decode('utf-8'))
+            response.close()
+
+        except Exception as e:
+            logging.exception(e)
+
+        return schemas   
+
+
+
+    def select_ivoa_schema(self, findname="", ivoa_resource=""):
         """Get IVOA Schema
         
         Parameters
@@ -656,7 +697,7 @@ class FirethornEngine(object):
         ivoaspace = self.create_ivoa_space(ivoa_resource_name, ivoa_resource_url)
         ivoaschema = self.import_vosi(ivoa_resource_xml, ivoaspace)
         schema = self.get_ivoa_schema(ivoa_schema_import, ivoaspace)
-        self.import_query_schema(ivoa_resource_alias, schema, query_resource)
+        self.import_schema(ivoa_resource_alias, schema, query_resource)
         return
 
     
@@ -694,6 +735,39 @@ class FirethornEngine(object):
         try :
             data = urllib.parse.urlencode({config.schema_select_by_name_param : name}).encode("utf-8")
             req = urllib.request.Request( resource + "/schemas/select", headers=self.user.get_user_as_headers())
+
+            with urllib.request.urlopen(req, data) as response:
+                response_json =  json.loads(response.read().decode('utf-8'))
+                schemaident = response_json["self"]
+        except Exception as e:
+            logging.exception(e)      
+            
+        return schemaident
+    
+    
+    def jdbc_select_by_name(self, jdbcurl, catalog, schema):
+        """JDBC select by catalog and schema name
+        
+        Parameters
+        ----------
+        catalog: string, required
+            The JDBC Catalog name
+            
+        schema: string, required 
+            The JDBC Schema name 
+         
+        Returns
+        -------
+        string: string
+            The URL of the entity found
+        """
+        
+        response_json = []
+        schemaident = None
+        
+        try :
+            data = urllib.parse.urlencode({config.jdbc_schema_catalog : catalog, config.jdbc_schema_schema : schema }).encode("utf-8")
+            req = urllib.request.Request( jdbcurl + "/schemas/select", headers=self.user.get_user_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))

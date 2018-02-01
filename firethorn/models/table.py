@@ -5,15 +5,13 @@ Created on Nov 4, 2017
 '''
 
 from astropy.table import Table as astropy_Table
-from io import StringIO
 import urllib.request
 import logging
-import firethorn_engine
 try:
     import simplejson as json
 except ImportError:
     import json
-from config import firethorn_config as config
+from config import *
 import warnings
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)

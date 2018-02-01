@@ -14,7 +14,7 @@ except ImportError:
 import re
 from utils.string_functions import string_functions
 string_functions = string_functions()
-from config.firethorn_config import *
+from config import *
 import logging
 
 

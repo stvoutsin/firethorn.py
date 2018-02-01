@@ -4,16 +4,14 @@ Created on Nov 4, 2017
 @author: stelios
 '''
 import logging
-from models.table import Table
+from table import Table
 from core.query_engine import QueryEngine
 import urllib.request
-from _io import StringIO
 try:
     import simplejson as json
 except ImportError:
     import json
-from config import firethorn_config as config
-import sys
+import config as config
 
 
 class Query(object):

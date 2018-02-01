@@ -1,6 +1,5 @@
 import logging
 from models.query import Query, AsyncQuery
-from models import User
 from core.firethorn_engine import FirethornEngine
 from schema import Schema
 
@@ -127,7 +126,7 @@ class Workspace(object):
             
         """
         
-        self.firethorn_engine.import_query_schema(schema.name, schema.ident, self.ident)
+        self.firethorn_engine.import_schema(schema.name, schema.ident, self.ident)
         
         
     def get_tables(self, schemaname):
