@@ -31,6 +31,9 @@ Python client for the Firethorn project
 `cd firethorn.py/`
 `source bin/activate`
 
+### Update the configuration values
+`nano firethorn/config/resources.py`
+
 ### Install Firethorn using pip 
 
 `pip install firethorn`
