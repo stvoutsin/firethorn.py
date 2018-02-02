@@ -3,28 +3,47 @@
 Python client for the Firethorn project
 (http://wfau.metagrid.co.uk/code/firethorn)
 
-# Installation Instructions (virtualenv)
 
+
+
+## Installation Instructions (virtualenv)
+
+### Install pip
+
+#### Ubuntu
+
+`sudo apt-get install python-pip python-dev build-essential` 
+
+### Install virtualenv
+
+`pip install virtualenv`
 
 ### Grab a copy of the github project  
 
-git clone https://github.com/stvoutsin/firethorn.py.git
+`git clone https://github.com/stvoutsin/firethorn.py.git`
 
 ### Initialize a virtual environment in the project directory
 
-virtualenv --python=/usr/bin/python3 firethorn.py/
+`virtualenv --python=/usr/bin/python3 firethorn.py/`
 
 ### Activate the virtualenv 
 
-cd firethorn.py/
-source bin/activate
+`cd firethorn.py/`
+`source bin/activate`
+
+### Update the configuration values
+`nano firethorn/config/resources.py`
 
 ### Install Firethorn using pip 
 
-pip install firethorn
+`pip install firethorn`
 
 ## Run Python and import Firethorn
-bin/python3.4 
 
-import firethorn
+`bin/python3.4` 
+
+..
+
+`import firethorn`
+
 ..
