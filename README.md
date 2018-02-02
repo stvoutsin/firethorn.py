@@ -11,22 +11,23 @@ Python client for the Firethorn project
 
 ### Grab a copy of the github project  
 
-git clone https://github.com/stvoutsin/firethorn.py.git
+`git clone https://github.com/stvoutsin/firethorn.py.git`
 
 ### Initialize a virtual environment in the project directory
 
-virtualenv --python=/usr/bin/python3 firethorn.py/
+`virtualenv --python=/usr/bin/python3 firethorn.py/`
 
 ### Activate the virtualenv 
 
-cd firethorn.py/
-source bin/activate
+`cd firethorn.py/`
+`source bin/activate`
 
 ### Install Firethorn using pip 
 
-pip install firethorn
+`pip install firethorn`
 
 ## Run Python and import Firethorn
-bin/python3.4 
-
-import firethorn
+`bin/python3.4` 
+..
+`import firethorn`
+..
