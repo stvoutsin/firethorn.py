@@ -8,6 +8,9 @@ Python client for the Firethorn project
 
 ## Installation Instructions (virtualenv)
 
+### Install virtualenv
+
+`pip install virtualenv`
 
 ### Grab a copy of the github project  
 
