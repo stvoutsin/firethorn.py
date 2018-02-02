@@ -67,7 +67,7 @@ class Workspace(object):
         except Exception as e:
             logging.exception(e)   
              
-        query = Query(query, self.queryspace, user=self.firethorn_engine.user, firethorn_engine = self.firethorn_engine)
+        query = Query(query, self.queryspace, firethorn_engine = self.firethorn_engine)
         query.run()
         return query
     
@@ -93,7 +93,7 @@ class Workspace(object):
         except Exception as e:
             logging.exception(e)   
              
-        return AsyncQuery(query, self.queryspace, user=self.firethorn_engine.user, firethorn_engine = self.firethorn_engine)
+        return AsyncQuery(query, self.queryspace, firethorn_engine = self.firethorn_engine)
 
 
     def get_schema(self, name=""):

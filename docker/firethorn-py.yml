@@ -1,0 +1,33 @@
+version: '2.1'
+
+networks:
+
+    # Internal network
+    miriam:
+
+services:
+
+    firethorn-py:
+        hostname:
+            "firethorn-py"
+        image:
+           "firethorn-py"
+        read_only:
+            false
+        stdin_open:
+            true
+        tty:
+            true
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ${HOME}/resources.py:/home/firethorn.py/firethorn/config/resources.py
+        networks:
+            - miriam
+        environment:
+            endpointurl: 'http://gillian:8080/firethorn'
+        command:
+            [bash]
+

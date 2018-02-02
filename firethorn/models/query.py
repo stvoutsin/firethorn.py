@@ -28,23 +28,19 @@ class Query(object):
     queryident: string, optional
         The query object URL
         
-    user: User, optional
-        The owner of the query
-        
     firethorn_engine: FirethornEngine, optional
         The Firethorn Engine currently driving this query   
                   
     """
 
-    def __init__(self, querystring=None, queryspace=None, queryident=None, user=None, firethorn_engine=None):
+    def __init__(self, querystring=None, queryspace=None, queryident=None, firethorn_engine=None):
         self.table = Table()
         self.error = None
         self.querystring = querystring
         self.queryspace = queryspace
         self.firethorn_engine = firethorn_engine
-        self.firethorn_query_engine = QueryEngine(user)
+        self.firethorn_query_engine = QueryEngine(firethorn_engine)
         self.queryident = queryident
-        self.user = user
         pass
        
        
@@ -65,7 +61,7 @@ class Query(object):
         query_json=None
         request=None
         try:
-            request = urllib.request.Request(url, headers=self.user.get_user_as_headers())
+            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json =  json.loads(response.read().decode('UTF-8'))
         except Exception as e:
@@ -176,17 +172,14 @@ class AsyncQuery(Query):
 
     queryident: string, optional
         The query object URL
-    
-    user: User, optional
-        The owner of the query
         
     firethorn_engine: FirethornEngine, optional
         The Firethorn Engine currently driving this query
                     
     """
 
-    def __init__(self, querystring=None, queryspace=None, queryident=None, user=None, firethorn_engine = None):
-        super().__init__(querystring, queryspace, queryident, user=user)
+    def __init__(self, querystring=None, queryspace=None, queryident=None, firethorn_engine = None):
+        super().__init__(querystring, queryspace, queryident, firethorn_engine=firethorn_engine)
 
         try: 
             self.queryident = self.firethorn_query_engine.create_query(self.querystring, "", self.queryspace, "AUTO", config.test_email)

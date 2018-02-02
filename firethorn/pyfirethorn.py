@@ -30,7 +30,7 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": "http://localhost:8081/firethorn/adql/resource/54"}
+    __predefined_workspaces__ = {"OSA": config.default_endpoint + "/firethorn/adql/resource/54"}
     __id__ = ""
     
     
@@ -108,7 +108,7 @@ class Firethorn(object):
 
 
 if __name__ == "__main__":
-    ft = Firethorn()
+    ft = Firethorn(endpoint="http://" + config.default_endpoint + "/firethorn")
     ft.login("", "", "")
     print (ft.get_public_workspaces())
     osa = ft.get_workspace("OSA")
