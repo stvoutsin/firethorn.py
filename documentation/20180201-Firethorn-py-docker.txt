@@ -1,0 +1,123 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2017, ROE (http://www.roe.ac.uk/)
+#
+#     This information is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This information is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#  
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#   </meta:licence>
+# </meta:header>
+#
+#
+
+
+# -----------------------------------------------------
+# Add our secret function.
+#[user@virtual]
+
+vi "${HOME:?}/secret.sh"
+
+....
+....
+....
+
+source "${HOME:?}/secret.sh"
+secret 'frog'
+
+
+# -----------------------------------------------------
+# Create our chain properties.
+#[user@virtual]
+cat > "${HOME:?}/chain.properties" << EOF
+
+metadata=postgres
+metauser=$(pwgen 20 1)
+metapass=$(pwgen 20 1)
+
+userhost=$(secret 'firethorn.user.host')
+userdata=$(secret 'firethorn.user.data')
+useruser=$(secret 'firethorn.user.user')
+userpass=$(secret 'firethorn.user.pass')
+
+datahost=$(secret 'firethorn.data.host')
+datadata=$(secret 'firethorn.data.data')
+datauser=$(secret 'firethorn.data.user')
+datapass=$(secret 'firethorn.data.pass')
+
+tunneluser=$(secret 'ssh.tunnel.user')
+tunnelhost=$(secret 'ssh.tunnel.host')
+
+admingroup=
+adminuser=
+adminpass=
+
+guestgroup=
+
+EOF
+
+
+# -----------------------------------------------------
+# Create our resource.py file
+#[user@virtual]
+
+source "${HOME:?}/chain.properties"
+cat > "${HOME:?}/resources.py" << EOF
+
+datahost="${datahost:?}"
+datadata="${datadata:?}"
+datauser="${datauser:?}"
+datapass="${datapass:?}"
+datadriver="net.sourceforge.jtds.jdbc.Driver"
+dataurl="jdbc:jtds:sqlserver://${datahost:?}/ATLASDR1"
+admingroup="${admingroup:?}"
+adminuser="${adminuser:?}"
+adminpass="${adminpass:?}"
+guestgroup="${guestgroup:?}"
+default_endpoint="gillian:8080"
+
+EOF
+
+chmod a+r "${HOME:?}/resources.py"
+chcon -t svirt_sandbox_file_t "${HOME:?}/resources.py"
+
+
+
+# -----------------------------------------------------
+# Download our compose file
+#[user@virtual]
+
+
+wget -O firethorn-py.yml \
+    https://github.com/stvoutsin/firethorn.py/blob/master/docker/firethorn-py.yml
+
+
+
+# -----------------------------------------------------
+# Build our python client image
+#[user@virtual]
+docker build --tag "firethorn-py" firethorn-py
+
+
+# -----------------------------------------------------
+# Run our python client container
+#[user@virtual]
+
+export buildtag=2.1.13
+docker-compose --file "firethorn-py.yml" run firethorn-py
+
+
+python3 ..
+import firethorn
+firethorn.Firethorn(endpointurl="http://gillian:8080/firethorn")
+
+
