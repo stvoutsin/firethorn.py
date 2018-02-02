@@ -27,8 +27,11 @@ Python client for the Firethorn project
 `pip install firethorn`
 
 ## Run Python and import Firethorn
+
 `bin/python3.4` 
 
 ..
+
 `import firethorn`
+
 ..
