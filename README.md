@@ -8,6 +8,12 @@ Python client for the Firethorn project
 
 ## Installation Instructions (virtualenv)
 
+### Install pip
+
+#### Ubuntu
+
+`sudo apt-get install python-pip python-dev build-essential` 
+
 ### Install virtualenv
 
 `pip install virtualenv`
