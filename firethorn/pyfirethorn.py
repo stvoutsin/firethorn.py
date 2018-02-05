@@ -34,7 +34,7 @@ class Firethorn(object):
     __id__ = ""
     
     
-    def __init__(self, username=None, password=None, endpoint = "http://localhost:8081/firethorn", community=None, driver="net.sourceforge.jtds.jdbc.Driver"):
+    def __init__(self, username=None, password=None, endpoint = config.default_endpoint + "/firethorn", community=None, driver="net.sourceforge.jtds.jdbc.Driver"):
         self.endpoint = endpoint
         self.firethorn_engine =  FirethornEngine(driver = driver, endpoint=endpoint)
 
