@@ -4,16 +4,14 @@ Created on Feb 1, 2018
 @author: stelios
 '''
 
+import os
 
-datahost=""
-datadata=""
-datauser=""
-datapass=""
+datahost= os.environ.get('datahost', '')
+datadata=os.environ.get('datahost', 'ATLASDR1')
+datauser=os.environ.get('datauser', '')
+datapass=os.environ.get('datapass', '')
 datadriver="net.sourceforge.jtds.jdbc.Driver"
-dataurl="jdbc:jtds:sqlserver://.."
-admingroup=""
-adminuser=""
-adminpass=""
-guestgroup=""
-default_endpoint=""
+dataurl=os.environ.get('dataurl', '')
+default_endpoint=os.environ.get('default_endpoint', '')
+
 
