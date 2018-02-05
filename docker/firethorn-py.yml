@@ -108,7 +108,12 @@ services:
         networks:
             - miriam
         environment:
-            endpointurl: 'http://gillian:8080/firethorn'
+            datahost: "${datahost}"
+            datauser: "${datauser}"
+            datapass: "${datapass}"
+            datadriver: "net.sourceforge.jtds.jdbc.Driver"
+            dataurl: "jdbc:jtds:sqlserver://${datahost}/ATLASDR1"
+            default_endpoint: "http://gillian:8080"
         depends_on:
             gillian:
                 condition: service_healthy
