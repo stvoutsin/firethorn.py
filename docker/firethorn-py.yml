@@ -104,7 +104,6 @@ services:
             - /tmp
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - ${HOME}/resources.py:/home/firethorn.py/firethorn/config/resources.py
         networks:
             - miriam
         environment:
