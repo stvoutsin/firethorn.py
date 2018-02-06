@@ -208,7 +208,7 @@ print (atlas_jdbc_schema)
 
 
 # Import the mapping between JDBC and ADQL tables.
-metadoc="meta/ATLASDR1_TablesSchema.xml"
+metadoc="https://raw.githubusercontent.com/stvoutsin/firethorn.py/master/firethorn/meta/ATLASDR1_TablesSchema.xml"
 atlas_adql_schema = ft.firethorn_engine.import_jdbc_metadoc(atlas_adql_url, atlas_jdbc_schema, metadoc)
 print (atlas_adql_schema)
 
@@ -221,7 +221,7 @@ print (gaia_ivoa_resource)
 
 
 # Import the VOSI Metadata
-vosifile='firethorn/meta/vosi/gaia/gaia-tableset.xml'
+vosifile='meta/vosi/gaia/gaia-tableset.xml'
 gaia_schema = ft.firethorn_engine.import_vosi(vosifile, gaia_ivoa_resource)
 print (gaia_schema)
 

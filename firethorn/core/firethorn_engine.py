@@ -12,6 +12,8 @@ try:
     from models import User
     import pycurl
     import io
+    import uuid
+    import urllib.request
 except Exception as e:
     logging.exception(e)
 
@@ -321,7 +323,20 @@ class FirethornEngine(object):
         try:
            
             c = pycurl.Curl()   
-            
+
+            if (metadocfile.lower().startswith("http://") or metadocfile.lower().startswith("https://")):
+                unique_filename = str(uuid.uuid4())
+                tmpname = "/tmp/" + unique_filename
+
+                with urllib.request.urlopen(metadocfile) as response, open(tmpname, 'wb') as out_file:
+                    data = response.read() # a `bytes` object
+                    out_file.write(data)
+                
+                metadocfile = tmpname
+
+            c = pycurl.Curl()    
+
+
             url = adqlspace + "/metadoc/import"        
             values = [  
                       ("metadoc.base", str(jdbcschema)),
