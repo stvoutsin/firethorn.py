@@ -601,7 +601,7 @@ class FirethornEngine(object):
                 unique_filename = str(uuid.uuid4())
                 tmpname = "/tmp/" + unique_filename
 
-                with urllib.request.urlopen(metadocfile) as response, open(tmpname, 'wb') as out_file:
+                with urllib.request.urlopen(vosi_file) as response, open(tmpname, 'wb') as out_file:
                     data = response.read() # a `bytes` object
                     out_file.write(data)
                 
