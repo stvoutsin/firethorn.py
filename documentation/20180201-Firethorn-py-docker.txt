@@ -180,6 +180,7 @@ python3
 
  
 import firethorn
+import time
 from firethorn.models.workspace import Workspace
 ft = firethorn.Firethorn()
 ft.login("orinoco", "wombleden", "wombles")
