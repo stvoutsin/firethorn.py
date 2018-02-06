@@ -30,7 +30,7 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": config.default_endpoint + "/firethorn/adql/resource/54"}
+    __predefined_workspaces__ = {"OSA": config.default_endpoint + "/firethorn/adql/resource/76"}
     __id__ = ""
     
     
@@ -46,10 +46,14 @@ class Firethorn(object):
 
 
     def login(self, username=None, password=None, community=None):
+        """
+        Login 
+        """
         if username!=None:
             if (self.firethorn_engine.login(username, password, community)):
                 return "Successfully logged in as: " + username
             else:
+                print("Incorrect username/password")
                 return "Incorrect username/password"
         else:
             return "Please enter a valid username"
@@ -58,7 +62,13 @@ class Firethorn(object):
 
 
     def user(self):
-        return self.firethorn_engine.user.username
+        """
+        Get the name of the user currently logged in
+        """
+        if (self.firethorn_engine.user!=None and self.firethorn_engine.user.username!=None):
+            return (self.firethorn_engine.user.username)
+        else :
+            return "anonymous user"
     
     
     def get_workspace(self, name):
@@ -213,4 +223,3 @@ if __name__ == "__main__":
     #table = osa.query("SELECT TOP 10 table_name as tname from TAP_SCHEMA.tables")
     #print (table.get_table())
     
-

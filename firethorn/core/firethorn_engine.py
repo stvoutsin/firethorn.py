@@ -15,7 +15,7 @@ try:
     import uuid
     import urllib.request
 except Exception as e:
-    logging.exception(e)
+    print(e)
 
 
 class FirethornEngine(object):
@@ -90,16 +90,19 @@ class FirethornEngine(object):
         
         try :
             
-            
-            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.user.get_user_as_headers())
+            new_user = User(username, password, community)
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=new_user.get_user_as_headers())
+
             with urllib.request.urlopen(req) as response:
                 response.read().decode('utf-8')     
                 if (response.getcode()==200):
                     loggedin = True
-                
+                else:
+                    self.user = User(None,None,None)
         except Exception as e:
+            self.user = User(None,None,None)
             pass
-                  
+            
         if loggedin:        
             self.user = User(username, password, community )
             return True
@@ -113,9 +116,9 @@ class FirethornEngine(object):
             with urllib.request.urlopen(req) as response:
                 return (json.loads(response.read().decode('utf-8')))
         except Exception as e:
-            logging.exception(e)
+            print(e)
             
-        return
+        return {} 
                      
 
     def create_temporary_user(self):
@@ -133,10 +136,13 @@ class FirethornEngine(object):
                 for header in info:
                     if (header.lower()=="firethorn.auth.username"):
                         username =  info[header]
+                    if (header.lower()=="firethorn.auth.community"):
+                        community =  info[header]
+                        
         except Exception as e:
-            logging.exception(e)
+            print(e)
             
-        self.user = User(username = username)
+        self.user = User(username = username, community = community)
         
         
     def setup_firethorn_environment(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass=""):
@@ -184,7 +190,7 @@ class FirethornEngine(object):
             self.schema_alias = self.get_attribute(self.adqlschema, "name" )
             self.queryspace = self.create_initial_workspace(self.schema_name, self.schema_alias, self.adqlschema)
         except Exception as e:
-            logging.exception(e)
+            print(e)
 
                     
     def initialise_metadata_import(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass="" ):
@@ -291,7 +297,7 @@ class FirethornEngine(object):
             response.close()
             
         except Exception as e:
-            logging.exception(e)
+            print(e)
         return jdbcspace    
     
 
@@ -368,7 +374,7 @@ class FirethornEngine(object):
             buf.close() 
             
         except Exception as e:
-            logging.exception(e)
+            print(e)
      
         return adqlschema
     
@@ -433,7 +439,7 @@ class FirethornEngine(object):
                 adqlspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
         except Exception as e:
-            logging.exception(e)
+            print(e)
             
         return adqlspace
                          
@@ -462,7 +468,7 @@ class FirethornEngine(object):
                 query_schema =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
         except Exception as e:
-            logging.exception(e)
+            print(e)
             
         return query_schema
     
@@ -509,7 +515,7 @@ class FirethornEngine(object):
                 req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.user.get_user_as_headers()) 
                 response = urllib.request.urlopen(req, data)
         except Exception as e:
-            logging.exception(e)
+            print(e)
        
         return workspace
     
@@ -539,7 +545,7 @@ class FirethornEngine(object):
                 with urllib.request.urlopen(req, data) as response:
                     response.read()
         except Exception as e:
-            logging.exception(e)
+            print(e)
         return
 
 
@@ -560,6 +566,7 @@ class FirethornEngine(object):
             The IVOA resource URL 
         
         """
+        ivoaspace = None
         try:
             data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
             req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.user.get_user_as_headers()) 
@@ -567,7 +574,7 @@ class FirethornEngine(object):
                 ivoaspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
         except Exception as e:
-            logging.exception(e)
+            print(e)
 
         return ivoaspace
 
@@ -637,7 +644,7 @@ class FirethornEngine(object):
             buf.close() 
             
         except Exception as e:
-            logging.exception(e)
+            print(e)
      
         return schema
 
@@ -654,7 +661,7 @@ class FirethornEngine(object):
             response.close()
 
         except Exception as e:
-            logging.exception(e)
+            print(e)
 
         return schemas   
 
@@ -688,7 +695,7 @@ class FirethornEngine(object):
             response.close()
 
         except Exception as e:
-            logging.exception(e)
+            print(e)
 
         return schemaident   
 
@@ -764,7 +771,7 @@ class FirethornEngine(object):
                 response_json =  json.loads(response.read().decode('utf-8'))
                 schemaident = response_json["self"]
         except Exception as e:
-            logging.exception(e)      
+            print(e)      
             
         return schemaident
     
@@ -797,7 +804,7 @@ class FirethornEngine(object):
                 response_json =  json.loads(response.read().decode('utf-8'))
                 schemaident = response_json["self"]
         except Exception as e:
-            logging.exception(e)      
+            print(e)      
             
         return schemaident
     
@@ -827,7 +834,7 @@ class FirethornEngine(object):
                 table_list.append(val["name"])
      
         except Exception as e:
-            logging.exception(e)
+            print(e)
             
         return table_list
 
@@ -858,7 +865,7 @@ class FirethornEngine(object):
                 column_list.append(val["name"])
      
         except Exception as e:
-            logging.exception(e)
+            print(e)
             
         return column_list
     
@@ -887,6 +894,29 @@ class FirethornEngine(object):
                 response_exc_json =  response.read().decode('utf-8')       
             attr_val = json.loads(response_exc_json)[attr]
         except Exception as e:
-            logging.exception(e)
+            print(e)
         return attr_val
+    
+    
+    def select_resource(self, ident):
+        """Select a JSON HTTP resource
+        
+        Parameters
+        ----------
+        ident: string, required
+            The URL being queried
+
+        """
+        
+        json_result = []
+        try :
+            req_exc = urllib.request.Request( ident, headers=self.user.get_user_as_headers())
+            with urllib.request.urlopen(req_exc) as response:
+                json_result =  json.loads(response.read().decode('utf-8'))
+     
+        except Exception as e:
+            print(e)
+            
+        return json_result
+
 

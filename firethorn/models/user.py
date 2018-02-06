@@ -37,7 +37,11 @@ class User(object):
     def community(self, community):
         self.__community = community
         
+        
     def get_user_as_headers(self):
+        """
+        Get a Dictionary of values representing a User, to be used for Firethorn Requests
+        """
         if (self.username):
             if (self.password and (self.username)):
                 return {"Accept" : "application/json", "firethorn.auth.community" : self.community, "firethorn.auth.username" : self.username, "firethorn.auth.password" : self.password}
@@ -47,3 +51,13 @@ class User(object):
                 return {"Accept" : "application/json", "firethorn.auth.community" : self.community, "firethorn.auth.username" : self.username}
             else:
                 return {"Accept" : "application/json", "firethorn.auth.username" : self.username}
+        else :
+            return {"Accept" : "application/json"}
+        
+        
+    def __str__(self):
+        """ Print Class as string
+        """
+        return 'Username: %s\nPassword: %s\nCommunity: %s\n ' %(self.username, self.password, self.community) 
+
+        
