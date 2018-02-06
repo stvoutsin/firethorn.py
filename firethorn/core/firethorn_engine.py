@@ -597,7 +597,7 @@ class FirethornEngine(object):
         try:
            
             c = pycurl.Curl()   
-            if (metadocfile.lower().startswith("http://") or metadocfile.lower().startswith("https://")):
+            if (vosi_file.lower().startswith("http://") or vosi_file.lower().startswith("https://")):
                 unique_filename = str(uuid.uuid4())
                 tmpname = "/tmp/" + unique_filename
 
