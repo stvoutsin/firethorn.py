@@ -597,7 +597,16 @@ class FirethornEngine(object):
         try:
            
             c = pycurl.Curl()   
-            
+            if (metadocfile.lower().startswith("http://") or metadocfile.lower().startswith("https://")):
+                unique_filename = str(uuid.uuid4())
+                tmpname = "/tmp/" + unique_filename
+
+                with urllib.request.urlopen(metadocfile) as response, open(tmpname, 'wb') as out_file:
+                    data = response.read() # a `bytes` object
+                    out_file.write(data)
+                
+                vosi_file = tmpname
+
             url = ivoa_resource + "/vosi/import"        
             values = [  
                       ("vosi.tableset", (c.FORM_FILE, vosi_file ))]

@@ -221,7 +221,7 @@ print (gaia_ivoa_resource)
 
 
 # Import the VOSI Metadata
-vosifile='meta/vosi/gaia/gaia-tableset.xml'
+vosifile="https://raw.githubusercontent.com/stvoutsin/firethorn.py/master/firethorn/meta/vosi/gaia/gaia-tableset.xml"
 gaia_schema = ft.firethorn_engine.import_vosi(vosifile, gaia_ivoa_resource)
 print (gaia_schema)
 
