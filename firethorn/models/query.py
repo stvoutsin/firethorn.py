@@ -4,16 +4,14 @@ Created on Nov 4, 2017
 @author: stelios
 '''
 import logging
-from models.table import Table
+from table import Table
 from core.query_engine import QueryEngine
 import urllib.request
-from _io import StringIO
 try:
     import simplejson as json
 except ImportError:
     import json
-from config import firethorn_config as config
-import sys
+import config as config
 
 
 class Query(object):
@@ -29,15 +27,19 @@ class Query(object):
 
     queryident: string, optional
         The query object URL
-                    
+        
+    firethorn_engine: FirethornEngine, optional
+        The Firethorn Engine currently driving this query   
+                  
     """
 
-    def __init__(self, querystring=None, queryspace=None, queryident=None):
+    def __init__(self, querystring=None, queryspace=None, queryident=None, firethorn_engine=None):
         self.table = Table()
         self.error = None
         self.querystring = querystring
         self.queryspace = queryspace
-        self.firethorn_query_engine = QueryEngine()
+        self.firethorn_engine = firethorn_engine
+        self.firethorn_query_engine = QueryEngine(firethorn_engine)
         self.queryident = queryident
         pass
        
@@ -59,9 +61,9 @@ class Query(object):
         query_json=None
         request=None
         try:
-            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
+            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
-                query_json =  json.loads(response.read().decode('ascii'))
+                query_json =  json.loads(response.read().decode('UTF-8'))
         except Exception as e:
             logging.exception(e)
         return query_json   
@@ -115,7 +117,7 @@ class Query(object):
         """
         try: 
             if not self.table.tableident:
-                self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None))
+                self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None), firethorn_engine=self.firethorn_engine)
         except Exception as e:
             logging.exception(e)    
 
@@ -170,11 +172,14 @@ class AsyncQuery(Query):
 
     queryident: string, optional
         The query object URL
+        
+    firethorn_engine: FirethornEngine, optional
+        The Firethorn Engine currently driving this query
                     
     """
 
-    def __init__(self, querystring=None, queryspace=None, queryident=None):
-        super().__init__(querystring, queryspace, queryident)
+    def __init__(self, querystring=None, queryspace=None, queryident=None, firethorn_engine = None):
+        super().__init__(querystring, queryspace, queryident, firethorn_engine=firethorn_engine)
 
         try: 
             self.queryident = self.firethorn_query_engine.create_query(self.querystring, "", self.queryspace, "AUTO", config.test_email)
@@ -202,7 +207,7 @@ class AsyncQuery(Query):
         """
         try: 
             if not self.table.tableident:
-                self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None))
+                self.table = Table(Query._get_json(self, self.queryident).get("results",[]).get("table",None),firethorn_engine = self.firethorn_engine)
         except Exception as e:
             logging.exception(e)    
 

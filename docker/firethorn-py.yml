@@ -1,0 +1,121 @@
+version: '2.1'
+
+networks:
+
+    # External network
+    rosana:
+
+    # Internal network
+    miriam:
+
+services:
+
+    bethany:
+        hostname:
+            "bethany"
+        image:
+           "firethorn/postgres:${buildtag:-latest}"
+        read_only:
+            true
+        tmpfs:
+            - '/run'
+            - '/tmp'
+        environment:
+            POSTGRES_USER:     "${metauser}"
+            POSTGRES_PASSWORD: "${metapass}"
+        networks:
+            - miriam
+
+    jarmila:
+        hostname:
+            "jarmila"
+        image:
+           "firethorn/ogsadai:${buildtag:-latest}"
+        read_only:
+            false
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+            - miriam
+        healthcheck:
+            test: [
+                "CMD-SHELL",
+                "curl --silent --head --fail http://localhost:8080/ogsadai/services || exit 1"
+                ]
+            interval: 30s
+            timeout:  5s
+            retries:  5
+
+    gillian:
+        hostname:
+            "gillian"
+        image:
+           "firethorn/firethorn:${buildtag:-latest}"
+        read_only:
+            true
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ${HOME}/firethorn.properties:/etc/firethorn.properties
+        networks:
+            - miriam
+            - rosana
+        ports:
+            - "8080:8080"
+        environment:
+            firethorn.meta.url:    'jdbc:postgresql://bethany/postgres'
+            firethorn.meta.driver: 'org.postgresql.Driver'
+            firethorn.ogsadai.endpoint: 'http://jarmila:8080/ogsadai/services'
+        depends_on:
+            bethany:
+                condition: service_started            
+            jarmila:
+                condition: service_healthy            
+        healthcheck:
+            test: [
+                "CMD-SHELL",
+                "curl --silent --head --fail \
+                --header 'firethorn.auth.community:guests' \
+                --header 'firethorn.auth.username:healthcheck' \
+                'http://localhost:8080/firethorn/system/info' || exit 1"
+                ]
+            interval: 30s
+            timeout:  5s
+            retries:  5
+
+    firethorn-py:
+        hostname:
+            "firethorn-py"
+        image:
+           "firethorn-py"
+        read_only:
+            false
+        stdin_open:
+            true
+        tty:
+            true
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+            - miriam
+        environment:
+            datahost: "${datahost}"
+            datauser: "${datauser}"
+            datapass: "${datapass}"
+            datadriver: "net.sourceforge.jtds.jdbc.Driver"
+            dataurl: "jdbc:jtds:sqlserver://${datahost}/ATLASDR1"
+            default_endpoint: "http://gillian:8080"
+        depends_on:
+            gillian:
+                condition: service_healthy
+        command:
+            [bash]
+

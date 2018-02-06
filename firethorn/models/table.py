@@ -5,15 +5,16 @@ Created on Nov 4, 2017
 '''
 
 from astropy.table import Table as astropy_Table
-from io import StringIO
 import urllib.request
 import logging
 try:
     import simplejson as json
 except ImportError:
     import json
-from config import firethorn_config as config
-
+from config import *
+import warnings
+from astropy.utils.exceptions import AstropyWarning
+warnings.simplefilter('ignore', category=AstropyWarning)
 
 class Table(object):
     """Table class, equivalent to a Firethorn ADQL Table
@@ -25,8 +26,10 @@ class Table(object):
     """
 
 
-    def __init__(self, tableident=None):
+    def __init__(self, tableident=None, firethorn_engine=None):
+        
         self.tableident = tableident
+        self.firethorn_engine = firethorn_engine
         if (self.tableident):
             self.astropy_table = astropy_Table.read(tableident + "/votable", format="votable")        
         else:
@@ -52,9 +55,9 @@ class Table(object):
 
         query_json=[]
         try:
-            request = urllib.request.Request(url, headers={"Accept" : "application/json", "firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
+            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
-                query_json = json.loads(response.read().decode('ascii'))            
+                query_json = json.loads(response.read().decode('utf-8'))            
         except Exception as e:
             logging.exception(e)
         return query_json    
@@ -78,9 +81,9 @@ class Table(object):
         query_xml=""
         request=None
         try:
-            request = urllib.request.Request(url, headers={"firethorn.auth.identity" : config.test_email, "firethorn.auth.community" : "public (unknown)"})
+            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
             with urllib.request.urlopen(request) as response:
-                query_xml =  response.read().decode('ascii')   
+                query_xml =  response.read().decode('utf-8')   
         except Exception as e:
             logging.exception(e)
         return query_xml  

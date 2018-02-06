@@ -1,5 +1,3 @@
-import logging
-from models.query import Query, AsyncQuery
 from core.firethorn_engine import FirethornEngine
 
 class Schema(object):
