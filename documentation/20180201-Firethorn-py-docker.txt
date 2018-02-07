@@ -97,10 +97,10 @@ firethorn.meta.user=${metauser:?}
 firethorn.meta.pass=${metapass:?}
 
 firethorn.user.type=mssql
-firethorn.user.url=jdbc:jtds:sqlserver://patricia/${userdata}
+firethorn.user.url=jdbc:jtds:sqlserver://${userhost:?}/${userdata:?}
 firethorn.user.driver=net.sourceforge.jtds.jdbc.Driver
 
-firethorn.user.host=patricia
+firethorn.user.host=${userhost:?}
 firethorn.user.data=${userdata:?}
 firethorn.user.user=${useruser:?}
 firethorn.user.pass=${userpass:?}
