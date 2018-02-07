@@ -9,7 +9,7 @@ try:
     import logging
     from datetime import datetime
     import config as config
-    from models import User
+    from models import Identity
     import pycurl
     import io
     import uuid
@@ -50,7 +50,7 @@ class FirethornEngine(object):
     """
 
 
-    def __init__(self, jdbcspace="", adqlspace="", adqlschema="", query_schema="", schema_name="", schema_alias="", driver="", endpoint = "" , user = None, **kwargs):
+    def __init__(self, jdbcspace="", adqlspace="", adqlschema="", query_schema="", schema_name="", schema_alias="", driver="", endpoint = "" , identity = None, **kwargs):
 
         self.jdbcspace = ""
         self.adqlspace =  ""
@@ -67,7 +67,8 @@ class FirethornEngine(object):
         self.driver = driver
         self.endpoint = endpoint
         self.queryspace = None
-        self.user = user
+        self.identity = identity
+    
     
     def login(self, username=None, password=None, community=None):
         """
@@ -90,21 +91,21 @@ class FirethornEngine(object):
         
         try :
             
-            new_user = User(username, password, community)
-            req = urllib.request.Request(self.endpoint + config.system_info, headers=new_user.get_user_as_headers())
+            new_user = Identity(username, password, community)
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=new_user.get_identity_as_headers())
 
             with urllib.request.urlopen(req) as response:
                 response.read().decode('utf-8')     
                 if (response.getcode()==200):
                     loggedin = True
                 else:
-                    self.user = User(None,None,None)
+                    self.identity = Identity(None,None,None)
         except Exception as e:
-            self.user = User(None,None,None)
+            self.identity = Identity(None,None,None)
             pass
             
         if loggedin:        
-            self.user = User(username, password, community )
+            self.identity = Identity(username, password, community )
             return True
         else : 
             return False
@@ -112,7 +113,7 @@ class FirethornEngine(object):
 
     def system_info_check(self):
         try :
-            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.user.get_user_as_headers())
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 return (json.loads(response.read().decode('utf-8')))
         except Exception as e:
@@ -127,7 +128,7 @@ class FirethornEngine(object):
         
         """            
         username = None
-        
+        community = None
         try :
             
             req = urllib.request.Request(  self.endpoint + config.system_info, headers={"Accept" : "application/json"})
@@ -142,7 +143,7 @@ class FirethornEngine(object):
         except Exception as e:
             print(e)
             
-        self.user = User(username = username, community = community)
+        self.user = Identity(username = username, community = community)
         
         
     def setup_firethorn_environment(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass=""):
@@ -291,7 +292,7 @@ class FirethornEngine(object):
 
 
 
-            req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.identity.get_identity_as_headers())
             response = urllib.request.urlopen(req,data)
             jdbcspace = json.loads(response.read().decode("utf-8"))["self"]
             response.close()
@@ -351,21 +352,21 @@ class FirethornEngine(object):
             c.setopt(c.URL, str(url))
             c.setopt(c.HTTPPOST, values)
             c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.user.password!=None and self.user.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.password", self.user.password,
-                                              "firethorn.auth.community",self.user.community
+            if (self.identity.password!=None and self.identity.community!=None):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
+                                              "firethorn.auth.password", self.identity.password,
+                                              "firethorn.auth.community",self.identity.community
                                             ])
-            elif (self.user.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.password", self.user.password,
+            elif (self.identity.password!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
+                                              "firethorn.auth.password", self.identity.password,
                                             ])    
-            elif (self.user.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.community", self.user.community,
+            elif (self.identity.community!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
+                                              "firethorn.auth.community", self.identity.community,
                                             ])    
             else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
                                             ])    
                      
             c.perform()
@@ -434,7 +435,7 @@ class FirethornEngine(object):
                 t = datetime.now()
                 adqlspacename = 'workspace-' + t.strftime("%y%m%d_%H%M%S") 
             data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json'] : adqlspacename}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 adqlspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -463,7 +464,7 @@ class FirethornEngine(object):
             ### Create Query Schema 
             data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json'] : "query_schema"}).encode("utf-8")
 
-            req = urllib.request.Request( resource +  config.schema_create_uri, headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( resource +  config.schema_create_uri, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 query_schema =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -512,7 +513,7 @@ class FirethornEngine(object):
 
             if importname!="":
                 data = urllib.parse.urlencode({config.workspace_import_schema_base : ident, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.user.get_user_as_headers()) 
+                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.identity.get_identity_as_headers()) 
                 response = urllib.request.urlopen(req, data)
         except Exception as e:
             print(e)
@@ -541,7 +542,7 @@ class FirethornEngine(object):
             importname = name
             if importname!="":
                 data = urllib.parse.urlencode({config.workspace_import_schema_base : import_schema, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.user.get_user_as_headers()) 
+                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.identity.get_identity_as_headers()) 
                 with urllib.request.urlopen(req, data) as response:
                     response.read()
         except Exception as e:
@@ -569,7 +570,7 @@ class FirethornEngine(object):
         ivoaspace = None
         try:
             data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.user.get_user_as_headers()) 
+            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.identity.get_identity_as_headers()) 
             with urllib.request.urlopen(req, data) as response:
                 ivoaspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -621,21 +622,21 @@ class FirethornEngine(object):
             c.setopt(c.URL, str(url))
             c.setopt(c.HTTPPOST, values)
             c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.user.password!=None and self.user.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.password", self.user.password,
-                                              "firethorn.auth.community",self.user.community
+            if (self.identity.password!=None and self.identity.community!=None):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
+                                              "firethorn.auth.password", self.identity.password,
+                                              "firethorn.auth.community",self.identity.community
                                             ])
-            elif (self.user.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.password", self.user.password,
+            elif (self.identity.password!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
+                                              "firethorn.auth.password", self.identity.password,
                                             ])    
-            elif (self.user.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
-                                              "firethorn.auth.community", self.user.community,
+            elif (self.identity.community!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
+                                              "firethorn.auth.community", self.identity.community,
                                             ])    
             else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.user.username,
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
                                             ])    
                                                    
             c.perform()
@@ -655,7 +656,7 @@ class FirethornEngine(object):
 
 
         try:
-            req = urllib.request.Request( workspace + "/schemas/select", headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( workspace + "/schemas/select", headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 schemas =  json.loads(response.read().decode('utf-8'))
             response.close()
@@ -689,7 +690,7 @@ class FirethornEngine(object):
         schemaident=""
         try:
             data = urllib.parse.urlencode({ "ivoa.schema.name" : findname }).encode("utf-8")
-            req = urllib.request.Request( ivoa_resource + "/schemas/select", headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( ivoa_resource + "/schemas/select", headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 schemaident =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
@@ -765,7 +766,7 @@ class FirethornEngine(object):
         
         try :
             data = urllib.parse.urlencode({config.schema_select_by_name_param : name}).encode("utf-8")
-            req = urllib.request.Request( resource + "/schemas/select", headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( resource + "/schemas/select", headers=self.identity.get_identity_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
@@ -798,7 +799,7 @@ class FirethornEngine(object):
         
         try :
             data = urllib.parse.urlencode({config.jdbc_schema_catalog : catalog, config.jdbc_schema_schema : schema }).encode("utf-8")
-            req = urllib.request.Request( jdbcurl + "/schemas/select", headers=self.user.get_user_as_headers())
+            req = urllib.request.Request( jdbcurl + "/schemas/select", headers=self.identity.get_identity_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
@@ -827,7 +828,7 @@ class FirethornEngine(object):
         table_list = []
         
         try :
-            req_exc = urllib.request.Request( schemaident + "/tables/select", headers=self.user.get_user_as_headers())
+            req_exc = urllib.request.Request( schemaident + "/tables/select", headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
             for val in response_json:
@@ -858,7 +859,7 @@ class FirethornEngine(object):
         column_list = []
         
         try :
-            req_exc = urllib.request.Request( tableident + "/column/select", headers=self.user.get_user_as_headers())
+            req_exc = urllib.request.Request( tableident + "/column/select", headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
             for val in response_json:
@@ -889,7 +890,7 @@ class FirethornEngine(object):
         
         attr_val = []
         try :
-            req_exc = urllib.request.Request( ident, headers=self.user.get_user_as_headers()).encode("utf-8")
+            req_exc = urllib.request.Request( ident, headers=self.identity.get_identity_as_headers()).encode("utf-8")
             with urllib.request.urlopen(req_exc) as response:
                 response_exc_json =  response.read().decode('utf-8')       
             attr_val = json.loads(response_exc_json)[attr]
@@ -910,7 +911,7 @@ class FirethornEngine(object):
         
         json_result = []
         try :
-            req_exc = urllib.request.Request( ident, headers=self.user.get_user_as_headers())
+            req_exc = urllib.request.Request( ident, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 json_result =  json.loads(response.read().decode('utf-8'))
      

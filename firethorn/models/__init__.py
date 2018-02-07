@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from user import *
+from identity import *
 from table import *
 from schema import *
 from query import *

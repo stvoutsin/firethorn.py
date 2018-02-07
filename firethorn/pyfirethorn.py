@@ -2,7 +2,7 @@ try:
     import logging
     from models.query import Query
     from models.workspace import Workspace 
-    from models import User
+    from models import Identity
     from core.firethorn_engine import FirethornEngine
     import config as config
     import time
@@ -16,11 +16,14 @@ class Firethorn(object):
     
     Parameters
     ----------
-    user : string, optional
+    username : string, optional
         Username
         
     password : string, optional
         Password
+    
+    community : string, optional
+        Community
         
     endpoint : string, optional
         URL Endpoint to intialise Firethorn class with
@@ -30,7 +33,7 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": config.default_endpoint + "/firethorn/adql/resource/76"}
+    __predefined_workspaces__ = {"OSA": config.default_endpoint + "/firethorn/adql/resource/56"}
     __id__ = ""
     
     
@@ -61,14 +64,14 @@ class Firethorn(object):
         return
 
 
-    def user(self):
+    def identity(self):
         """
-        Get the name of the user currently logged in
+        Get the name of the identity currently logged in
         """
-        if (self.firethorn_engine.user!=None and self.firethorn_engine.user.username!=None):
-            return (self.firethorn_engine.user.username)
+        if (self.firethorn_engine.identity!=None and self.firethorn_engine.identity.username!=None):
+            return (self.firethorn_engine.identity.username)
         else :
-            return "anonymous user"
+            return "anonymous identity"
     
     
     def get_workspace(self, name):
@@ -118,11 +121,11 @@ class Firethorn(object):
 
 
 if __name__ == "__main__":
-    ft = Firethorn(endpoint="http://" + config.default_endpoint + "/firethorn")
-    ft.login("", "", "")
+    ft = Firethorn(endpoint=config.default_endpoint + "/firethorn")
+    ft.login("orinoco", "wombleden", "wombles")
     print (ft.get_public_workspaces())
     osa = ft.get_workspace("OSA")
-    print (ft.user())
+    print (ft.identity())
     
     
     # System info check

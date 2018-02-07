@@ -61,7 +61,7 @@ class Query(object):
         query_json=None
         request=None
         try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
+            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json =  json.loads(response.read().decode('UTF-8'))
         except Exception as e:
