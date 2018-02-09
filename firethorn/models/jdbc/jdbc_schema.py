@@ -3,9 +3,9 @@ Created on Feb 8, 2018
 
 @author: stelios
 '''
-from base.base_object import BaseObject
+from base.base_schema import BaseSchema
 
-class BaseTable(BaseObject):
+class JdbcSchema(BaseSchema):
     """
     classdocs
     """
@@ -18,15 +18,13 @@ class BaseTable(BaseObject):
         super().__init__(firethorn_engine, json_object, url) 
         
         
-    def resource(self):
+    def catalog_name(self):
         return
     
     
-    def schema(self):
+    def schema_name(self):
         return
-    
-    
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Table URL: %s' %(self.json_object.get("self",""))
+                   
+                   
+    def create_table(self, table_name):
+        return

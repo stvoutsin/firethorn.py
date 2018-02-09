@@ -8,5 +8,9 @@ from schema import *
 from query import *
 from workspace import *
 from base import *
+from jdbc import *
+from adql import *
+from ivoa import *
+
 
 

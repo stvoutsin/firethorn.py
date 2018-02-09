@@ -81,7 +81,7 @@ class Test(unittest.TestCase):
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
         jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_space("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.dataidentity, config.datapass)
+        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.dataidentity, config.datapass)
         print (atlas_jdbc_url)
         print ("") 
     
@@ -93,7 +93,7 @@ class Test(unittest.TestCase):
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
         jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_space("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.dataidentity, config.datapass)
+        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.dataidentity, config.datapass)
         print (atlas_jdbc_url)
         print ("") 
         
@@ -101,27 +101,27 @@ class Test(unittest.TestCase):
         ft.firethorn_engine.create_temporary_identity()
         print ("Select JDBC Resource as ")
         print (ft.firethorn_engine.identity)
-        print (ft.firethorn_engine.select_resource(atlas_jdbc_url))
+        print (ft.firethorn_engine.get_json(atlas_jdbc_url))
         print ("") 
     
     
         print ("Create ADQL Resource as ")
         print (ft.firethorn_engine.identity)
         adqlname="ATLAS ADQL resource"
-        atlas_adql_url = ft.firethorn_engine.create_adql_space(adqlname)
+        atlas_adql_url = ft.firethorn_engine.create_adql_resource(adqlname)
         print (atlas_adql_url)
         print ("") 
     
         print ("Select ADQL Resource as ")
         print (ft.firethorn_engine.identity)
-        print (ft.firethorn_engine.select_resource(atlas_adql_url))
+        print (ft.firethorn_engine.get_json(atlas_adql_url))
         print ("") 
     
     
         ft.firethorn_engine.create_temporary_identity()
         print ("Select ADQL Resource as ")
         print (ft.firethorn_engine.identity)
-        print (ft.firethorn_engine.select_resource(atlas_adql_url))
+        print (ft.firethorn_engine.get_json(atlas_adql_url))
         print ("") 
     
     
@@ -149,7 +149,7 @@ class Test(unittest.TestCase):
         adqlname="Query workspace"
         print ("Create a new ADQL resource to act as a workspace as ")
         print (ft.firethorn_engine.identity)
-        queryspace = ft.firethorn_engine.create_adql_space(adqlname)
+        queryspace = ft.firethorn_engine.create_adql_resource(adqlname)
         print(queryspace)
         print ("")    
         

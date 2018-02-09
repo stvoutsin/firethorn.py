@@ -3,6 +3,8 @@ Created on Jul 22, 2013
 
 @author: stelios
 '''
+from models.jdbc.jdbc_schema import JdbcSchema
+from models.adql.adql_resource import AdqlResource
 try:
     import urllib
     import json
@@ -14,8 +16,9 @@ try:
     import io
     import uuid
     import urllib.request
+    from jdbc.jdbc_resource import JdbcResource
 except Exception as e:
-    print(e)
+    logging.exception(e)
 
 
 class FirethornEngine(object):
@@ -117,7 +120,7 @@ class FirethornEngine(object):
             with urllib.request.urlopen(req) as response:
                 return (json.loads(response.read().decode('utf-8')))
         except Exception as e:
-            print(e)
+            logging.exception(e)
             
         return {} 
                      
@@ -141,103 +144,12 @@ class FirethornEngine(object):
                         community =  info[header]
                         
         except Exception as e:
-            print(e)
+            logging.exception(e)
             
         self.user = Identity(username = username, community = community)
         
-        
-    def setup_firethorn_environment(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass=""):
-        """Initialise the Firethorn environment
-        Import metadata, setup initial workspace, import schemas, tables
-        
-        Parameters
-        ----------
-        resourcename: string, required
-            Resource name
-            
-        resourceuri: string, required
-            Resource URI
-            
-        catalogname: string, required
-            Catalog name
-            
-        ogsadainame: string, required
-            OGSADAI name
-            
-        adqlspacename: string, required
-            ADQL Space name
-            
-        jdbccatalogname: string, required
-            JDBC Catalog name
-            
-        jdbcschemaname: string, required
-            JDBC Schema name
-            
-        metadocfile:  string, required
-            Metadocfile
-            
-        jdbc_resource_user: string, optional
-            JDBC resource username
-            
-        jdbc_resource_pass: string, optional
-            JDBC resource password
-            
-        """
-
-        try:
-
-            self.initialise_metadata_import(resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user, jdbc_resource_pass)
-            self.schema_name = self.get_attribute(self.adqlschema, "fullname" )
-            self.schema_alias = self.get_attribute(self.adqlschema, "name" )
-            self.queryspace = self.create_initial_workspace(self.schema_name, self.schema_alias, self.adqlschema)
-        except Exception as e:
-            print(e)
-
-                    
-    def initialise_metadata_import(self, resourcename ,resourceuri, catalogname, ogsadainame, adqlspacename, jdbccatalogname, jdbcschemaname, metadocfile, jdbc_resource_user="", jdbc_resource_pass="" ):
-        """Import metadata, fetch Schema from file provided
-        
-        Parameters
-        ----------
-        resourcename: string, required
-            Resource name
-            
-        resourceuri: string, required
-            Resource URI
-            
-        catalogname: string, required
-            Catalog name
-            
-        ogsadainame: string, required
-            OGSADAI name
-            
-        adqlspacename: string, required
-            ADQL Space name
-            
-        jdbccatalogname: string, required
-            JDBC Catalog name
-            
-        jdbcschemaname: string, required
-            JDBC Schema name
-            
-        metadocfile:  string, required
-            Metadocfile
-            
-        jdbc_resource_user: string, optional
-            JDBC resource username
-            
-        jdbc_resource_pass: string, optional
-            JDBC resource password
-            
-        """
-
-        self.jdbcspace = self.create_jdbc_space(resourcename ,resourceuri, catalogname, ogsadainame, jdbc_resource_user, jdbc_resource_pass)
-        if (self.adqlspace=="" or self.adqlspace==None):
-            self.adqlspace = self.create_adql_space(adqlspacename)
-        self.adqlschema = self.import_jdbc(self.adqlspace, self.jdbcspace, jdbccatalogname, jdbcschemaname, metadocfile)
          
-         
-    def create_jdbc_space(self, resourcename ,resourceurl, catalogname, jdbc_name, jdbc_resource_user="", jdbc_resource_pass=""):
+    def create_jdbc_resource(self, resourcename ,resourceurl, catalogname, jdbc_name, jdbc_resource_user="", jdbc_resource_pass=""):
         """Import metadata, fetch Schema from file provided
         
         Parameters
@@ -294,12 +206,13 @@ class FirethornEngine(object):
 
             req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.identity.get_identity_as_headers())
             response = urllib.request.urlopen(req,data)
-            jdbcspace = json.loads(response.read().decode("utf-8"))["self"]
+            jdbcspace = json.loads(response.read().decode("utf-8"))
             response.close()
             
         except Exception as e:
-            print(e)
-        return jdbcspace    
+            logging.exception(e)
+            
+        return JdbcResource(json_object=jdbcspace, firethorn_engine=self)    
     
 
     def import_jdbc_metadoc(self, adqlspace="", jdbcschema="", metadocfile=""):
@@ -375,45 +288,12 @@ class FirethornEngine(object):
             buf.close() 
             
         except Exception as e:
-            print(e)
+            logging.exception(e)
      
         return adqlschema
     
-
-    def import_jdbc(self, adqlspace="", jdbcspace="", jdbccatalogname='', jdbcschemaname='dbo',metadocfile=""):
-        """Import a JDBC Schema
-        
-        Parameters
-        ----------
-        adqlspace: string, required
-            ADQL Resource URL
-            
-        jdbcspace: string, required
-            JDBC Resource URL
-            
-        jdbccatalogname: string, required
-            JDBC Catalog name
-            
-        jdbcschemaname: string, required
-            JDBC schema name (defaults to 'dbo')
-      
-        metadocfile: string, optional
-            Metadocfile location string 
-            
-        
-        Returns    
-        -------
-        adqlschema: string
-            The URL of the created ADQL Schema
-        
-        """
-               
-        jdbcschemaident = self.jdbc_select_by_name(jdbcspace, jdbccatalogname, jdbcschemaname)
-        adqlschema = self.jdbc_select_by_name(adqlspace, jdbcschemaident, metadocfile)
-        return adqlschema
-
     
-    def create_adql_space(self, adqlspacename=None):
+    def create_adql_resource(self, adqlspacename=None):
         """Create an ADQL Resource
         
         Parameters
@@ -424,11 +304,13 @@ class FirethornEngine(object):
         
         Returns    
         -------
-        adqlspace: string
-            The URL of the created ADQL Resource
+        adqlresource: AdqlResource
+            The new AdqlResource 
         
         """
-        adqlspace = ""
+        
+        adqlresource = ""
+        
         try:
             ### Create workspace
             if adqlspacename==None:
@@ -437,89 +319,25 @@ class FirethornEngine(object):
             data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json'] : adqlspacename}).encode("utf-8")
             req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req, data) as response:
-                adqlspace =  json.loads(response.read().decode('utf-8'))["self"]
+                adqlresource =  json.loads(response.read().decode('utf-8'))
             response.close()
         except Exception as e:
-            print(e)
+            logging.exception(e)
             
-        return adqlspace
+        return AdqlResource(json_object = adqlresource, firethorn_engine=self)
                          
                          
-    def create_query_schema(self, resource=""):
-        """Create a query schema
-        
-        Parameters
-        ----------
-        resource: string, required
-            ADQL Resource URL
-        
-        Returns    
-        -------
-        query_schema: string
-            The URL of the created Query Schema
-        
-        """
-        query_schema = ""
-        try:    
-            ### Create Query Schema 
-            data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json'] : "query_schema"}).encode("utf-8")
-
-            req = urllib.request.Request( resource +  config.schema_create_uri, headers=self.identity.get_identity_as_headers())
-            with urllib.request.urlopen(req, data) as response:
-                query_schema =  json.loads(response.read().decode('utf-8'))["self"]
-            response.close()
-        except Exception as e:
-            print(e)
-            
-        return query_schema
+    def select_adql_resources(self):
+        return
     
-        
-    def create_initial_workspace(self, initial_catalogue_fullname, initial_catalogue_alias, initial_catalogue_ident):
-
-        """Create the inital workspace given a name, alias and catalogue identifier
-        
-        Parameters
-        ----------
-        initial_catalogue_fullname: string, required
-            Initial Catalogue Fullname
-
-        initial_catalogue_alias: string, required
-            Initial Catalogue Alias
-
-        initial_catalogue_ident: string, required
-            Initial Catalogue Ident
-        
-        Returns    
-        -------
-        query_schema: string
-            The URL of the created Query Schema
-        
-        """
-        importname = ""
-        t = datetime.now()
-        workspace = self.create_adql_space()
-        self.adqlspace = workspace
-        #query_schema = self.create_query_schema(workspace)
-        
-        name = initial_catalogue_fullname
-        alias = initial_catalogue_alias
-        ident = initial_catalogue_ident
-        data = None
-        try:   
-            if alias!="":
-                importname = alias
-            else :
-                importname = name
-
-            if importname!="":
-                data = urllib.parse.urlencode({config.workspace_import_schema_base : ident, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.identity.get_identity_as_headers()) 
-                response = urllib.request.urlopen(req, data)
-        except Exception as e:
-            print(e)
-       
-        return workspace
     
+    def select_adql_resource_by_name(self):
+        return
+    
+    
+    def select_adql_resource_by_ident(self, ident):
+        return AdqlResource(url=ident)
+
 
     def import_schema(self, name, import_schema, workspace):
         """Import a schema into a workspace for querying
@@ -546,7 +364,7 @@ class FirethornEngine(object):
                 with urllib.request.urlopen(req, data) as response:
                     response.read()
         except Exception as e:
-            print(e)
+            logging.exception(e)
         return
 
 
@@ -575,7 +393,7 @@ class FirethornEngine(object):
                 ivoaspace =  json.loads(response.read().decode('utf-8'))["self"]
             response.close()
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
         return ivoaspace
 
@@ -645,7 +463,7 @@ class FirethornEngine(object):
             buf.close() 
             
         except Exception as e:
-            print(e)
+            logging.exception(e)
      
         return schema
 
@@ -662,7 +480,7 @@ class FirethornEngine(object):
             response.close()
 
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
         return schemas   
 
@@ -696,7 +514,7 @@ class FirethornEngine(object):
             response.close()
 
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
         return schemaident   
 
@@ -733,17 +551,6 @@ class FirethornEngine(object):
         return
 
     
-    def print_class_vars(self):
-        """Print out the class (Firethorn environment) variables
-        """
-        logging.info("jdbcspace: " + self.jdbcspace)
-        logging.info("adqlspace: " + str(self.adqlspace))
-        logging.info("adqlschema: " + str(self.adqlschema))
-        logging.info("query_schema: " + str(self.query_schema))
-        logging.info("schema_name: " + str(self.schema_name))
-        logging.info("schema_alias: " + str(self.schema_alias))     
-    
-    
     def select_by_name(self, name, resource):
         """Select by name
         
@@ -772,13 +579,31 @@ class FirethornEngine(object):
                 response_json =  json.loads(response.read().decode('utf-8'))
                 schemaident = response_json["self"]
         except Exception as e:
-            print(e)      
+            logging.exception(e)      
             
         return schemaident
     
     
-    def jdbc_select_by_name(self, jdbcurl, catalog, schema):
-        """JDBC select by catalog and schema name
+    def select_jdbc_resource_by_name(self, name):
+        """JDBC Resource select by catalog and schema name
+        
+        Parameters
+        ----------
+        name: string, required
+            The JDBC Resource name
+
+        Returns
+        -------
+        JdbcResource: JdbcResource
+            The JdbcResource found
+        """
+        
+        response_json = {}
+        return     
+            
+
+    def select_jdbc_schema_by_name(self, jdbcurl, catalog, schema):
+        """JDBC Schema select by catalog and schema name
         
         Parameters
         ----------
@@ -790,12 +615,11 @@ class FirethornEngine(object):
          
         Returns
         -------
-        string: string
-            The URL of the entity found
+        JdbcSchema: JdbcSchema
+            The JdbcSchema found
         """
         
-        response_json = []
-        schemaident = None
+        response_json = {}
         
         try :
             data = urllib.parse.urlencode({config.jdbc_schema_catalog : catalog, config.jdbc_schema_schema : schema }).encode("utf-8")
@@ -803,12 +627,16 @@ class FirethornEngine(object):
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
-                schemaident = response_json["self"]
+                
         except Exception as e:
-            print(e)      
+            logging.exception(e)      
             
-        return schemaident
+        return JdbcSchema(json_object = response_json, firethorn_engine=self)
     
+    
+    def select_jdbc_resource_by_ident(self, ident):
+        return JdbcResource(url=ident, firethorn_engine=self)
+        
     
     def get_tables(self, schemaname):
         """Get tables
@@ -835,7 +663,7 @@ class FirethornEngine(object):
                 table_list.append(val["name"])
      
         except Exception as e:
-            print(e)
+            logging.exception(e)
             
         return table_list
 
@@ -866,9 +694,13 @@ class FirethornEngine(object):
                 column_list.append(val["name"])
      
         except Exception as e:
-            print(e)
+            logging.exception(e)
             
         return column_list
+    
+    
+    def make_identity (self, identity):
+        return Identity (identity)
     
     
     def get_attribute(self, ident, attr):
@@ -895,11 +727,12 @@ class FirethornEngine(object):
                 response_exc_json =  response.read().decode('utf-8')       
             attr_val = json.loads(response_exc_json)[attr]
         except Exception as e:
-            print(e)
+            logging.exception(e)
         return attr_val
     
-    
-    def select_resource(self, ident):
+
+
+    def get_json(self, ident):
         """Select a JSON HTTP resource
         
         Parameters
@@ -909,15 +742,17 @@ class FirethornEngine(object):
 
         """
         
-        json_result = []
+        json_result = {}
+        
         try :
             req_exc = urllib.request.Request( ident, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 json_result =  json.loads(response.read().decode('utf-8'))
      
         except Exception as e:
-            print(e)
+            logging.exception(e)
             
         return json_result
+    
 
 

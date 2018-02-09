@@ -3,9 +3,10 @@ Created on Feb 8, 2018
 
 @author: stelios
 '''
-from base.base_object import BaseObject
+from base.base_table import BaseTable
 
-class BaseTable(BaseObject):
+
+class AdqlTable(BaseTable):
     """
     classdocs
     """
@@ -16,17 +17,21 @@ class BaseTable(BaseObject):
         Constructor
         """
         super().__init__(firethorn_engine, json_object, url) 
-        
-        
-    def resource(self):
+    
+    
+    def select_columns(self):
         return
     
     
-    def schema(self):
+    def select_column_by_ident(self, ident):
         return
     
     
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Table URL: %s' %(self.json_object.get("self",""))
+    def select_column_by_name(self, column_name):
+        return
+   
+   
+    def create_adql_column(self, column_name):
+        return
+    
+    

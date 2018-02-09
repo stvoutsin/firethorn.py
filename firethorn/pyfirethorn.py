@@ -6,6 +6,8 @@ try:
     from core.firethorn_engine import FirethornEngine
     import config as config
     import time
+    from adql.adql_resource import AdqlResource
+    
 except Exception as e:
     logging.exception(e)
 
@@ -104,8 +106,8 @@ class Firethorn(object):
             The newly created Workspace
         """
         
-        resource = self.firethorn_engine.create_adql_space(name)
-        return Workspace(resource, firethorn_engine = self.firethorn_engine)
+        resource = self.firethorn_engine.create_adql_resource(name)
+        return AdqlResource(resource, firethorn_engine = self.firethorn_engine)
     
     
     def get_public_workspaces(self):
@@ -123,35 +125,50 @@ class Firethorn(object):
 if __name__ == "__main__":
     ft = Firethorn(endpoint=config.default_endpoint + "/firethorn")
     ft.login("orinoco", "wombleden", "wombles")
-    print (ft.get_public_workspaces())
-    osa = ft.get_workspace("OSA")
-    print (ft.identity())
+    #print (ft.get_public_workspaces())
+    #osa = ft.get_workspace("OSA")
+    #print (ft.identity())
     
     
     # System info check
-    print (ft.firethorn_engine.system_info_check())
+    #print (ft.firethorn_engine.system_info_check())
     
     
     #  Create a JdbcResource to represent the local JDBC database.
     jdbc_name="ATLAS JDBC resource"
     jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-    atlas_jdbc_url = ft.firethorn_engine.create_jdbc_space("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.datauser, config.datapass)
-    print (atlas_jdbc_url)
+    atlas_jdbc = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.datauser, config.datapass)
+    print (str(atlas_jdbc))
+    print (atlas_jdbc.ident())
+    print (atlas_jdbc.name())
+    print (atlas_jdbc.owner())
+    print (atlas_jdbc.url)   
     
+    print (atlas_jdbc.select_schemas()) 
+    print (atlas_jdbc.select_schema_by_ident("http://localhost:8081/firethorn/jdbc/schema/21061")) 
+    print (atlas_jdbc.select_schema_by_name("ATLASDR1", "dbo")) 
+     
     
     # Create an empty AdqlResource to represent the local JDBC database.
     adqlname="ATLAS ADQL resource"
-    atlas_adql_url = ft.firethorn_engine.create_adql_space(adqlname)
-    print (atlas_adql_url)
-
-
+    atlas_adql = ft.firethorn_engine.create_adql_resource(adqlname)
+    print (atlas_adql)
+ 
+ 
+    
     # Locate the JdbcSchema based on catalog and schema name. 
     catalog="ATLASDR1"
     schema="dbo"
-    atlas_jdbc_schema = ft.firethorn_engine.jdbc_select_by_name(atlas_jdbc_url, catalog, schema)
-    print (atlas_jdbc_schema)
+    
+    print (ft.firethorn_engine.select_jdbc_resource_by_name(catalog)) ## ???
+    print (ft.firethorn_engine.select_jdbc_resource_by_ident(atlas_jdbc.url))
+    
+    atlas_jdbc_schema = ft.firethorn_engine.select_jdbc_schema_by_name(atlas_jdbc.url, catalog, schema)
+    #print (atlas_jdbc_schema)
  
- 
+
+    
+    """
     # Import the mapping between JDBC and ADQL tables.
     metadoc="meta/ATLASDR1_TablesSchema.xml"
     atlas_adql_schema = ft.firethorn_engine.import_jdbc_metadoc(atlas_adql_url, atlas_jdbc_schema, metadoc)
@@ -173,7 +190,7 @@ if __name__ == "__main__":
     
     # Create a new ADQL resource to act as a workspace.
     adqlname="Query workspace"
-    queryspace = ft.firethorn_engine.create_adql_space(adqlname)
+    queryspace = ft.firethorn_engine.create_adql_resource(adqlname)
     print(queryspace)
     
     
@@ -225,4 +242,4 @@ if __name__ == "__main__":
     #print (osa.get_columns(table="TAP_SCHEMA.tables"))
     #table = osa.query("SELECT TOP 10 table_name as tname from TAP_SCHEMA.tables")
     #print (table.get_table())
-    
+    """
