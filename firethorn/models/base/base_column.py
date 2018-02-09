@@ -31,19 +31,31 @@ class BaseColumn(BaseObject):
 
 
     def type(self):
-        return
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("jdbc","")!=""):
+                return self.json_object.get("meta").get("jdbc").get("type","")
+        return None
     
     
     def arraysize(self):
-        return
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("arraysize","")
+        return None
      
      
     def ucd(self):
-        return       
-    
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("ucd","")
+        return ""
+           
     
     def utype(self):
-        return
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("utype","")
+        return None
     
     
     def __str__(self):

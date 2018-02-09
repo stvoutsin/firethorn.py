@@ -11,6 +11,7 @@ try:
 except Exception as e:
     logging.exception(e)
 
+
 class Firethorn(object):
     """
     Firethorn client class
@@ -138,20 +139,27 @@ if __name__ == "__main__":
     jdbc_name="ATLAS JDBC resource"
     jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
     atlas_jdbc = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.datauser, config.datapass)
-    print (str(atlas_jdbc))
-    print (atlas_jdbc.ident())
-    print (atlas_jdbc.name())
-    print (atlas_jdbc.owner())
-    print (atlas_jdbc.url)   
+    print ("atlas_jdbc: " +  str(atlas_jdbc))
+    print ("Ident: " + atlas_jdbc.ident())
+    print ("Name: " + atlas_jdbc.name())
+    print ("Owner: " + atlas_jdbc.owner())
+    print ("URL: " + atlas_jdbc.url)   
     
+    
+    print ("select_schemas() : ")
     print (atlas_jdbc.select_schemas()) 
+    print ("select_schema_by_ident(): ")
     print (atlas_jdbc.select_schema_by_ident("http://localhost:8081/firethorn/jdbc/schema/21061")) 
+    print ("select_schema_by_name(): ")
     print (atlas_jdbc.select_schema_by_name("ATLASDR1", "dbo")) 
-     
+    print ("create_schema(): ") 
+    print (atlas_jdbc.create_schema("dbo", "mySchema") ) ## ???? Not implemented yet
+    
     
     # Create an empty AdqlResource to represent the local JDBC database.
     adqlname="ATLAS ADQL resource"
     atlas_adql = ft.firethorn_engine.create_adql_resource(adqlname)
+    print ("atlas_adql: ")
     print (atlas_adql)
  
  
@@ -160,14 +168,64 @@ if __name__ == "__main__":
     catalog="ATLASDR1"
     schema="dbo"
     
-    print (ft.firethorn_engine.select_jdbc_resource_by_name(catalog)) ## ???
-    print (ft.firethorn_engine.select_jdbc_resource_by_ident(atlas_jdbc.url))
+    print ("select_jdbc_resource_by_name(): ")
+    print (ft.firethorn_engine.select_jdbc_resource_by_name(catalog)) ## ???  ## ???? Not implemented yet
+    print ("select_jdbc_resource_by_ident(): ")
+    print ( ft.firethorn_engine.select_jdbc_resource_by_ident(atlas_jdbc.url))
+    
+    
     
     atlas_jdbc_schema = ft.firethorn_engine.select_jdbc_schema_by_name(atlas_jdbc.url, catalog, schema)
-    #print (atlas_jdbc_schema)
- 
+    print ("atlas_jdbc_schema: ")
+    print (atlas_jdbc_schema)
+    print ("resource(): ")
+    print (atlas_jdbc_schema.resource())
+    print ("catalog_name(): " + atlas_jdbc_schema.catalog_name())
+    print ("select_tables(): ")
+    print (atlas_jdbc_schema.select_tables())
+    print ("select_table_by_ident(): ")
+    print (atlas_jdbc_schema.select_table_by_ident("http://localhost:8081/firethorn/jdbc/table/24105"))
+    print ("select_table_by_name(): ") 
+    print (atlas_jdbc_schema.select_table_by_name("Filter")) ## ???? ## ???? Not implemented yet
+    print ("create_table(): ") 
+    print (atlas_jdbc_schema.create_table("myTable")) ## ???? ## ???? Not implemented yet
+
+
+
+    filter_jdbc_table = atlas_jdbc_schema.select_table_by_ident("http://localhost:8081/firethorn/jdbc/table/24105")
+    print ("name(): " + filter_jdbc_table.name())
+    print ("ident(): " + filter_jdbc_table.ident())
+    print ("resource(): ") 
+    print (filter_jdbc_table.resource())
+    print ("schema(): ") 
+    print (filter_jdbc_table.schema())
+    print ("select_columns(): ") 
+    print (filter_jdbc_table.select_columns())
+    print ("select_column_by_ident(): ")
+    print (filter_jdbc_table.select_column_by_ident("http://localhost:8081/firethorn/jdbc/column/19980"))
+    print ("select_column_by_name(): ")
+    print (filter_jdbc_table.select_column_by_name("filterID")) ## ?? Not implemented yet
+    print ("create_column(): ")
+    print (filter_jdbc_table.create_column("myColumn")) ## ?? Not implemented yet
 
     
+    
+    filterID_jdbc_column = filter_jdbc_table.select_column_by_ident("http://localhost:8081/firethorn/jdbc/column/19980")
+    print ("url: " + filterID_jdbc_column.url)
+    print ("name(): " + filterID_jdbc_column.name())
+    print ("ident(): " + filterID_jdbc_column.ident())
+    print ("owner(): " + filterID_jdbc_column.owner())
+    print ("resource(): ")
+    print (filterID_jdbc_column.resource())
+    print ("schema(): ")
+    print (filterID_jdbc_column.schema())
+    print ("table(): ")
+    print (filterID_jdbc_column.table())
+    print ("type(): " + filterID_jdbc_column.type())
+    print ("arraysize(): " + str(filterID_jdbc_column.size()))
+    print ("ucd(): " + str(filterID_jdbc_column.ucd()))
+    print ("utype(): " + str(filterID_jdbc_column.utype()))
+
     """
     # Import the mapping between JDBC and ADQL tables.
     metadoc="meta/ATLASDR1_TablesSchema.xml"

@@ -16,3 +16,32 @@ class AdqlColumn(BaseColumn):
         Constructor
         """
         super().__init__(firethorn_engine, json_object, url) 
+        
+        
+    def type(self):
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("type","")
+        return None
+    
+    
+    def arraysize(self):
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("arraysize","")
+        return None
+     
+     
+    def ucd(self):
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("ucd","")
+        return None
+           
+    
+    def utype(self):
+        if (self.json_object.get("meta","")!=""):
+            if (self.json_object.get("meta").get("adql","")!=""):
+                return self.json_object.get("meta").get("adql").get("utype","")
+        return None
+    
