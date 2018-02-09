@@ -19,7 +19,7 @@ class BaseSchema(BaseObject):
         
         
     def resource(self):
-        return
+        return 
     
     
     def select_tables(self):

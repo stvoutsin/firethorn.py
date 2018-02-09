@@ -8,6 +8,7 @@ import urllib
 import json
 import logging
 import core.auth_engine
+import os
 
 class BaseObject(object):
     """
@@ -41,21 +42,27 @@ class BaseObject(object):
 
     def name(self):
         if (self.json_object==None):
-            self.json_object = self.firethorn_engine.get_json(self.url).get("name","")
+            if (self.url!=None):
+                self.json_object = self.firethorn_engine.get_json(self.url)
+                return self.json_object.get("name","")
         else:
             return self.json_object.get("name","")
         
         
     def ident(self):
         if (self.json_object==None):
-            self.json_object = self.firethorn_engine.get_json(self.url).get("ident","")
+            if (self.url!=None):
+                self.json_object = self.firethorn_engine.get_json(self.url)
+                return os.path.basename(self.json_object.get("self",""))
         else:
-            return self.json_object.get("ident","")
+            return os.path.basename(self.json_object.get("self",""))
         
         
     def owner(self):
         if (self.json_object==None):
-            self.json_object = self.firethorn_engine.get_json(self.url).get("owner","")
+            if (self.url!=None):
+                self.json_object = self.firethorn_engine.get_json(self.url)
+                return self.json_object.get("owner","")
         else:
             return self.json_object.get("owner","")
 

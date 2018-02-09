@@ -4,11 +4,11 @@ Created on Feb 8, 2018
 @author: stelios
 '''
 from base.base_resource import BaseResource
-from models.jdbc.jdbc_schema import JdbcSchema
 import urllib
 import config as config
 import json
 import logging
+import jdbc
 
 class JdbcResource(BaseResource):
     """
@@ -28,7 +28,7 @@ class JdbcResource(BaseResource):
     
     
     def select_schema_by_ident(self, ident):
-        return JdbcSchema(url=ident, firethorn_engine=self.firethorn_engine)
+        return jdbc.JdbcSchema(url=ident, firethorn_engine=self.firethorn_engine)
     
     
     def select_schema_by_name(self, catalog_name, schema_name):
@@ -43,7 +43,7 @@ class JdbcResource(BaseResource):
         except Exception as e:
             logging.exception(e)      
             
-        return JdbcSchema(json_object = response_json, firethorn_engine=self.firethorn_engine)
+        return jdbc.JdbcSchema(json_object = response_json, firethorn_engine=self.firethorn_engine)
     
     
     def create_schema(self, catalog_name, schema_name):

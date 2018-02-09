@@ -1,5 +1,5 @@
-from .jdbc_resource import *
-from .jdbc_schema import *
-from .jdbc_table import *
-from .jdbc_column import *
+from .jdbc_resource import JdbcResource
+from .jdbc_schema import JdbcSchema
+from .jdbc_table import JdbcTable
+from .jdbc_column import JdbcColumn
 
