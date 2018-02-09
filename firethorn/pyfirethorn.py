@@ -155,13 +155,6 @@ if __name__ == "__main__":
     print ("create_schema(): ") 
     print (atlas_jdbc.create_schema("dbo", "mySchema") ) ## ???? Not implemented yet
     
-    
-    # Create an empty AdqlResource to represent the local JDBC database.
-    adqlname="ATLAS ADQL resource"
-    atlas_adql = ft.firethorn_engine.create_adql_resource(adqlname)
-    print ("atlas_adql: ")
-    print (atlas_adql)
- 
  
     
     # Locate the JdbcSchema based on catalog and schema name. 
@@ -226,12 +219,26 @@ if __name__ == "__main__":
     print ("ucd(): " + str(filterID_jdbc_column.ucd()))
     print ("utype(): " + str(filterID_jdbc_column.utype()))
 
-    """
-    # Import the mapping between JDBC and ADQL tables.
-    metadoc="meta/ATLASDR1_TablesSchema.xml"
-    atlas_adql_schema = ft.firethorn_engine.import_jdbc_metadoc(atlas_adql_url, atlas_jdbc_schema, metadoc)
-    print (atlas_adql_schema)
+
     
+    # Create an empty AdqlResource to represent the local JDBC database.
+    adqlname="ATLAS ADQL resource"
+    atlas_adql = ft.firethorn_engine.create_adql_resource(adqlname)
+    print ("atlas_adql: ")
+    print (atlas_adql) 
+    print (ft.firethorn_engine.select_adql_resource_by_ident("http://localhost:8081/firethorn/adql/resource/26683"))
+    print (ft.firethorn_engine.select_adql_resource_by_name("ATLAS")) ## ?? Not implemented yet
+
+
+    
+    # Import the mapping between JDBC and ADQL tables.
+    metadoc="https://raw.githubusercontent.com/stvoutsin/firethorn.py/master/firethorn/meta/ATLASDR1_TablesSchema.xml"
+    atlas_adql_schema = atlas_adql.import_jdbc_schema(atlas_jdbc_schema, metadoc=metadoc)
+    atlas_adql_schemav2 = atlas_adql.import_jdbc_schema(atlas_jdbc_schema, schema_name="atlasV2")
+    print (atlas_adql_schema)
+    print (atlas_adql_schemav2)
+
+    """
     
     # Create an IvoaResource to represent the GAIA TAP resource.
     tapname="GAIA TAP service"
