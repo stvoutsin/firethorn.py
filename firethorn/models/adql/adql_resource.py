@@ -32,8 +32,23 @@ class AdqlResource(BaseResource):
         super().__init__(firethorn_engine, json_object, url) 
         
     
-    def create_adql_schema(self, catalog_name, schema_name):
-        return
+    def create_adql_schema(self, schema_name):
+        """
+        Create an Adql schema
+ 
+        """
+
+        try:
+           
+            if schema_name!="":
+                data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json'] : schema_name}).encode("utf-8")
+                req = urllib.request.Request( self.url + config.schema_create_uri, headers=self.firethorn_engine.identity.get_identity_as_headers()) 
+                with urllib.request.urlopen(req, data) as response:
+                    json_result = json.loads(response.read().decode("utf-8"))
+        except Exception as e:
+            logging.exception(e)
+            
+        return adql.AdqlSchema(firethorn_engine = self.firethorn_engine, json_object = json_result)
     
     
     def import_ivoa_schema(self, ivoa_schema, schema_name=None):
@@ -132,9 +147,38 @@ class AdqlResource(BaseResource):
         return adql.AdqlSchema(firethorn_engine = self.firethorn_engine, json_object = adqlschema)
     
         
+    def import_adql_schema(self, adql_schema, schema_name=None):                   
+        """Import a schema into a workspace for querying
+        
+        Parameters
+        ----------
+        name: string, required
+            Name of schema
+
+        import_schema: string, required
+            Schema to import
+
+        workspace: string, required
+            Workspace URL
+        
+        
+        """
+
+        try:
+            if schema_name:
+                importname = schema_name
+            else:
+                importname = adql_schema.name()
+            if importname!="":
+                data = urllib.parse.urlencode({config.workspace_import_schema_base : adql_schema.url, config.workspace_import_schema_name : importname}).encode("utf-8")
+                req = urllib.request.Request( self.url + config.workspace_import_uri, headers=self.firethorn_engine.identity.get_identity_as_headers()) 
+                with urllib.request.urlopen(req, data) as response:
+                    json_result = json.loads(response.read().decode("utf-8"))
+        except Exception as e:
+            logging.exception(e)
+            
+        return adql.AdqlSchema(firethorn_engine = self.firethorn_engine, json_object = json_result)
     
-    def import_adql_schema(self, AdqlSchema, schema_name=None):                   
-        return
     
     def select_schemas(self):
         return self.firethorn_engine.get_json(self.url + "/schemas/select")
@@ -144,10 +188,10 @@ class AdqlResource(BaseResource):
         return adql.AdqlSchema(url=ident, firethorn_engine=self.firethorn_engine)
     
     
-    def select_schema_by_name(self, catalog_name, schema_name):
+    def select_schema_by_name(self,schema_name):
         response_json = {}
         try :
-            data = urllib.parse.urlencode({config.schema_select_by_name_param : schema_name }).encode("utf-8")
+            data = urllib.parse.urlencode({config.resource_create_name_params["http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json"] : schema_name }).encode("utf-8")
             req = urllib.request.Request( self.url + "/schemas/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
 
             with urllib.request.urlopen(req, data) as response:

@@ -17,14 +17,20 @@ class BaseColumn(BaseObject):
         """
         super().__init__(firethorn_engine, json_object, url) 
         
-    
-    def resource(self):  
-        return
-    
-    
+
+    def resource(self):
+        if (self.json_object!=None):
+            return self.table().resource()
+        else:
+            return None 
+        
+
     def schema(self):
-        return 
-    
+        if (self.json_object!=None):
+            return self.table().schema()
+        else:
+            return None 
+        
     
     def table(self):
         return     

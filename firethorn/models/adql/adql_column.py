@@ -4,6 +4,8 @@ Created on Feb 8, 2018
 @author: stelios
 '''
 from base.base_column import BaseColumn
+import adql
+
 
 class AdqlColumn(BaseColumn):
     """
@@ -17,6 +19,11 @@ class AdqlColumn(BaseColumn):
         """
         super().__init__(firethorn_engine, json_object, url) 
         
+    def table(self):
+        if (self.json_object!=None):
+            return adql.AdqlTable(firethorn_engine=self.firethorn_engine, url=self.json_object.get("parent",""))
+        else:
+            return None         
         
     def type(self):
         if (self.json_object.get("meta","")!=""):

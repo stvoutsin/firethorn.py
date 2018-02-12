@@ -37,13 +37,6 @@ class JdbcSchema(BaseSchema):
             return None
     
     
-    def schema_name(self):
-        if (self.json_object!=None):
-            return self.json_object.get("fullname","")
-        else:
-            return None
-                   
-    
     def select_tables(self):
         return self.firethorn_engine.get_json(self.json_object.get("tables",""))
     
@@ -62,8 +55,8 @@ class JdbcSchema(BaseSchema):
          
         Returns
         -------
-        table_list: list
-            List of table names
+        JdbcTable: JdbcTable
+            The JdbcTable found
         """
         response_json = {}
         try :
@@ -76,7 +69,7 @@ class JdbcSchema(BaseSchema):
         except Exception as e:
             #logging.exception(e)   
             print (e)   
-            return   
+            
         return jdbc.JdbcTable(json_object = response_json, firethorn_engine=self.firethorn_engine)    
     
                            

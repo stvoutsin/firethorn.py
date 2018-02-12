@@ -22,6 +22,13 @@ class BaseSchema(BaseObject):
         return 
     
     
+    def schema_name(self):
+        if (self.json_object!=None):
+            return self.json_object.get("fullname","")
+        else:
+            return None
+        
+            
     def select_tables(self):
         return
     

@@ -3,8 +3,7 @@ Created on Jul 22, 2013
 
 @author: stelios
 '''
-from models.jdbc.jdbc_schema import JdbcSchema
-from models.adql.adql_resource import AdqlResource
+
 try:
     import urllib
     import json
@@ -17,6 +16,9 @@ try:
     import uuid
     import urllib.request
     from jdbc.jdbc_resource import JdbcResource
+    from models.jdbc.jdbc_schema import JdbcSchema
+    from models.adql.adql_resource import AdqlResource
+    from models.ivoa.ivoa_resource import IvoaResource
 except Exception as e:
     logging.exception(e)
 
@@ -115,6 +117,9 @@ class FirethornEngine(object):
 
 
     def system_info_check(self):
+        """
+        Check system info
+        """
         try :
             req = urllib.request.Request(self.endpoint + config.system_info, headers=self.identity.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
@@ -214,374 +219,6 @@ class FirethornEngine(object):
             
         return JdbcResource(json_object=jdbcspace, firethorn_engine=self)    
     
-
-    def import_jdbc_metadoc(self, adqlspace="", jdbcschema="", metadocfile=""):
-        """Import a JDBC Metadoc
-        
-        Parameters
-        ----------
-        adqlspace: string, required
-            ADQL Resource URL
-            
-        jdbcschema: string, required
-            JDBC Schema
-            
-        metadocfile: string, optional
-            Metadocfile location string 
-            
-        
-        Returns    
-        -------
-        adqlschema: string
-            The URL of the created ADQL Schema
-        
-        """
-      
-        adqlschema=""
-        #buf = StringIO()
-        buf = io.BytesIO()
-        try:
-           
-            c = pycurl.Curl()   
-
-            if (metadocfile.lower().startswith("http://") or metadocfile.lower().startswith("https://")):
-                unique_filename = str(uuid.uuid4())
-                tmpname = "/tmp/" + unique_filename
-
-                with urllib.request.urlopen(metadocfile) as response, open(tmpname, 'wb') as out_file:
-                    data = response.read() # a `bytes` object
-                    out_file.write(data)
-                
-                metadocfile = tmpname
-
-            c = pycurl.Curl()    
-
-
-            url = adqlspace + "/metadoc/import"        
-            values = [  
-                      ("metadoc.base", str(jdbcschema)),
-                      ("metadoc.file", (c.FORM_FILE, metadocfile))]
- 
-            c.setopt(c.URL, str(url))
-            c.setopt(c.HTTPPOST, values)
-            c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.identity.password!=None and self.identity.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                              "firethorn.auth.password", self.identity.password,
-                                              "firethorn.auth.community",self.identity.community
-                                            ])
-            elif (self.identity.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                              "firethorn.auth.password", self.identity.password,
-                                            ])    
-            elif (self.identity.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                              "firethorn.auth.community", self.identity.community,
-                                            ])    
-            else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                            ])    
-                     
-            c.perform()
-            c.close()
-            adqlschema = json.loads(buf.getvalue().decode("utf-8"))[0]["self"]
-            buf.close() 
-            
-        except Exception as e:
-            logging.exception(e)
-     
-        return adqlschema
-    
-    
-    def create_adql_resource(self, adqlspacename=None):
-        """Create an ADQL Resource
-        
-        Parameters
-        ----------
-        adqlspacename: string, required
-            ADQL Space name 
-            
-        
-        Returns    
-        -------
-        adqlresource: AdqlResource
-            The new AdqlResource 
-        
-        """
-        
-        adqlresource = ""
-        
-        try:
-            ### Create workspace
-            if adqlspacename==None:
-                t = datetime.now()
-                adqlspacename = 'workspace-' + t.strftime("%y%m%d_%H%M%S") 
-            data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json'] : adqlspacename}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.identity.get_identity_as_headers())
-            with urllib.request.urlopen(req, data) as response:
-                adqlresource =  json.loads(response.read().decode('utf-8'))
-            response.close()
-        except Exception as e:
-            logging.exception(e)
-            
-        return AdqlResource(json_object = adqlresource, firethorn_engine=self)
-                         
-                         
-    def select_adql_resources(self):
-        return
-    
-    
-    def select_adql_resource_by_name(self):
-        return
-    
-    
-    def select_adql_resource_by_ident(self, ident):
-        return AdqlResource(url=ident)
-
-
-    def import_schema(self, name, import_schema, workspace):
-        """Import a schema into a workspace for querying
-        
-        Parameters
-        ----------
-        name: string, required
-            Name of schema
-
-        import_schema: string, required
-            Schema to import
-
-        workspace: string, required
-            Workspace URL
-        
-        
-        """
-
-        try:
-            importname = name
-            if importname!="":
-                data = urllib.parse.urlencode({config.workspace_import_schema_base : import_schema, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( workspace + config.workspace_import_uri, headers=self.identity.get_identity_as_headers()) 
-                with urllib.request.urlopen(req, data) as response:
-                    response.read()
-        except Exception as e:
-            logging.exception(e)
-        return
-
-
-    def create_ivoa_space(self, ivoa_space_name, url):
-        """Create an IVOA resource
-        
-        Parameters
-        ----------
-        ivoa_space_name: string, required
-            Name of IVOA resource
-
-        url: string, required
-            URL of IVOA resource to import
-            
-        Returns
-        -------
-        ivoaspace: String
-            The IVOA resource URL 
-        
-        """
-        ivoaspace = None
-        try:
-            data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.identity.get_identity_as_headers()) 
-            with urllib.request.urlopen(req, data) as response:
-                ivoaspace =  json.loads(response.read().decode('utf-8'))["self"]
-            response.close()
-        except Exception as e:
-            logging.exception(e)
-
-        return ivoaspace
-
-
-    def import_vosi(self, vosi_file, ivoa_resource):
-        """Import VOSI
-        
-        Parameters
-        ----------
-        vosi_name: string, required
-            VOSI name
-
-        ivoa_resource: string, required
-            IVOA resource
-            
-        Returns
-        -------
-        schema: String
-            The Schema URL
-        
-        """
-      
-
-        schema = "" 
-        buf = io.BytesIO()
-
-        try:
-           
-            c = pycurl.Curl()   
-            if (vosi_file.lower().startswith("http://") or vosi_file.lower().startswith("https://")):
-                unique_filename = str(uuid.uuid4())
-                tmpname = "/tmp/" + unique_filename
-
-                with urllib.request.urlopen(vosi_file) as response, open(tmpname, 'wb') as out_file:
-                    data = response.read() # a `bytes` object
-                    out_file.write(data)
-                
-                vosi_file = tmpname
-
-            url = ivoa_resource + "/vosi/import"        
-            values = [  
-                      ("vosi.tableset", (c.FORM_FILE, vosi_file ))]
-                       
-            c.setopt(c.URL, str(url))
-            c.setopt(c.HTTPPOST, values)
-            c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.identity.password!=None and self.identity.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                              "firethorn.auth.password", self.identity.password,
-                                              "firethorn.auth.community",self.identity.community
-                                            ])
-            elif (self.identity.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                              "firethorn.auth.password", self.identity.password,
-                                            ])    
-            elif (self.identity.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                              "firethorn.auth.community", self.identity.community,
-                                            ])    
-            else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.identity.username,
-                                            ])    
-                                                   
-            c.perform()
-            c.close()
-            schema = json.loads(buf.getvalue().decode("utf-8"))[0]["self"]
-            buf.close() 
-            
-        except Exception as e:
-            logging.exception(e)
-     
-        return schema
-
-
-    def list_schemas(self, workspace):
-        """List Schemas in a workspace
-        """
-
-
-        try:
-            req = urllib.request.Request( workspace + "/schemas/select", headers=self.identity.get_identity_as_headers())
-            with urllib.request.urlopen(req) as response:
-                schemas =  json.loads(response.read().decode('utf-8'))
-            response.close()
-
-        except Exception as e:
-            logging.exception(e)
-
-        return schemas   
-
-
-
-    def select_ivoa_schema(self, findname="", ivoa_resource=""):
-        """Get IVOA Schema
-        
-        Parameters
-        ----------
-        findname: string, required
-            name of Schema to find
-
-        ivoa_resource: string, required
-            IVOA resource
-            
-        Returns
-        -------
-        schemaident: String
-            The Schema URL
-        
-        """
-
-
-        schemaident=""
-        try:
-            data = urllib.parse.urlencode({ "ivoa.schema.name" : findname }).encode("utf-8")
-            req = urllib.request.Request( ivoa_resource + "/schemas/select", headers=self.identity.get_identity_as_headers())
-            with urllib.request.urlopen(req, data) as response:
-                schemaident =  json.loads(response.read().decode('utf-8'))["self"]
-            response.close()
-
-        except Exception as e:
-            logging.exception(e)
-
-        return schemaident   
-
-
-    def import_ivoa_schema(self, ivoa_resource_name, ivoa_resource_url, ivoa_resource_xml, ivoa_resource_alias, ivoa_schema_import, query_resource):        
-        """Import a Schema from an IVOA resource into an ADQL resource
-        
-        Parameters
-        ----------
-        ivoa_resource_name: string, required 
-            IVOA Resource name
-
-        ivoa_resource_url: string, required
-            IVOA Resource URL  
-
-        ivoa_resource_xml: string, required  
-            IVOA Resource XML file  
-        
-        ivoa_resource_alias: string, required  
-            IVOA Resource Alias  
-
-        ivoa_schema_import: string, required  
-            IVOA Resource Import  
-
-        query_resource: string, required 
-            Query Resource 
-         
-        
-        """
-        ivoaspace = self.create_ivoa_space(ivoa_resource_name, ivoa_resource_url)
-        ivoaschema = self.import_vosi(ivoa_resource_xml, ivoaspace)
-        schema = self.get_ivoa_schema(ivoa_schema_import, ivoaspace)
-        self.import_schema(ivoa_resource_alias, schema, query_resource)
-        return
-
-    
-    def select_by_name(self, name, resource):
-        """Select by name
-        
-        Parameters
-        ----------
-        name: string, required
-            The name of the entity being searched for
-            
-        resource: string, required 
-            Resource to search 
-         
-        Returns
-        -------
-        string: string
-            The URL of the entity found
-        """
-        
-        response_json = []
-        schemaident = None
-        
-        try :
-            data = urllib.parse.urlencode({config.schema_select_by_name_param : name}).encode("utf-8")
-            req = urllib.request.Request( resource + "/schemas/select", headers=self.identity.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                schemaident = response_json["self"]
-        except Exception as e:
-            logging.exception(e)      
-            
-        return schemaident
     
     
     def select_jdbc_resource_by_name(self, name):
@@ -636,7 +273,151 @@ class FirethornEngine(object):
     
     def select_jdbc_resource_by_ident(self, ident):
         return JdbcResource(url=ident, firethorn_engine=self)
+
+    
+    def create_adql_resource(self, adqlspacename=None):
+        """Create an ADQL Resource
         
+        Parameters
+        ----------
+        adqlspacename: string, required
+            ADQL Space name 
+            
+        
+        Returns    
+        -------
+        adqlresource: AdqlResource
+            The new AdqlResource 
+        
+        """
+        
+        adqlresource = ""
+        
+        try:
+            ### Create workspace
+            if adqlspacename==None:
+                t = datetime.now()
+                adqlspacename = 'workspace-' + t.strftime("%y%m%d_%H%M%S") 
+            data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json'] : adqlspacename}).encode("utf-8")
+            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req, data) as response:
+                adqlresource =  json.loads(response.read().decode('utf-8'))
+            response.close()
+        except Exception as e:
+            logging.exception(e)
+            
+        return AdqlResource(json_object = adqlresource, firethorn_engine=self)
+                         
+                         
+    def select_adql_resources(self):
+        """
+        Select all ADQL Resources
+        """
+        adqlresource = {}
+        
+        try:
+ 
+            req = urllib.request.Request( self.endpoint + config.get_adql_resources_url, headers=self.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req) as response:
+                adqlresources =  json.loads(response.read().decode('utf-8'))
+            response.close()
+        except Exception as e:
+            logging.exception(e)
+            
+        return adqlresources
+    
+    
+    def select_adql_resource_by_name(self, resource_name):
+        """
+        Select an ADQL resource by name
+        """
+        return
+    
+    
+    def select_adql_resource_by_ident(self, ident):
+        """
+        Select an ADQL resource by ident
+        """
+        return AdqlResource(firethorn_engine=self, url=ident)
+
+
+    def select_ivoa_resources(self):
+        """
+        Select all ADQL Resources
+        """
+        ivoaresources = {}
+        
+        try:
+ 
+            req = urllib.request.Request( self.endpoint + config.get_ivoa_resources_url, headers=self.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req) as response:
+                ivoaresources =  json.loads(response.read().decode('utf-8'))
+            response.close()
+        except Exception as e:
+            logging.exception(e)
+            
+        return ivoaresources
+    
+    
+    def select_ivoa_resource_by_name(self, name):
+        return 
+    
+    
+    def select_ivoa_resource_by_ident(self, ident):
+        """
+        Select an IVOA resource by ident
+        """
+        return IvoaResource(firethorn_engine=self, url=ident)
+    
+
+    def create_ivoa_resource(self, ivoa_space_name, url):
+        """Create an IVOA resource
+        
+        Parameters
+        ----------
+        ivoa_space_name: string, required
+            Name of IVOA resource
+
+        url: string, required
+            URL of IVOA resource to import
+            
+        Returns
+        -------
+        ivoaspace: String
+            The IVOA resource URL 
+        
+        """
+        
+        ivoa_resource = None
+        try:
+            data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
+            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.identity.get_identity_as_headers()) 
+            with urllib.request.urlopen(req, data) as response:
+                ivoa_resource =  json.loads(response.read().decode('utf-8'))
+            response.close()
+        except Exception as e:
+            logging.exception(e)
+
+        return IvoaResource(firethorn_engine=self, json_object=ivoa_resource)
+    
+    
+    def list_schemas(self, workspace):
+        """List Schemas in a workspace
+        """
+
+        schemas = []
+        
+        try:
+            req = urllib.request.Request( workspace.url + "/schemas/select", headers=self.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req) as response:
+                schemas =  json.loads(response.read().decode('utf-8'))
+            response.close()
+
+        except Exception as e:
+            logging.exception(e)
+
+        return schemas   
+    
     
     def get_tables(self, schemaname):
         """Get tables
@@ -703,7 +484,7 @@ class FirethornEngine(object):
         return Identity (identity)
     
     
-    def get_attribute(self, ident, attr):
+    def _get_attribute(self, ident, attr):
         """Get an attribute of a JSON HTTP resource
         
         Parameters

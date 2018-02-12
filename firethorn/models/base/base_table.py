@@ -26,6 +26,10 @@ class BaseTable(BaseObject):
         return
     
     
+    def select_columns(self):
+        return self.firethorn_engine.get_json(self.json_object.get("columns",""))
+    
+        
     def __str__(self):
         """ Print Class as string
         """
