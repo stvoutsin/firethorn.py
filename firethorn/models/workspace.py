@@ -1,7 +1,7 @@
 import logging
 from models.query import Query, AsyncQuery
 from core.firethorn_engine import FirethornEngine
-from schema import Schema
+
 
 class Workspace(object):
     """
