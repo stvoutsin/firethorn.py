@@ -52,7 +52,22 @@ class AdqlResource(BaseResource):
     
     
     def import_ivoa_schema(self, ivoa_schema, schema_name=None):
-        return
+
+        try:
+            if schema_name:
+                importname = schema_name
+            else:
+                importname = ivoa_schema.name()
+                
+            if importname!="":
+                data = urllib.parse.urlencode({config.workspace_import_schema_base : ivoa_schema.url, config.workspace_import_schema_name : importname}).encode("utf-8")
+                req = urllib.request.Request( self.url + config.workspace_import_uri, headers=self.firethorn_engine.identity.get_identity_as_headers()) 
+                with urllib.request.urlopen(req, data) as response:
+                    json_result = json.loads(response.read().decode("utf-8"))
+        except Exception as e:
+            logging.exception(e)
+            
+        return adql.AdqlSchema(firethorn_engine = self.firethorn_engine, json_object = json_result)
     
     
     def import_jdbc_schema(self, jdbc_schema, schema_name=None, metadoc=None):                  
@@ -152,15 +167,11 @@ class AdqlResource(BaseResource):
         
         Parameters
         ----------
-        name: string, required
-            Name of schema
+        adql_schema: AdqlSchema, required
+            The AdqlSchema to import
 
-        import_schema: string, required
-            Schema to import
-
-        workspace: string, required
-            Workspace URL
-        
+        schema_name: string, optional
+            Name of Schema
         
         """
 
