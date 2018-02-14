@@ -1,7 +1,7 @@
 import logging
 from models.query import Query, AsyncQuery
 from core.firethorn_engine import FirethornEngine
-
+import models.adql as adql
 
 class Workspace(object):
     """
@@ -18,10 +18,11 @@ class Workspace(object):
         
     """
 
-    def __init__(self, ident=None, url=None, firethorn_engine=None):
+    def __init__(self, adql_resource=None, ident=None, url=None, firethorn_engine=None):
         self.firethorn_engine = firethorn_engine
         self.ident = ident
         self.url = url             
+        self.adql_resource = adql_resource
         return        
 
 
@@ -33,19 +34,47 @@ class Workspace(object):
     @ident.setter
     def ident(self, ident):
         self.__ident = ident 
-        self.firethorn_engine.adqlspace = ident
 
 
     @property
     def url(self):
         return self.__url
-        
-        
+                
+
     @url.setter
-    def queryspace(self, url):
-        self.__url = url
+    def url(self, url):
+        self.__url = url 
 
 
+    @property
+    def adql_resource(self):
+        return self.__adql_resource
+
+                
+    @adql_resource.setter
+    def adql_resource(self, adql_resource):
+        self.__adql_resource = adql_resource    
+
+    
+    def import_schema(self, schema_name=None, adql_schema=None):
+        """
+        Import a Schema into the workspace
+        """
+        
+        if adql_schema==None:
+            adql_schema = self.adql_resource.select_adql_schema_by_name(schema_name)
+      
+        self.adql_resource.import_adql_schema(adql_schema, schema_name)
+
+    
+    def get_schema(self, schema_name=None):
+        """
+        Get a copy of the schema by name
+        """
+        adql_schema = self.adql_resource.select_adql_schema_by_name(schema_name)
+        return adql_schema
+    
+    
     def query(self, query=""):
         """        
         Run a query on the imported resources
@@ -67,7 +96,7 @@ class Workspace(object):
         except Exception as e:
             logging.exception(e)   
              
-        query = Query(query, self.queryspace, firethorn_engine = self.firethorn_engine)
+        query = Query(query, self.adql_resource, firethorn_engine = self.firethorn_engine)
         query.run()
         return query
     
@@ -87,5 +116,5 @@ class Workspace(object):
             The created AsyncQuery
         """
              
-        return AsyncQuery(query, self.url, firethorn_engine = self.firethorn_engine)
+        return AsyncQuery(query, self.adql_resource, firethorn_engine = self.firethorn_engine)
 

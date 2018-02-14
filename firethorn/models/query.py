@@ -7,6 +7,7 @@ import logging
 from table import Table
 from core.query_engine import QueryEngine
 import urllib.request
+from models.adql import adql_resource
 try:
     import simplejson as json
 except ImportError:
@@ -33,11 +34,11 @@ class Query(object):
                   
     """
 
-    def __init__(self, querystring=None, queryspace=None, queryident=None, firethorn_engine=None):
+    def __init__(self, querystring=None, adql_resource=None, queryident=None, firethorn_engine=None):
         self.table = Table()
         self.error = None
         self.querystring = querystring
-        self.queryspace = queryspace
+        self.adql_resource = adql_resource
         self.firethorn_engine = firethorn_engine
         self.firethorn_query_engine = QueryEngine(firethorn_engine)
         self.queryident = queryident
@@ -80,13 +81,13 @@ class Query(object):
         
         
     @property
-    def queryspace(self):
-        return self.__queryspace
+    def adql_resource(self):
+        return self.__adql_resource
         
         
-    @queryspace.setter
-    def queryspace(self, queryspace):
-        self.__queryspace = queryspace    
+    @adql_resource.setter
+    def adql_resource(self, adql_resource):
+        self.__adql_resource = adql_resource    
         
     
     @property
@@ -104,7 +105,7 @@ class Query(object):
         
         """
         try: 
-            self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.queryspace, "AUTO", config.test_email, "SYNC")
+            self.queryident = self.firethorn_query_engine.run_query(self.querystring, "", self.adql_resource.url, "AUTO", config.test_email, "SYNC")
         except Exception as e:
             logging.exception(e)    
                 
@@ -178,11 +179,11 @@ class AsyncQuery(Query):
                     
     """
 
-    def __init__(self, querystring=None, queryspace=None, queryident=None, firethorn_engine = None):
-        super().__init__(querystring, queryspace, queryident, firethorn_engine=firethorn_engine)
+    def __init__(self, querystring=None, adql_resource=None, queryident=None, firethorn_engine = None):
+        super().__init__(querystring, adql_resource, queryident, firethorn_engine=firethorn_engine)
 
         try: 
-            self.queryident = self.firethorn_query_engine.create_query(self.querystring, "", self.queryspace, "AUTO", config.test_email)
+            self.queryident = self.firethorn_query_engine.create_query(self.querystring, "", self.adql_resource.url, "AUTO", config.test_email)
         except Exception as e:
             logging.exception(e)    
         
