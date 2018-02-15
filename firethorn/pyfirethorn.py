@@ -36,7 +36,7 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": config.default_endpoint + "/firethorn/adql/resource/56"}
+    __predefined_workspaces__ = {"OSA": config.osa_endpoint}
     __id__ = ""
     
     
@@ -90,7 +90,7 @@ class Firethorn(object):
         Workspace : Workspace
             A copy of the selected Workspace object
         """
-        return Workspace(ident=self.__predefined_workspaces__.get(name,None), firethorn_engine=self.firethorn_engine)
+        return Workspace(adql_resource=AdqlResource(url=self.__predefined_workspaces__.get(name,None),firethorn_engine=self.firethorn_engine), firethorn_engine=self.firethorn_engine)
     
     
     def new_workspace(self, name=None):
@@ -108,7 +108,7 @@ class Firethorn(object):
         """
         
         resource = self.firethorn_engine.create_adql_resource(name)
-        return AdqlResource(resource, firethorn_engine = self.firethorn_engine)
+        return Workspace(adql_resource=resource, firethorn_engine = self.firethorn_engine)
     
     
     def get_public_workspaces(self):

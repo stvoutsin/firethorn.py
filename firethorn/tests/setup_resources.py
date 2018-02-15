@@ -58,6 +58,8 @@ class Test(unittest.TestCase):
         
         # Jdbc Schema Tests
         atlas_jdbc_schema = ft.firethorn_engine.select_jdbc_schema_by_name(atlas_jdbc.url, catalog, schema)
+        filter_jdbc_table = atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].get("self"))
+
         print ("atlas_jdbc_schema: ")
         print (atlas_jdbc_schema)
         print ("resource(): ")
@@ -68,13 +70,12 @@ class Test(unittest.TestCase):
         print ("select_table_by_ident(): ")
         print (atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].get("self")))
         print ("select_table_by_name(): ") 
-        print (atlas_jdbc_schema.select_table_by_name("Filter")) ## ???? ## ???? Not implemented yet
+        print (atlas_jdbc_schema.select_table_by_name(filter_jdbc_table.name)) ## ???? ## ???? Not implemented yet
         print ("create_table(): ") 
         print (atlas_jdbc_schema.create_table("myTable")) ## ???? ## ???? Not implemented yet
     
     
         # Jdbc Table Tests
-        filter_jdbc_table = atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].get("self"))
         print ("name(): " + filter_jdbc_table.name())
         print ("ident(): " + filter_jdbc_table.ident())
         print ("resource(): ") 
@@ -84,15 +85,16 @@ class Test(unittest.TestCase):
         print ("select_columns(): ") 
         print (filter_jdbc_table.select_columns())
         print ("select_column_by_ident(): ")
-        print (filter_jdbc_table.select_column_by_ident(filter_jdbc_table.select_columns()[0].get("self")))
+        filterID_jdbc_column = filter_jdbc_table.select_column_by_ident(filter_jdbc_table.select_columns()[0].get("self"))
+        print (filterID_jdbc_column)
         print ("select_column_by_name(): ")
-        print (filter_jdbc_table.select_column_by_name("filterID")) ## ?? Not implemented yet
+        print (filter_jdbc_table.select_column_by_name(filterID_jdbc_column.name)) ## ?? Not implemented yet
         print ("create_column(): ")
         print (filter_jdbc_table.create_column("myColumn")) ## ?? Not implemented yet
     
         
         # Jdbc Column Tests
-        filterID_jdbc_column = filter_jdbc_table.select_column_by_ident(filter_jdbc_table.select_columns()[0].get("self"))
+        
         print ("url: " + filterID_jdbc_column.url)
         print ("name(): " + filterID_jdbc_column.name())
         print ("ident(): " + filterID_jdbc_column.ident())
@@ -130,22 +132,18 @@ class Test(unittest.TestCase):
         print (ivoa_schema.resource())
         print (ivoa_schema.schema_name())
         print (ivoa_schema.select_tables())
-        print (ivoa_schema.select_table_by_ident(ivoa_schema.select_tables()[0].get("self")))
-        print (ivoa_schema.select_table_by_name("allwise_original_valid"))
+        ivoa_table = ivoa_schema.select_table_by_ident(ivoa_schema.select_tables()[0].get("self"))
+        print (ivoa_table)
+        print (ivoa_schema.select_table_by_name(ivoa_table.name))
 
 
         # Test IVOA Table
-        ivoa_table = ivoa_schema.select_table_by_ident(ivoa_schema.select_tables()[0].get("self"))
         print (ivoa_table)
         print (ivoa_table.name())
         print (ivoa_table.select_columns())
-        print (ivoa_table.select_column_by_ident(ivoa_table.select_columns()[0].get("self")))
-        print (ivoa_table.select_column_by_name("tmass_key"))
-        
-        # Test IVOA Column
         ivoa_column = ivoa_table.select_column_by_ident(ivoa_table.select_columns()[0].get("self"))
         print (ivoa_column)
-                    
+        print (ivoa_table.select_column_by_name(ivoa_column.name))
         
         # Create an empty AdqlResource to represent the local JDBC database.
         adqlname="ATLAS ADQL resource"
@@ -214,7 +212,7 @@ class Test(unittest.TestCase):
         my_column = my_adql_table.select_column_by_ident(my_adql_table.select_columns()[0].get("self"))
         print (my_column)
         print ("select_column_by_name(): ")
-        print (my_adql_table.select_column_by_name("filterID")) ## ?? Not implemented yet
+        print (my_adql_table.select_column_by_name(my_column.name)) ## ?? Not implemented yet
         print ("create_column(): ")
         print (my_adql_table.create_adql_column("myColumn")) ## ?? Not implemented yet    
     

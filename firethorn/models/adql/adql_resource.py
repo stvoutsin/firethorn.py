@@ -174,7 +174,7 @@ class AdqlResource(BaseResource):
             Name of Schema
         
         """
-
+        json_result = {}
         try:
             if schema_name:
                 importname = schema_name
@@ -204,7 +204,6 @@ class AdqlResource(BaseResource):
         try :
             data = urllib.parse.urlencode({config.resource_create_name_params["http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json"] : schema_name }).encode("utf-8")
             req = urllib.request.Request( self.url + "/schemas/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
-
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
                 
