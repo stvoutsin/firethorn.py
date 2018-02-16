@@ -183,7 +183,7 @@ class AsyncQuery(Query):
         super().__init__(querystring, adql_resource, adql_query, firethorn_engine=firethorn_engine)
 
         try: 
-            self.adql_query = self.firethorn_query_engine.create_query(self.querystring, "", self.adql_resource.url, "AUTO", config.test_email)
+            self.adql_query = self.firethorn_query_engine.create_query( self.querystring, None, adql_resource, firethorn_engine)
         except Exception as e:
             logging.exception(e)    
         
@@ -195,13 +195,25 @@ class AsyncQuery(Query):
         Run Query
         """
         try: 
-            self.firethorn_query_engine.update_query_status(self.adql_query.url, "COMPLETED")
+            self.firethorn_query_engine.update_query(adql_resource=self.adql_resource, firethorn_engine=self.firethorn_engine, adql_query_status_next="COMPLETED")
         except Exception as e:
             logging.exception(e)    
             
         return 
     
 
+    def update (self, query_input):
+        """
+        Run Query
+        """
+        try: 
+            self.firethorn_query_engine.update_query(adql_resource=self.adql_resource, firethorn_engine=self.firethorn_engine, adql_query_input=query_input)
+        except Exception as e:
+            logging.exception(e)    
+            
+        return 
+    
+    
     def results (self):
         """
         Get Results

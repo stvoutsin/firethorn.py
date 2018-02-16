@@ -16,6 +16,7 @@ try:
     import io
     import uuid
     import urllib.request
+    from core.query_engine import QueryEngine
 except Exception as e:
     logging.exception(e)
     
@@ -214,27 +215,23 @@ class AdqlResource(BaseResource):
         return adql.AdqlSchema(json_object = response_json, firethorn_engine=self.firethorn_engine) 
     
 
-    def create_query(self, adql_query_input, adql_query_status_next, adql_query_wait_time=600000):
-        """
-        Create query
-        """
-        
-        json_result = {}
-        
+    def create_query(self, adql_query_input, adql_query_status_next="COMPLETED", adql_query_wait_time=600000):
+        qry_engine = QueryEngine()
+        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time)
+    
+    
+    def select_queries(self):
+        response_json = {}
         try :
-            from datetime import datetime
-            t = datetime.now()
-                     
-            urlenc = {config.query_param : adql_query_input}
-            data = urllib.parse.urlencode(urlenc).encode('utf-8')
-            request = urllib.request.Request(self.url + config.query_create_uri, data,headers=self.firethorn_engine.identity.get_identity_as_headers())
-            with urllib.request.urlopen(request) as response:
-                json_result = json.loads(response.read().decode('UTF-8'))
+
+            req = urllib.request.Request( self.url + "/queries/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req) as response:
+                response_json =  json.loads(response.read().decode('utf-8'))
                 
         except Exception as e:
-            if (type(e).__name__=="Timeout"):
-                raise
-            else:
-                logging.exception(e)
-
-        return adql_query.AdqlQuery(json_object=json_result, firethorn_engine=self.firethorn_engine)
+            logging.exception(e)      
+            
+        return response_json
+        
+    
+    

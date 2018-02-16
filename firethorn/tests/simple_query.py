@@ -63,11 +63,23 @@ class Test(unittest.TestCase):
         querytext = "SELECT * FROM ATLASDR1.Filter"
         
         admin_query = query_resource.create_query(querytext, "COMPLETED") 
+        admin_query.update(adql_query_status_next="COMPLETED")
         
+        print ("Creating query using AdqlQuery.. ")
+        print ("Running queries: ")
+        print ( query_resource.select_queries())
+        
+        while admin_query.status()=="RUNNING" or admin_query.status()=="READY":
+            print (admin_query.status())
+            time.sleep(5)
+            
+        
+        print ("Running query using Query (SYNC) class.. ")
         qry = wspace.query("Select top 2 * from ATLASDR1.Filter")
         print (qry.results().as_astropy())
-        
-        
+
+
+        print ("Running query using Query (ASYNC) class.. ")
         myquery = wspace.query_async(querytext)
         myquery.run()
         while myquery.status()=="RUNNING" or myquery.status()=="READY":
