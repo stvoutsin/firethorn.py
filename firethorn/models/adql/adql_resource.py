@@ -6,7 +6,6 @@ Created on Feb 8, 2018
 
 try:
     from base.base_resource import BaseResource
-    from adql_query import adql_query
     import adql
     import urllib
     import json
@@ -215,9 +214,9 @@ class AdqlResource(BaseResource):
         return adql.AdqlSchema(json_object = response_json, firethorn_engine=self.firethorn_engine) 
     
 
-    def create_query(self, adql_query_input, adql_query_status_next="COMPLETED", adql_query_wait_time=600000):
+    def create_query(self, adql_query_input, adql_query_status_next="COMPLETED", jdbc_schema_ident=None, adql_query_wait_time=600000):
         qry_engine = QueryEngine()
-        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time)
+        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time, jdbc_schema_ident=jdbc_schema_ident)
     
     
     def select_queries(self):

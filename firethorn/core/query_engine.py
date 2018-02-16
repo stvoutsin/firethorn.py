@@ -158,7 +158,7 @@ class QueryEngine(object):
         return AdqlQuery(json_object=query_create_result, firethorn_engine=self.firethorn_engine)
      
     
-    def create_query(self, adql_query_input, adql_query_status_next, adql_resource, firethorn_engine, adql_query_wait_time=600000):
+    def create_query(self, adql_query_input, adql_query_status_next, adql_resource, firethorn_engine, adql_query_wait_time=600000, jdbc_schema_ident=None):
         """
         Create query
         """
@@ -172,6 +172,8 @@ class QueryEngine(object):
                 urlenc.update({config.query_status_update : adql_query_status_next})
             if (adql_query_wait_time!=None):
                 urlenc.update({config.query_wait_time_param : adql_query_wait_time})
+            if (jdbc_schema_ident!=None):
+                urlenc.update({config.jdbc_schema_ident : jdbc_schema_ident})                
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
             request = urllib.request.Request(adql_resource.url + config.query_create_uri, data,headers=firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:

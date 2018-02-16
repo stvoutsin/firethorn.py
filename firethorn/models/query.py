@@ -8,6 +8,7 @@ from table import Table
 from core.query_engine import QueryEngine
 import urllib.request
 from models.adql import adql_resource
+import time
 try:
     import simplejson as json
 except ImportError:
@@ -106,6 +107,8 @@ class Query(object):
         """
         try: 
             self.adql_query = self.firethorn_query_engine.run_query(self.querystring, "", self.adql_resource.url, "AUTO", config.test_email, "SYNC")
+            while self.adql_query.status()=="RUNNING" or self.adql_query.status()=="READY":
+                time.sleep(5)
         except Exception as e:
             logging.exception(e)
         return 

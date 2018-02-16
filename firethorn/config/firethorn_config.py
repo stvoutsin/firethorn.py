@@ -55,6 +55,7 @@ ivoa_column_select_by_name_param = "ivoa.column.name"
 
 jdbc_schema_catalog = "jdbc.schema.catalog"
 jdbc_schema_schema = "jdbc.schema.schema"
+jdbc_schema_ident = "jdbc.schema.ident"
 
 query_create_uri = "/queries/create"
 query_update_uri = "/queries/update"
@@ -62,6 +63,7 @@ query_name_param = "adql.query.name"
 
 query_limit_rows_param = "adql.query.limit.rows"
 query_limit_time_param = "adql.query.limit.time"
+query_wait_time_param = "adql.query.limit.time"
 
 query_mode_param = "adql.query.mode"
 
