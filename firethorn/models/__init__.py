@@ -10,6 +10,7 @@ from base import *
 from jdbc import *
 from adql import *
 from ivoa import *
-
+from adql_query import *
+from query import *
 
 

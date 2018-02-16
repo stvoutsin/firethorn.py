@@ -8,6 +8,7 @@ import urllib.request
 import time
 import signal
 import firethorn_engine
+from models.adql_query.adql_query import AdqlQuery
 try:
     import simplejson as json
 except ImportError:
@@ -154,7 +155,7 @@ class QueryEngine(object):
                 logging.exception(e)
 
                     
-        return query_identity 
+        return AdqlQuery(json_object=query_create_result, firethorn_engine=self.firethorn_engine)
      
     
     def create_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", **kwargs):
@@ -191,15 +192,14 @@ class QueryEngine(object):
             with urllib.request.urlopen(request) as response:
                 rez = json.loads(response.read().decode('UTF-8'))
                 query_create_result = rez
-            query_identity = query_create_result["self"]
-                    
+                
         except Exception as e:
             if (type(e).__name__=="Timeout"):
                 raise
             else:
                 logging.exception(e)
 
-        return query_identity 
+        return AdqlQuery(json_object=query_create_result, firethorn_engine=self.firethorn_engine)
 
 
     def update_query_status(self, query_identity, status, **kwargs):

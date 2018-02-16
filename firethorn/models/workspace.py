@@ -4,6 +4,7 @@ from core.firethorn_engine import FirethornEngine
 import models.adql as adql
 import urllib
 import json
+from models.adql import adql_resource
 
 
 class Workspace(object):
@@ -93,7 +94,7 @@ class Workspace(object):
             The created Query
         """
         
-        query = Query(query, self.adql_resource, firethorn_engine = self.firethorn_engine)
+        query = Query(querystring=query, adql_resource=self.adql_resource, firethorn_engine = self.firethorn_engine)
         query.run()
         return query
     
@@ -113,7 +114,7 @@ class Workspace(object):
             The created AsyncQuery
         """
              
-        return AsyncQuery(query, self.adql_resource, firethorn_engine = self.firethorn_engine)
+        return AsyncQuery(querystring=query, adql_resource=self.adql_resource, firethorn_engine = self.firethorn_engine)
     
 
     def get_schemas(self):

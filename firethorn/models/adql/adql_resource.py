@@ -6,6 +6,7 @@ Created on Feb 8, 2018
 
 try:
     from base.base_resource import BaseResource
+    from adql_query import adql_query
     import adql
     import urllib
     import json
@@ -211,3 +212,29 @@ class AdqlResource(BaseResource):
             logging.exception(e)      
             
         return adql.AdqlSchema(json_object = response_json, firethorn_engine=self.firethorn_engine) 
+    
+
+    def create_query(self, adql_query_input, adql_query_status_next, adql_query_wait_time=600000):
+        """
+        Create query
+        """
+        
+        json_result = {}
+        
+        try :
+            from datetime import datetime
+            t = datetime.now()
+                     
+            urlenc = {config.query_param : adql_query_input}
+            data = urllib.parse.urlencode(urlenc).encode('utf-8')
+            request = urllib.request.Request(self.url + config.query_create_uri, data,headers=self.firethorn_engine.identity.get_identity_as_headers())
+            with urllib.request.urlopen(request) as response:
+                json_result = json.loads(response.read().decode('UTF-8'))
+                
+        except Exception as e:
+            if (type(e).__name__=="Timeout"):
+                raise
+            else:
+                logging.exception(e)
+
+        return adql_query.AdqlQuery(json_object=json_result, firethorn_engine=self.firethorn_engine)

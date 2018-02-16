@@ -4,6 +4,7 @@ Created on Feb 7, 2018
 @author: stelios
 '''
 import unittest
+from adql_query.adql_query import AdqlQuery
 
 try:
     import logging
@@ -59,11 +60,15 @@ class Test(unittest.TestCase):
         print (wspace.get_schemas())
         
         
+        querytext = "SELECT * FROM ATLASDR1.Filter"
+        
+        admin_query = query_resource.create_query(querytext, "COMPLETED") 
+        
         qry = wspace.query("Select top 2 * from ATLASDR1.Filter")
         print (qry.results().as_astropy())
         
         
-        myquery = wspace.query_async("SELECT * FROM ATLASDR1.Filter")
+        myquery = wspace.query_async(querytext)
         myquery.run()
         while myquery.status()=="RUNNING" or myquery.status()=="READY":
             print (myquery.status())

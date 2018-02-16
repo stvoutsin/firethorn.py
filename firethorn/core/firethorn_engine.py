@@ -10,7 +10,7 @@ try:
     import logging
     from datetime import datetime
     import config as config
-    from models import Identity
+    from models.identity import Identity
     import pycurl
     import io
     import uuid
