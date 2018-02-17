@@ -13,7 +13,7 @@ try:
     from core.firethorn_engine import FirethornEngine
     import config as config
     import time
-    import firethorn
+    from pyfirethorn import Firethorn
 except Exception as e:
     logging.exception(e)
 
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=config.default_endpoint + "/firethorn")
+        ft = Firethorn(endpoint=config.default_endpoint + "/firethorn")
         ft.login("orinoco", "wombleden", "wombles")
 
         

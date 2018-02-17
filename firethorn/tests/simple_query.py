@@ -4,7 +4,7 @@ Created on Feb 7, 2018
 @author: stelios
 '''
 import unittest
-from adql_query.adql_query import AdqlQuery
+
 
 try:
     import logging
@@ -12,9 +12,10 @@ try:
     from models.workspace import Workspace 
     from models import identity
     from core.firethorn_engine import FirethornEngine
+    from adql_query.adql_query import AdqlQuery
     import config as config
     import time
-    import firethorn
+    from pyfirethorn import Firethorn
 except Exception as e:
     logging.exception(e)
 
@@ -22,7 +23,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=config.default_endpoint + "/firethorn")
+        ft = Firethorn(endpoint=config.default_endpoint + "/firethorn")
         ft.login("orinoco", "wombleden", "wombles")
 
         
@@ -66,7 +67,7 @@ class Test(unittest.TestCase):
         admin_query.update(adql_query_status_next="COMPLETED")
         
         print ("Creating query using AdqlQuery.. ")
-        print ("Running queries: ")
+        print ("List of Running queries: ")
         print ( query_resource.select_queries())
         
         while admin_query.status()=="RUNNING" or admin_query.status()=="READY":
