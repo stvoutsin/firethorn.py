@@ -29,7 +29,7 @@
 
 
 secrethost='stv@shepseskaf.roe.ac.uk'
-secretfile='${HOME:?}/secret.store.blue.5Feb2018'
+secretfile='${HOME:?}/secret.store'
 
 secret()
 {

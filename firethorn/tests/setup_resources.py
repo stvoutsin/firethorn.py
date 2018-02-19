@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
         
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
-        atlas_jdbc = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.datauser, config.datapass)
+        atlas_jdbc = ft.firethorn_engine.create_jdbc_resource(jdbc_name , config.datadata, config.datacatalog, config.datatype, config.datahost, config.datauser, config.datapass)
         print ("atlas_jdbc: " +  str(atlas_jdbc))
         print ("Ident: " + atlas_jdbc.ident())
         print ("Name: " + atlas_jdbc.name())
@@ -237,7 +237,7 @@ class Test(unittest.TestCase):
 
         
         # List the workspace schema.
-        print (ft.firethorn_engine.list_schemas(atlas_adql))
+        print (atlas_adql.select_schemas())
 
 
 if __name__ == "__main__":

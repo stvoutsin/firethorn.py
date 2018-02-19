@@ -81,7 +81,7 @@ class Test(unittest.TestCase):
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
         jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.dataidentity, config.datapass)
+        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource(jdbc_name ,config.datadata, config.datacatalog, config.datatype, config.datahost, config.datauser, config.datapass)
         print (atlas_jdbc_url)
         print ("") 
     
@@ -93,7 +93,7 @@ class Test(unittest.TestCase):
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
         jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource("ATLAS" , config.dataurl, "ATLASDR1", jdbc_name, config.dataidentity, config.datapass)
+        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource(jdbc_name ,config.datadata, config.datacatalog, config.datatype, config.datahost, config.datauser, config.datapass)
         print (atlas_jdbc_url)
         print ("") 
         

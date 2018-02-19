@@ -55,24 +55,13 @@ class FirethornEngine(object):
     """
 
 
-    def __init__(self, jdbcspace="", adqlspace="", adqlschema="", query_schema="", schema_name="", schema_alias="", driver="", endpoint = "" , identity = None, **kwargs):
-
-        self.jdbcspace = ""
-        self.adqlspace =  ""
-        self.adqlschema = ""
-        self.query_schema = ""
-        self.schema_name = ""
-        self.schema_alias = ""
-        self.jdbcspace = jdbcspace
-        self.adqlspace =  adqlspace
-        self.adqlschema = adqlschema
-        self.query_schema = query_schema
-        self.schema_name = schema_name
-        self.schema_alias = schema_alias
+    def __init__(self, endpoint = "" , identity = None, driver="net.sourceforge.jtds.jdbc.Driver",**kwargs):
         self.driver = driver
         self.endpoint = endpoint
-        self.queryspace = None
-        self.identity = identity
+        if (identity==None):
+            self.identity = self.create_temporary_user()
+        else:
+            self.identity = identity
     
     
     def login(self, username=None, password=None, community=None):
@@ -151,63 +140,26 @@ class FirethornEngine(object):
         except Exception as e:
             logging.exception(e)
             
-        self.user = Identity(username = username, community = community)
+        self.identity = Identity(username = username, community = community)
         
          
-    def create_jdbc_resource(self, resourcename ,resourceurl, catalogname, jdbc_name, jdbc_resource_user="", jdbc_resource_pass=""):
-        """Import metadata, fetch Schema from file provided
-        
-        Parameters
-        ----------
-        resourcename: string, required
-            Resource name
-            
-        resourceuri: string, required
-            Resource URI
-            
-        catalogname: string, required
-            Catalog name
-            
-        ogsadainame: string, required
-            OGSADAI name
-      
-        jdbc_resource_user: string, optional
-            JDBC resource username
-            
-        jdbc_resource_pass: string, optional
-            JDBC resource password
-        
-        
-        Returns    
-        -------
-        jdbcspace: string
-            The URL of the created JDBC resource
-        
+    def create_jdbc_resource(self, resource_name , database, catalog, connection_type, host, username, password):
+
+        """ Create a Jdbc Resource
         """
         
-        jdbcspace=""
+        jdbcspace=None
         try:
-         
-            if jdbc_resource_user!="" and jdbc_resource_pass!="":
-                data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json'] : resourcename,
-                                     "jdbc.connection.url" : resourceurl,	
-                                     "jdbc.resource.catalog" : catalogname,
-                                     "jdbc.resource.name" : jdbc_name,
-                                     "jdbc.connection.driver" : self.driver,
-                                     "jdbc.connection.user" : jdbc_resource_user,
-                                     "jdbc.connection.pass" : jdbc_resource_pass
+            
+            data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json'] : resource_name,
+                                    "jdbc.resource.connection.database" : database,
+                                    "jdbc.resource.connection.catalog" :catalog, 
+                                    "jdbc.resource.connection.type" : connection_type, 
+                                    "jdbc.resource.connection.host" : host, 
+                                    "jdbc.resource.connection.user" : username, 
+                                    "jdbc.resource.connection.pass" : password
                                     }).encode("utf-8")
     
-
-            else :
-                data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json'] : resourcename ,
-                                     "jdbc.connection.url" : resourceurl,
-                                     "jdbc.catalog.name" : catalogname,
-                				     "jdbc.connection.driver" : self.driver,
-
-                                    }).encode("utf-8")
-
-
 
             req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.identity.get_identity_as_headers())
             response = urllib.request.urlopen(req,data)
@@ -313,7 +265,7 @@ class FirethornEngine(object):
         """
         Select all ADQL Resources
         """
-        adqlresource = {}
+        adqlresources = {}
         
         try:
  

@@ -40,9 +40,9 @@ class Firethorn(object):
     __id__ = ""
     
     
-    def __init__(self, username=None, password=None, endpoint = config.default_endpoint + "/firethorn", community=None, driver="net.sourceforge.jtds.jdbc.Driver"):
+    def __init__(self, username=None, password=None, endpoint = config.default_endpoint + "/firethorn", community=None):
         self.endpoint = endpoint
-        self.firethorn_engine =  FirethornEngine(driver = driver, endpoint=endpoint)
+        self.firethorn_engine =  FirethornEngine(endpoint=endpoint)
 
         if username!=None:
             self.firethorn_engine.login(username, password, community)            
