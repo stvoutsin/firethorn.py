@@ -79,6 +79,7 @@ adminuser=orinoco
 adminpass=wombleden
 
 guestgroup=friends
+osa_endpoint=http://gillian:8080/firethorn/adql/resource/76
 
 EOF
 
@@ -131,27 +132,31 @@ source ${HOME:?}/chain.properties
 # Clone the firethorn.py project
 #[user@virtual]
 
-git clone https://github.com/stvoutsin/firethorn.py.git
+pushd "${HOME:?}"
 
+    git clone https://github.com/stvoutsin/firethorn.py.git
+
+popd
 
 
 # -----------------------------------------------------
 # Build our python client image
 #[user@virtual]
 
-cd firethorn.py/docker
-docker build --tag "firethorn-py" firethorn-py
+pushd  "${HOME:?}/firethorn.py/docker"
 
+   docker build --tag "firethorn-py" firethorn-py
 
+popd
 
 # -----------------------------------------------------
 # Run our python client container
 #[user@virtual]
 
-cd ${HOME}/
-cp firethorn.py/docker/firethorn-py.yml ${HOME}/firethorn-py.yml
+pushd  "${HOME}/"
+    cp firethorn.py/docker/firethorn-py.yml ${HOME}/firethorn-py.yml
+    docker-compose --file "firethorn-py.yml" run firethorn-py
 
-docker-compose --file "firethorn-py.yml" run firethorn-py
 
 
 # -----------------------------------------------------
@@ -162,7 +167,7 @@ python3
 import firethorn
 import time
 
-ft = firethorn.Firethorn(endpoint=config.default_endpoint + "/firethorn")
+ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
 ft.login("orinoco", "wombleden", "wombles")
 
 
