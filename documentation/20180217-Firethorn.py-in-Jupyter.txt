@@ -1,0 +1,136 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2017, ROE (http://www.roe.ac.uk/)
+#
+#     This information is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This information is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#  
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#   </meta:licence>
+# </meta:header>
+#
+#
+
+
+## .. createvm 
+
+
+## ----------------------------------------------------- Add our secret function.
+#[user@virtual]
+
+
+secrethost='stv@shepseskaf.roe.ac.uk'
+secretfile='${HOME:?}/secret.store'
+
+secret()
+{
+    local key=${1:?}
+    ssh -o 'VisualHostKey=no' "${secrethost:?}" "sed -n 's/^${key}=\\(.*\\)/\\1/p' \"${secretfile:?}\"" 
+}
+
+secret 'ping'
+
+
+
+
+## -----------------------------------------------------  Set build tags & branch
+#[user@virtual]
+
+export buildtag=2.1.13
+branch=2.1.13
+
+
+
+
+## ---------------------------------------------------- Create our properties.
+#[user@virtual]
+
+
+cat > "${HOME:?}/chain.properties" << EOF
+
+metadata=postgres
+metauser=$(pwgen 20 1)
+metapass=$(pwgen 20 1)
+
+userhost=$(secret 'firethorn.user.host')
+userdata=$(secret 'firethorn.user.data')
+useruser=$(secret 'firethorn.user.user')
+userpass=$(secret 'firethorn.user.pass')
+
+datahost=$(secret 'firethorn.data.host')
+datadata=$(secret 'firethorn.data.data')
+datauser=$(secret 'firethorn.data.user')
+datapass=$(secret 'firethorn.data.pass')
+
+tunneluser=$(secret 'ssh.tunnel.user')
+tunnelhost=$(secret 'ssh.tunnel.host')
+
+admingroup=wombles
+adminuser=orinoco
+adminpass=wombleden
+
+guestgroup=friends
+osa_endpoint=http://gillian:8080/firethorn/adql/resource/208834 
+
+EOF
+
+
+
+
+## ------------------------------------------------------- Deploy Firethorn chain
+
+
+source chain.properties
+
+
+
+
+
+## ------------------------------------------------------- Run Jupyter Notebook container
+
+
+# Manual steps, that need to be fixed in run call..
+# Network, default_endpoint url, link to firethorn container
+
+  
+docker run -d -p 8888:8888  -e GRANT_SUDO="yes"  -e datahost="${datahost:?}"  -e datadata="${datadata:?}"  -e datauser="${datauser:?}"  -e datapass="${datapass:?}"  -e datadriver="net.sourceforge.jtds.jdbc.Driver"  -e dataurl="jdbc:jtds:sqlserver://${datahost:?}/${datadata:?}"  -e default_endpoint="http://gillian:8080" -e osa_endpoint="${osa_endpoint:?}" --link stv_gillian_1:gillian --net stv_miriam --user root --name firebook jupyter/base-notebook
+
+
+
+
+## ------------------------------------------------------- Bash into container, install Firethorn.py
+
+docker exec -it firebook bash
+
+
+apt-get update && apt-get install -y python3 python3-dev libssl-dev libpq-dev git build-essential libfontconfig1 libfontconfig1-dev libcurl4-openssl-dev unixodbc-bin unixodbc-dev nano curl
+git clone https://github.com/stvoutsin/firethorn.py.git /home/firethorn.py
+cd /home/firethorn.py/
+python3 setup.py install
+cd /home/jovyan/work/
+wget https://raw.githubusercontent.com/stvoutsin/firethorn.py/master/notebooks/FT_simple_query.ipynb
+
+jupyter notebook list
+
+## Grab link to open in local browser
+..
+
+
+
+
+## ------------------------------------------------------- Tunnel connection locally 
+
+ssh -L 8888:Ulov:8888 stv@Ulov
+
+
+
+## -------------------------------------------------------  Open link from last call in local browser

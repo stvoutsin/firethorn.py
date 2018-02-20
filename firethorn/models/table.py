@@ -55,7 +55,7 @@ class Table(object):
 
         query_json=[]
         try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
+            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json = json.loads(response.read().decode('utf-8'))            
         except Exception as e:
@@ -81,7 +81,7 @@ class Table(object):
         query_xml=""
         request=None
         try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.user.get_user_as_headers())
+            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_xml =  response.read().decode('utf-8')   
         except Exception as e:

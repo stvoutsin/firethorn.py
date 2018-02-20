@@ -8,6 +8,7 @@ import urllib.request
 import time
 import signal
 import firethorn_engine
+from models.adql_query.adql_query import AdqlQuery
 try:
     import simplejson as json
 except ImportError:
@@ -15,7 +16,7 @@ except ImportError:
 import re
 from utils.string_functions import string_functions
 string_functions = string_functions()
-from config import *
+import config as config
 import logging
 
 
@@ -66,7 +67,7 @@ class QueryEngine(object):
         
         """
  
-        request = urllib.request.Request(url,headers=self.firethorn_engine.user.get_user_as_headers())
+        request = urllib.request.Request(url,headers=self.firethorn_engine.identity.get_identity_as_headers())
         with urllib.request.urlopen(request) as response:
             query_json = response.read().decode('utf-8')
         return query_json            
@@ -113,7 +114,7 @@ class QueryEngine(object):
 
 
         def read_json(url):
-            request = urllib.request.Request(url,headers=self.firethorn_engine.user.get_user_as_headers())
+            request = urllib.request.Request(url,headers=self.firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json = response.read().decode('utf-8')
             return query_json        
@@ -124,17 +125,17 @@ class QueryEngine(object):
             if query_name=="":
                 query_name = 'query-' + t.strftime("%y%m%d_%H%M%S")
                      
-            urlenc = { query_name_param : query_name,  query_param : query, query_mode_param : query_mode}
+            urlenc = { config.query_name_param : query_name,  config.query_param : query, config.query_mode_param : query_mode}
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
-            request = urllib.request.Request(query_space + query_create_uri, data,headers=self.firethorn_engine.user.get_user_as_headers())
+            request = urllib.request.Request(query_space + config.query_create_uri, data,headers=self.firethorn_engine.identity.get_identity_as_headers())
     
             with urllib.request.urlopen(request) as response:
                 query_create_result = json.loads(response.read().decode('utf-8'))
             query_identity = query_create_result["self"]
             # Update query
-            urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time }
+            urlenc_updt = { config.query_limit_rows_param : config.firethorn_limits_rows_absolute, config.query_limit_time_param : config.firethorn_limits_time }
             data_updt = urllib.parse.urlencode(urlenc_updt).encode('utf-8')
-            request_updt = urllib.request.Request(query_identity, data_updt,headers=self.firethorn_engine.user.get_user_as_headers())
+            request_updt = urllib.request.Request(query_identity, data_updt,headers=self.firethorn_engine.identity.get_identity_as_headers())
                             
             with urllib.request.urlopen(request_updt) as response:
                 response.read().decode('utf-8')
@@ -142,8 +143,8 @@ class QueryEngine(object):
             if mode.upper()=="SYNC":
                 self.start_query_loop(query_identity)
             else:
-                data = urllib.parse.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('utf-8')
-                request = urllib.request.Request(query_identity, data,headers=self.firethorn_engine.user.get_user_as_headers())            
+                data = urllib.parse.urlencode({ config.query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('utf-8')
+                request = urllib.request.Request(query_identity, data,headers=self.firethorn_engine.identity.get_identity_as_headers())            
                 with urllib.request.urlopen(request) as response:
                     json.loads(response.read().decode('utf-8'))
                     
@@ -154,79 +155,66 @@ class QueryEngine(object):
                 logging.exception(e)
 
                     
-        return query_identity 
+        return AdqlQuery(json_object=query_create_result, firethorn_engine=self.firethorn_engine)
      
     
-    def create_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", **kwargs):
+    def create_query(self, adql_query_input, adql_query_status_next, adql_resource, firethorn_engine, adql_query_wait_time=600000, jdbc_schema_ident=None):
         """
-        Create query on a resource
-               
-        :param query:
-        :param query_name:
-        :param query_space:
-        :param query_mode:
-        :param test_email:
+        Create query
         """
         
-        query_space = string_functions.decode(query_space)
-        query_identity = ""
-
-
-        def read_json(url):
-            request = urllib.request.Request(url,headers=self.firethorn_engine.user.get_user_as_headers())
+        json_result = {}
+        
+        try :
+            from datetime import datetime                     
+            urlenc = {config.query_param : adql_query_input}
+            if (adql_query_status_next!=None):
+                urlenc.update({config.query_status_update : adql_query_status_next})
+            if (adql_query_wait_time!=None):
+                urlenc.update({config.query_wait_time_param : adql_query_wait_time})
+            if (jdbc_schema_ident!=None):
+                urlenc.update({config.jdbc_schema_ident : jdbc_schema_ident})                
+            data = urllib.parse.urlencode(urlenc).encode('utf-8')
+            request = urllib.request.Request(adql_resource.url + config.query_create_uri, data,headers=firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
-                query_json = response.read().decode('UTF-8')
-            return query_json        
+                json_result = json.loads(response.read().decode('UTF-8'))
+                
+        except Exception as e:
+            if (type(e).__name__=="Timeout"):
+                raise
+            else:
+                logging.exception(e)
 
+        return AdqlQuery(json_object=json_result, firethorn_engine=firethorn_engine)
+
+
+    def update_query(self,  adql_query, firethorn_engine, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None):
+        """
+        Create query
+        """
+        
+        json_result = {}
+        
         try :
             from datetime import datetime
-            t = datetime.now()
-            if query_name=="":
-                query_name = 'query-' + t.strftime("%y%m%d_%H%M%S")
-                     
-            urlenc = { query_name_param : query_name,  query_param : query, query_mode_param : query_mode}
+            urlenc = {config.query_param : adql_query_input}
+            if (adql_query_status_next!=None):
+                urlenc.update({config.query_status_update : adql_query_status_next})
+            if (adql_query_wait_time!=None):
+                urlenc.update({config.query_wait_time_param : adql_query_wait_time})
+                                                
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
-            
-            request = urllib.request.Request(query_space + query_create_uri, data,headers=self.firethorn_engine.user.get_user_as_headers())
+            request = urllib.request.Request(adql_query.url, data,headers=firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
-                rez = json.loads(response.read().decode('UTF-8'))
-                query_create_result = rez
-            query_identity = query_create_result["self"]
-                    
+                json_result = json.loads(response.read().decode('UTF-8'))
+                
         except Exception as e:
             if (type(e).__name__=="Timeout"):
                 raise
             else:
                 logging.exception(e)
 
-        return query_identity 
-
-
-    def update_query_status(self, query_identity, status, **kwargs):
-        """
-        Update a query
-               
-        :param queryident:
-        :param status:
-        """
-    
-  
-        try :
-            # Update query
-            urlenc_updt = { query_limit_rows_param : firethorn_limits_rows_absolute, query_limit_time_param : firethorn_limits_time, query_status_update : status }
-            data_updt = urllib.parse.urlencode(urlenc_updt).encode('utf-8')
-            request_updt = urllib.request.Request(query_identity, data_updt,headers=self.firethorn_engine.user.get_user_as_headers())
-            
-            with urllib.request.urlopen(request_updt) as response:
-                response.read().decode('utf-8')
-                    
-        except Exception as e:
-            if (type(e).__name__=="Timeout"):
-                raise
-            else:
-                logging.exception(e)
-                    
-        return  
+        return AdqlQuery(json_object=json_result, firethorn_engine=firethorn_engine)
 
 
     
@@ -238,25 +226,25 @@ class QueryEngine(object):
         @return: Results of query
         """
         
-        delay = INITIAL_DELAY
+        delay = config.INITIAL_DELAY
         start_time = time.time()
         elapsed_time = 0
         query_json = {'syntax' : {'friendly' : 'A problem occurred while running your query', 'status' : 'Error' }}
         
         try:
     
-            data = urllib.parse.urlencode({ query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('utf-8')
-            request = urllib.request.Request(url, data,headers=self.firethorn_engine.user.get_user_as_headers())
+            data = urllib.parse.urlencode({ config.query_status_update : "COMPLETED", "adql.query.wait.time" : 60000}).encode('utf-8')
+            request = urllib.request.Request(url, data,headers=self.firethorn_engine.identity.get_identity_as_headers())
             
             with urllib.request.urlopen(request) as response:
                 query_json =  json.loads(response.read().decode('utf-8'))
             query_status = "QUEUED"
 
-            while query_status=="QUEUED" or query_status=="RUNNING" and elapsed_time<MAX_ELAPSED_TIME:
+            while query_status=="QUEUED" or query_status=="RUNNING" and elapsed_time<config.MAX_ELAPSED_TIME:
                 query_json = json.loads(self.get_status(url))
                 query_status= query_json["status"]
                 time.sleep(delay)
-                if elapsed_time>MIN_ELAPSED_TIME_BEFORE_REDUCE and delay<MAX_DELAY:
+                if elapsed_time>config.MIN_ELAPSED_TIME_BEFORE_REDUCE and delay<config.MAX_DELAY:
                     delay = delay + delay
                 elapsed_time = int(time.time() - start_time)
 
@@ -272,8 +260,8 @@ class QueryEngine(object):
                 return {'Code' :-1,  'Content' :  query_json["syntax"]["status"] + ' - ' + query_json["syntax"]["friendly"] }
             elif query_status=="COMPLETED":
                 return {'Code' :1,  'Content' : query_json["results"]["formats"]["datatable"] }
-            elif elapsed_time>=MAX_ELAPSED_TIME:
-                return {'Code' :-1,  'Content' : 'Query error: Max run time (' + str(MAX_ELAPSED_TIME) + ' seconds) exceeded' }
+            elif elapsed_time>=config.MAX_ELAPSED_TIME:
+                return {'Code' :-1,  'Content' : 'Query error: Max run time (' + str(config.MAX_ELAPSED_TIME) + ' seconds) exceeded' }
             else:
                 return {'Code' :-1,  'Content' : 'Query error: A problem occurred while running your query' }
             

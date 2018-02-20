@@ -107,12 +107,15 @@ services:
         networks:
             - miriam
         environment:
-            datahost: "${datahost}"
-            datauser: "${datauser}"
-            datapass: "${datapass}"
+            datahost: "${datahost:?}"
+            datauser: "${datauser:?}"
+            datapass: "${datapass:?}"
+            datadata: "${datadata:?}" 
+            datacatalog: "${datadata:?}" 
+            datatype: "${datatype:?}" 
             datadriver: "net.sourceforge.jtds.jdbc.Driver"
-            dataurl: "jdbc:jtds:sqlserver://${datahost}/ATLASDR1"
             default_endpoint: "http://gillian:8080"
+            osa_endpoint:"${osa_endpoint:?}"
         depends_on:
             gillian:
                 condition: service_healthy

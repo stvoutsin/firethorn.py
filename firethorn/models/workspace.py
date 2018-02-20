@@ -1,7 +1,11 @@
 import logging
 from models.query import Query, AsyncQuery
 from core.firethorn_engine import FirethornEngine
-from schema import Schema
+import models.adql as adql
+import urllib
+import json
+from models.adql import adql_resource
+
 
 class Workspace(object):
     """
@@ -18,10 +22,11 @@ class Workspace(object):
         
     """
 
-    def __init__(self, ident=None, queryspace=None, firethorn_engine=None):
+    def __init__(self, adql_resource=None, ident=None, url=None, firethorn_engine=None):
         self.firethorn_engine = firethorn_engine
         self.ident = ident
-        self.queryspace = queryspace             
+        self.url = url             
+        self.adql_resource = adql_resource
         return        
 
 
@@ -33,19 +38,47 @@ class Workspace(object):
     @ident.setter
     def ident(self, ident):
         self.__ident = ident 
-        self.firethorn_engine.adqlspace = ident
 
 
     @property
-    def queryspace(self):
-        return self.__queryspace
-        
-        
-    @queryspace.setter
-    def queryspace(self, queryspace):
-        self.__queryspace = queryspace
+    def url(self):
+        return self.__url
+                
+
+    @url.setter
+    def url(self, url):
+        self.__url = url 
 
 
+    @property
+    def adql_resource(self):
+        return self.__adql_resource
+
+                
+    @adql_resource.setter
+    def adql_resource(self, adql_resource):
+        self.__adql_resource = adql_resource    
+
+    
+    def import_schema(self, adql_schema=None, schema_name=None):
+        """
+        Import a Schema into the workspace
+        """
+        
+        if adql_schema==None:
+            adql_schema = self.adql_resource.select_schema_by_name(schema_name)
+      
+        self.adql_resource.import_adql_schema(adql_schema, schema_name)
+
+    
+    def get_schema(self, schema_name=None):
+        """
+        Get a copy of the schema by name
+        """
+        adql_schema = self.adql_resource.select_schema_by_name(schema_name)
+        return adql_schema
+
+    
     def query(self, query=""):
         """        
         Run a query on the imported resources
@@ -61,13 +94,7 @@ class Workspace(object):
             The created Query
         """
         
-        try:
-            if (not self.queryspace):
-                self.queryspace = self.ident
-        except Exception as e:
-            logging.exception(e)   
-             
-        query = Query(query, self.queryspace, firethorn_engine = self.firethorn_engine)
+        query = Query(querystring=query, adql_resource=self.adql_resource, firethorn_engine = self.firethorn_engine)
         query.run()
         return query
     
@@ -86,61 +113,58 @@ class Workspace(object):
         query : `AsyncQuery`
             The created AsyncQuery
         """
+             
+        return AsyncQuery(querystring=query, adql_resource=self.adql_resource, firethorn_engine = self.firethorn_engine)
+    
+
+    def get_schemas(self):
+        """Get list of schemas in a workspace
+        """
+
+        schemas = []
         
         try:
-            if (not self.queryspace):
-                self.queryspace = self.ident
+            req = urllib.request.Request( self.adql_resource.url + "/schemas/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req) as response:
+                schemas_json =  json.loads(response.read().decode('utf-8'))
+            response.close()
+            for val in schemas_json:
+                schemas.append(val["name"])
+
         except Exception as e:
-            logging.exception(e)   
-             
-        return AsyncQuery(query, self.queryspace, firethorn_engine = self.firethorn_engine)
+            logging.exception(e)
 
-
-    def get_schema(self, name=""):
-        """        
-        Import a schema into this workspace
-        
-        Parameters
-        ----------
-        schema : str, required
-            The URL for the schema to import 
-            
-        Returns
-        -------
-        Schema : `Schema`
-            The Schema requested      
-
-        """
-        
-        return Schema(self.firethorn_engine.select_by_name(name, self.ident), name, self.ident)
-        
-
-    def import_schema(self, schema):
-        """        
-        Import a schema into this workspace
-        
-        Parameters
-        ----------
-        schema : str, required
-            The URL for the schema to import 
-            
-        """
-        
-        self.firethorn_engine.import_schema(schema.name, schema.ident, self.ident)
-        
-        
+        return schemas   
+    
+    
     def get_tables(self, schemaname):
-        """        
-        Get list of tables
+        """Get list of tables
         
         Parameters
         ----------
-        schema : str, required
-            The parent Schema name 
-            
+        schemaname: string, required
+            The name of the schema for which to return the children tables
+         
         Returns
         -------
-        list: list
-            List of Tables as strings
-        """     
-        return self.firethorn_engine.get_tables(schemaname)
+        table_list: list
+            List of table names
+        """
+        schemaident = self.adql_resource.select_schema_by_name(schemaname)
+        response_json = None
+        table_list = []
+        
+        try :
+            req_exc = urllib.request.Request( schemaident.url + "/tables/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            with urllib.request.urlopen(req_exc) as response:
+                response_json =  json.loads(response.read().decode('utf-8'))
+            for val in response_json:
+                table_list.append(val["name"])
+     
+        except Exception as e:
+            logging.exception(e)
+            
+        return table_list
+
+    
+

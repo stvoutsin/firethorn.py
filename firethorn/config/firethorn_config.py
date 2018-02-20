@@ -34,7 +34,8 @@ firethorn_limits_time = 6000000
 
 ### URL, Type and Parameter associations and Information
 get_jdbc_resources_url = "/firethorn/jdbc/resource/select"
-get_adql_resources_url = "/firethorn/adql/resource/select"
+get_adql_resources_url = "/adql/resource/select"
+get_ivoa_resources_url = "/ivoa/resource/select"
 
 get_param = 'id'
 
@@ -48,15 +49,21 @@ schema_import_schema_name = "adql.schema.table.import.name"
 schema_import_schema_base = "adql.table.base"
 schema_import_uri = "/tables/import"
 
+ivoa_schema_select_by_name_param = "ivoa.schema.name"
+ivoa_table_select_by_name_param = "ivoa.table.name"
+ivoa_column_select_by_name_param = "ivoa.column.name"
 
 jdbc_schema_catalog = "jdbc.schema.catalog"
 jdbc_schema_schema = "jdbc.schema.schema"
+jdbc_schema_ident = "jdbc.schema.ident"
 
 query_create_uri = "/queries/create"
 query_update_uri = "/queries/update"
 query_name_param = "adql.query.name"
+
 query_limit_rows_param = "adql.query.limit.rows"
 query_limit_time_param = "adql.query.limit.time"
+query_wait_time_param = "adql.query.limit.time"
 
 query_mode_param = "adql.query.mode"
 
@@ -90,9 +97,9 @@ resource_create_url_params = {
 
 
 resource_create_username_params = {
-                                   'http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json' : 'jdbc.connection.user',
-                                   'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json' : 'adql.resource.create.user',
-                                   'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-service-1.0.json' : 'adql.resource.create.user'
+                                   'http://data.metagrid.co.uk/wfau/firethorn/types/entity/jdbc-resource-1.0.json' : 'jdbc.connection.identity',
+                                   'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json' : 'adql.resource.create.identity',
+                                   'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-service-1.0.json' : 'adql.resource.create.identity'
                                    }
 
 
@@ -176,8 +183,7 @@ db_select_by_name_params = {
                             'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json': 'adql.resource.select.name',
                             'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-service-1.0.json': 'adql.resource.select.name'
                             }
-schema_select_by_name_param = "adql.schema.name"
-table_select_by_name_param = "adql.table.name"
+
 
 types = {
          'service' : 'http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-service-1.0.json', 
