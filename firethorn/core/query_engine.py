@@ -99,7 +99,7 @@ class QueryEngine(object):
     
     
                 
-    def run_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", mode="SYNC", **kwargs):
+    def run_query(self, query=None, query_name="", resource=None, query_mode="AUTO", test_email="", mode="SYNC", **kwargs):
         """
         Run a query on a resource
                
@@ -108,8 +108,10 @@ class QueryEngine(object):
         :param query_space:
         """
         
-        f=''
-        query_space = string_functions.decode(query_space)
+        query_space=''
+        
+        if (resource!=None):
+            query_space = string_functions.decode(resource.url)
         query_identity = ""
 
 

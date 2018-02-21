@@ -11,6 +11,7 @@ from jdbc import *
 from adql import *
 from ivoa import *
 from adql_query import *
+from adql_table import *
 from query import *
 
 

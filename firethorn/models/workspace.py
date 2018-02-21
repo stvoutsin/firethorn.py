@@ -14,31 +14,22 @@ class Workspace(object):
     Attributes
     ----------
       
-    ident: string, optional
-        The identity URL of the Workspace
+    adql_resource: AdqlResource, optional
+        The AdqlResource behind the workspace
+    
+    url: String, optional
+        A String representing the URL of the workspace
         
-    queryspace: string, optional
-        The URL of the query schema of the workspace
+    firethorn_engine: FirethornEngine, optional
+        A reference to the FirethornEngine
         
     """
 
-    def __init__(self, adql_resource=None, ident=None, url=None, firethorn_engine=None):
+    def __init__(self, adql_resource=None, url=None, firethorn_engine=None):
         self.firethorn_engine = firethorn_engine
-        self.ident = ident
         self.url = url             
         self.adql_resource = adql_resource
         return        
-
-
-    @property
-    def ident(self):
-        return self.__ident
-        
-        
-    @ident.setter
-    def ident(self, ident):
-        self.__ident = ident 
-
 
     @property
     def url(self):
@@ -93,10 +84,10 @@ class Workspace(object):
         query : `Query`
             The created Query
         """
-        
-        query = Query(querystring=query, adql_resource=self.adql_resource, firethorn_engine = self.firethorn_engine)
-        query.run()
-        return query
+        adql_query = self.adql_resource.create_query(query)
+        adql_query.run_sync()
+        return Query(adql_query=adql_query)
+
     
     
     def query_async(self, query=""):
@@ -113,9 +104,9 @@ class Workspace(object):
         query : `AsyncQuery`
             The created AsyncQuery
         """
-             
-        return AsyncQuery(querystring=query, adql_resource=self.adql_resource, firethorn_engine = self.firethorn_engine)
-    
+        adql_query = self.adql_resource.create_query(query)
+        return AsyncQuery(adql_query=adql_query)
+                
 
     def get_schemas(self):
         """Get list of schemas in a workspace

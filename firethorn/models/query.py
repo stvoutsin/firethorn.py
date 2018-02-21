@@ -35,40 +35,12 @@ class Query(object):
                   
     """
 
-    def __init__(self, querystring=None, adql_resource=None, adql_query=None, firethorn_engine=None):
+    def __init__(self, firethorn_engine=None, querystring=None,  adql_query=None):
         self.table = Table()
-        self.error = None
-        self.querystring = querystring
-        self.adql_resource = adql_resource
-        self.firethorn_engine = firethorn_engine
-        self.firethorn_query_engine = QueryEngine(firethorn_engine)
         self.adql_query = adql_query
+        self.firethorn_engine = firethorn_engine
         pass
        
-       
-    def _get_json(self, url): 
-        """Get request to a JSON service
-        
-        Parameters
-        ----------
-        url: string, required
-            JSON Web Resource URL
-            
-        Returns    
-        -------
-        query_json: json
-            JSON object returned by GET request
-        
-        """
-        query_json=None
-        request=None
-        try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
-            with urllib.request.urlopen(request) as response:
-                query_json =  json.loads(response.read().decode('UTF-8'))
-        except Exception as e:
-            logging.exception(e)
-        return query_json   
             
             
     @property
@@ -106,9 +78,7 @@ class Query(object):
         
         """
         try: 
-            self.adql_query = self.firethorn_query_engine.run_query(self.querystring, "", self.adql_resource.url, "AUTO", config.test_email, "SYNC")
-            while self.adql_query.status()=="RUNNING" or self.adql_query.status()=="READY":
-                time.sleep(5)
+            self.adql_query.run_sync()
         except Exception as e:
             logging.exception(e)
         return 
@@ -129,30 +99,15 @@ class Query(object):
 
 
     def status (self):
-        """Get Status message for query
+        """Get Status 
         """
-        
-        status = "UNKNOWN"
-        
-        try:
-            statusjson = self.firethorn_query_engine.get_status(self.adql_query.url)
-            status = json.loads(statusjson).get("status","UNKNOWN")
-        except Exception as e:
-            logging.exception(e)
-        
-        return status
+        return self.adql_query.status()
+
                    
-                   
-    def get_error (self):
+    def error (self):
         """Get Error message
         """
-        try: 
-            if not self.error:
-                self.error = Query._get_json(self, self.adql_query.url).get("syntax",[]).get("friendly",None)
-        except Exception as e:
-            logging.exception(e) 
-               
-        return self.error
+        return self.adql_query.get_error()
 
                         
     def __str__(self):
@@ -170,27 +125,14 @@ class AsyncQuery(Query):
     querystring: string, optional
         The Query as a sring
 
-    adql_resource: string, optional
-        The query Resource
-    
     adql_query: string, optional
         The AdqlQuery object
-        
-    firethorn_engine: FirethornEngine, optional
-        The Firethorn Engine currently driving this query   
                   
                     
     """
 
-    def __init__(self, querystring=None, adql_resource=None, adql_query=None, firethorn_engine = None):
-        super().__init__(querystring, adql_resource, adql_query, firethorn_engine=firethorn_engine)
-
-        try: 
-            self.adql_query = self.firethorn_query_engine.create_query( self.querystring, None, adql_resource, firethorn_engine)
-        except Exception as e:
-            logging.exception(e)    
-        
-        return 
+    def __init__(self, firethorn_engine=None, querystring=None, adql_query=None):
+        super().__init__(firethorn_engine, querystring, adql_query)
         
                      
     def run (self):
@@ -198,7 +140,7 @@ class AsyncQuery(Query):
         Run Query
         """
         try: 
-            self.firethorn_query_engine.update_query(adql_resource=self.adql_resource, firethorn_engine=self.firethorn_engine, adql_query_status_next="COMPLETED")
+            self.adql_query.update(adql_query_status_next="COMPLETED")
         except Exception as e:
             logging.exception(e)    
             
@@ -210,56 +152,13 @@ class AsyncQuery(Query):
         Run Query
         """
         try: 
-            self.firethorn_query_engine.update_query(adql_resource=self.adql_resource, firethorn_engine=self.firethorn_engine, adql_query_input=query_input)
+            self.adql_query.update(adql_query_input=query_input)
         except Exception as e:
             logging.exception(e)    
             
         return 
     
-    
-    def results (self):
-        """
-        Get Results
-        """
-        try: 
-            if not self.table.tableident:
-                self.table = Table(Query._get_json(self, self.adql_query.url).get("results",[]).get("table",None),firethorn_engine = self.firethorn_engine)
-        except Exception as e:
-            logging.exception(e)    
 
-        return self.table
-
-
-
-    def status (self):
-        """
-        Get Status message for query
-        """
-        
-        status = "UNKNOWN"
-        
-        try:
-            statusjson = self.firethorn_query_engine.get_status(self.adql_query.url)
-            status = json.loads(statusjson).get("status","UNKNOWN")
-        except Exception as e:
-            logging.exception(e)
-        
-        return status
-                   
-                   
-    def get_error (self):
-        """
-        Get Error message
-        """
-        try: 
-            if not self.error:
-                self.error = Query._get_json(self, self.adql_query.url).get("syntax",[]).get("friendly",None)
-        except Exception as e:
-            logging.exception(e) 
-               
-        return self.error
-
-                        
     def __str__(self):
         """ Print Class as string
         """
