@@ -29,7 +29,6 @@ setup(
     install_requires=[
         'numpy>=1.4.0',
         'astropy>=0.4.1',
-        'pyodbc>=4.0.21',
         'pyparsing>=2.2.0',
         'pycurl>=7.43.0'
     ]
