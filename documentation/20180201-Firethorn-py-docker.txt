@@ -179,7 +179,7 @@ python3
 import firethorn
 import time
 
-ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
+ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint)
 ft.login("orinoco", "wombleden", "wombles")
 
 

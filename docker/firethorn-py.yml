@@ -114,7 +114,7 @@ services:
             datacatalog: "${datadata}" 
             datatype: "${datatype}" 
             datadriver: "net.sourceforge.jtds.jdbc.Driver"
-            default_endpoint: "http://gillian:8080"
+            default_endpoint: "http://gillian:8080/firethorn"
             osa_endpoint: "${osa_endpoint}"
         depends_on:
             gillian:
