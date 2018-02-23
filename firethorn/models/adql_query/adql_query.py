@@ -97,6 +97,15 @@ class AdqlQuery(BaseObject):
                 return self.json_object.get("results","")
         else:
             return self.json_object.get("results","")
+
+
+    def table(self):
+        if (self.json_object==None):
+            if (self.url!=None):
+                self.json_object = self.firethorn_engine.get_json(self.url)
+                return self.json_object.get("results","").get("table",None)
+        else:
+            return self.json_object.get("results","").get("table",None)  
         
         
     def getAttr(self, attribute):
@@ -115,7 +124,7 @@ class AdqlQuery(BaseObject):
     def run_sync(self):
         self.query_engine.run_query(self.adql(), "", self.resource(), "AUTO", None, "SYNC")
         while self.status()=="RUNNING" or self.status()=="READY":
-            time.sleep(5)
+            time.sleep(3)
         
         return 
              

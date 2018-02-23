@@ -36,12 +36,10 @@ class Query(object):
     """
 
     def __init__(self, firethorn_engine=None, querystring=None,  adql_query=None):
-        self.table = Table()
         self.adql_query = adql_query
         self.firethorn_engine = firethorn_engine
         pass
        
-            
             
     @property
     def querystring(self):
@@ -51,16 +49,6 @@ class Query(object):
     @querystring.setter
     def querystring(self, querystring):
         self.__querystring = querystring
-        
-        
-    @property
-    def adql_resource(self):
-        return self.__adql_resource
-        
-        
-    @adql_resource.setter
-    def adql_resource(self, adql_resource):
-        self.__adql_resource = adql_resource    
         
     
     @property
@@ -88,14 +76,11 @@ class Query(object):
         """Get Results
         
         """
-        try: 
-            if not self.table.tableident:
-                self.table = Table(Query._get_json(self, self.adql_query.url).get("results",[]).get("table",None), firethorn_engine=self.firethorn_engine)
-        except Exception as e:
-            logging.exception(e)    
-
-        return self.table
-
+        if (self.adql_query!=None):
+            if (self.adql_query.table()!=None):
+                return Table(table=self.adql_query.table(), firethorn_engine=self.firethorn_engine)
+        
+        return None
 
 
     def status (self):

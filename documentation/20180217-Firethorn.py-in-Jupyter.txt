@@ -112,7 +112,7 @@ docker run -d -p 8888:8888  -e GRANT_SUDO="yes"  -e datahost="${datahost:?}"  -e
 docker exec -it firebook bash
 
 
-apt-get update && apt-get install -y python3 python3-dev libssl-dev libpq-dev git build-essential libfontconfig1 libfontconfig1-dev libcurl4-openssl-dev unixodbc-bin unixodbc-dev nano curl
+apt-get update && apt-get install -y  python3 python3-pip python3-pycurl git
 git clone https://github.com/stvoutsin/firethorn.py.git /home/firethorn.py
 cd /home/firethorn.py/
 python3 setup.py install
