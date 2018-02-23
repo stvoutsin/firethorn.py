@@ -7,14 +7,7 @@ Created on Feb 8, 2018
 try:
     import logging
     from models.base.base_object import BaseObject
-    import urllib
-    import json
-    import config as config
     import os
-    import pycurl
-    import io
-    import uuid
-    import urllib.request
     import core as core
     import adql
     import time
@@ -28,18 +21,18 @@ class AdqlQuery(BaseObject):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, auth_engine, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(firethorn_engine, json_object, url) 
-        self.query_engine = core.query_engine.QueryEngine(self.firethorn_engine)
+        super().__init__(auth_engine, json_object, url) 
+        self.query_engine = core.query_engine.QueryEngine(self.auth_engine)
         
         
     def ident(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return os.path.basename(self.json_object.get("self",""))
         else:
             return os.path.basename(self.json_object.get("self",""))
@@ -47,7 +40,7 @@ class AdqlQuery(BaseObject):
         
     def resource(self):
         if (self.json_object!=None):
-            return adql.AdqlResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("workspace",""))
+            return adql.AdqlResource(auth_engine=self.auth_engine, url=self.json_object.get("workspace",""))
         else:
             return None 
         
@@ -55,7 +48,7 @@ class AdqlQuery(BaseObject):
     def osql(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("osql","")
         else:
             return self.json_object.get("osql","")
@@ -64,7 +57,7 @@ class AdqlQuery(BaseObject):
     def adql(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("adql","")
         else:
             return self.json_object.get("adql","")
@@ -84,7 +77,7 @@ class AdqlQuery(BaseObject):
     def status(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("status","").upper()
         else:
             return self.json_object.get("status","").upper()
@@ -93,7 +86,7 @@ class AdqlQuery(BaseObject):
     def results(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("results","")
         else:
             return self.json_object.get("results","")
@@ -102,7 +95,7 @@ class AdqlQuery(BaseObject):
     def table(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("results","").get("table",None)
         else:
             return self.json_object.get("results","").get("table",None)  
@@ -111,14 +104,14 @@ class AdqlQuery(BaseObject):
     def getAttr(self, attribute):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get(attribute,"")
         else:
             return self.json_object.get(attribute,"")
         
     
     def update(self, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None):
-        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time)
+        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, auth_engine=self.auth_engine, adql_query_wait_time=adql_query_wait_time)
 
 
     def run_sync(self):

@@ -1,7 +1,5 @@
 import logging
 from models.query import Query, AsyncQuery
-from core.firethorn_engine import FirethornEngine
-import models.adql as adql
 import urllib
 import json
 from models.adql import adql_resource
@@ -20,13 +18,13 @@ class Workspace(object):
     url: String, optional
         A String representing the URL of the workspace
         
-    firethorn_engine: FirethornEngine, optional
-        A reference to the FirethornEngine
+    auth_engine: AuthEngine, optional
+        A reference to the AuthEngine
         
     """
 
-    def __init__(self, adql_resource=None, url=None, firethorn_engine=None):
-        self.firethorn_engine = firethorn_engine
+    def __init__(self, adql_resource=None, url=None, auth_engine=None):
+        self.auth_engine = auth_engine
         self.url = url             
         self.adql_resource = adql_resource
         return        
@@ -86,7 +84,7 @@ class Workspace(object):
         """
         adql_query = self.adql_resource.create_query(query)
         adql_query.run_sync()
-        return Query(adql_query=adql_query)
+        return Query(adql_query=adql_query, auth_engine=self.auth_engine)
 
     
     
@@ -105,7 +103,7 @@ class Workspace(object):
             The created AsyncQuery
         """
         adql_query = self.adql_resource.create_query(query)
-        return AsyncQuery(adql_query=adql_query)
+        return AsyncQuery(adql_query=adql_query, auth_engine=self.auth_engine)
                 
 
     def get_schemas(self):
@@ -115,7 +113,7 @@ class Workspace(object):
         schemas = []
         
         try:
-            req = urllib.request.Request( self.adql_resource.url + "/schemas/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.adql_resource.url + "/schemas/select", headers=self.auth_engine.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 schemas_json =  json.loads(response.read().decode('utf-8'))
             response.close()
@@ -146,7 +144,7 @@ class Workspace(object):
         table_list = []
         
         try :
-            req_exc = urllib.request.Request( schemaident.url + "/tables/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            req_exc = urllib.request.Request( schemaident.url + "/tables/select", headers=self.auth_engine.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
             for val in response_json:

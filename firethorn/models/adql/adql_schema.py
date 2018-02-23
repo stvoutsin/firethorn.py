@@ -7,7 +7,6 @@ from base.base_schema import BaseSchema
 import adql
 import urllib
 import json
-import config as config
 
 class AdqlSchema(BaseSchema):
     """
@@ -15,26 +14,26 @@ class AdqlSchema(BaseSchema):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, auth_engine, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(auth_engine, json_object, url) 
         
         
     def resource(self):
         if (self.json_object!=None):
-            return adql.AdqlResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("parent",""))
+            return adql.AdqlResource(auth_engine=self.auth_engine, url=self.json_object.get("parent",""))
         else:
             return None 
         
         
     def select_tables(self):
-        return self.firethorn_engine.get_json(self.json_object.get("tables",""))
+        return self.get_json(self.json_object.get("tables",""))
     
         
     def select_table_by_ident(self, ident):
-        return adql.AdqlTable(firethorn_engine=self.firethorn_engine, url=ident)
+        return adql.AdqlTable(auth_engine=self.auth_engine, url=ident)
     
     
     def select_table_by_name(self, table_name):
@@ -53,7 +52,7 @@ class AdqlSchema(BaseSchema):
         response_json = {}
         try :
             data = urllib.parse.urlencode({ "adql.table.name": table_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/tables/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.url + "/tables/select", headers=self.auth_engine.get_identity_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
@@ -62,7 +61,7 @@ class AdqlSchema(BaseSchema):
             #logging.exception(e)   
             print (e)   
             
-        return adql.AdqlTable(json_object = response_json, firethorn_engine=self.firethorn_engine)    
+        return adql.AdqlTable(json_object = response_json, auth_engine=self.auth_engine)    
     
                            
     def create_table(self, table_name):

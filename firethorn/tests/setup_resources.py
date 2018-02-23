@@ -7,12 +7,7 @@ import unittest
 
 try:
     import logging
-    from models.query import Query
-    from models.workspace import Workspace 
-    from models import identity
-    from core.firethorn_engine import FirethornEngine
     import config as config
-    import time
     from pyfirethorn import Firethorn
 except Exception as e:
     logging.exception(e)

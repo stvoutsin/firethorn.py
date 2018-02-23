@@ -5,31 +5,24 @@ Created on Nov 4, 2017
 '''
 
 from astropy.table import Table as astropy_Table
-import urllib.request
 import logging
 try:
     import simplejson as json
 except ImportError:
     import json
-from config import *
 import warnings
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
 
 class Table(object):
     """Table class, equivalent to a Firethorn ADQL Table
-    
-    Attributes
-    ----------
-    tableident: string, optional
-        The Identity URL of the table  
     """
 
 
-    def __init__(self, firethorn_engine=None, table=None):
+    def __init__(self, auth_engine=None, table=None):
         
         self.table = table
-        self.firethorn_engine = firethorn_engine
+        self.auth_engine = auth_engine
         if (self.table!=None):
             self.astropy_table = astropy_Table.read(self.table.url + "/votable", format="votable")        
         else:
@@ -44,17 +37,7 @@ class Table(object):
     @astropy_table.setter
     def astropy_table(self, astropy_table):
         self.__astropy_table = astropy_table
- 
- 
-    @property
-    def tableident(self):
-        return self.__tableident
         
-        
-    @tableident.setter
-    def tableident(self, tableident):
-        self.__tableident = tableident       
- 
         
     def as_astropy (self):
         """Get Astropy table

@@ -8,16 +8,10 @@ Created on Feb 21, 2018
 try:
     import logging
     from models.base.base_object import BaseObject
-    import urllib
     import json
-    import config as config
     import os
-    import pycurl
-    import io
-    import uuid
     import urllib.request
     import adql
-    import time
 except Exception as e:
     logging.exception(e)
     
@@ -28,17 +22,17 @@ class AdqlTable(BaseObject):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, auth_engine, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(auth_engine, json_object, url) 
         
         
     def ident(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return os.path.basename(self.json_object.get("self",""))
         else:
             return os.path.basename(self.json_object.get("self",""))
@@ -46,7 +40,7 @@ class AdqlTable(BaseObject):
         
     def resource(self):
         if (self.json_object!=None):
-            return adql.AdqlResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("parent",""))
+            return adql.AdqlResource(auth_engine=self.auth_engine, url=self.json_object.get("parent",""))
         else:
             return None 
 
@@ -94,7 +88,7 @@ class AdqlTable(BaseObject):
 
         query_json=[]
         try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
+            request = urllib.request.Request(url, headers=self.auth_engine.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_json = json.loads(response.read().decode('utf-8'))            
         except Exception as e:
@@ -120,7 +114,7 @@ class AdqlTable(BaseObject):
         query_xml=""
         request=None
         try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
+            request = urllib.request.Request(url, headers=self.auth_engine.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
                 query_xml =  response.read().decode('utf-8')   
         except Exception as e:

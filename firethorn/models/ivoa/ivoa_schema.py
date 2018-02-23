@@ -20,26 +20,26 @@ class IvoaSchema(BaseSchema):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, auth_engine, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(auth_engine, json_object, url) 
         
 
     def select_tables(self):
-        return self.firethorn_engine.get_json(self.url + "/tables/select")
+        return self.get_json(self.url + "/tables/select")
     
     
     def select_table_by_ident(self, ident):
-        return ivoa.IvoaTable(url=ident, firethorn_engine=self.firethorn_engine)
+        return ivoa.IvoaTable(url=ident, auth_engine=self.auth_engine)
     
     
     def select_table_by_name(self,table_name):
         response_json = {}
         try :
             data = urllib.parse.urlencode({config.ivoa_table_select_by_name_param : table_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/tables/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.url + "/tables/select", headers=self.auth_engine.get_identity_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
@@ -47,6 +47,6 @@ class IvoaSchema(BaseSchema):
         except Exception as e:
             logging.exception(e)      
             
-        return ivoa.IvoaTable(json_object = response_json, firethorn_engine=self.firethorn_engine)  
+        return ivoa.IvoaTable(json_object = response_json, auth_engine=self.auth_engine)  
             
             

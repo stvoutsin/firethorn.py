@@ -5,15 +5,10 @@ Created on Nov 4, 2017
 '''
 import logging
 from table import Table
-from core.query_engine import QueryEngine
-import urllib.request
-from models.adql import adql_resource
-import time
 try:
     import simplejson as json
 except ImportError:
     import json
-import config as config
 
 
 class Query(object):
@@ -35,9 +30,11 @@ class Query(object):
                   
     """
 
-    def __init__(self, firethorn_engine=None, querystring=None,  adql_query=None):
+    def __init__(self, auth_engine=None, querystring=None,  adql_query=None):
         self.adql_query = adql_query
-        self.firethorn_engine = firethorn_engine
+        self.querystring = querystring
+        if (self.auth_engine==None and self.adql_query!=None):
+            self.auth_engine = self.adql_query.auth_engine
         pass
        
             
@@ -78,7 +75,7 @@ class Query(object):
         """
         if (self.adql_query!=None):
             if (self.adql_query.table()!=None):
-                return Table(table=self.adql_query.table(), firethorn_engine=self.firethorn_engine)
+                return Table(table=self.adql_query.table(), auth_engine=self.auth_engine)
         
         return None
 
@@ -116,8 +113,8 @@ class AsyncQuery(Query):
                     
     """
 
-    def __init__(self, firethorn_engine=None, querystring=None, adql_query=None):
-        super().__init__(firethorn_engine, querystring, adql_query)
+    def __init__(self, auth_engine=None, querystring=None, adql_query=None):
+        super().__init__(auth_engine=auth_engine, querystring=querystring, adql_query=adql_query)
         
                      
     def run (self):
