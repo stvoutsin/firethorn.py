@@ -18,7 +18,7 @@ class Test(unittest.TestCase):
 
     def testAuth(self):
         ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
-        ft.login("orinoco", "wombleden", "wombles")
+        ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
 
         
         #  Create a JdbcResource to represent the local JDBC database.
