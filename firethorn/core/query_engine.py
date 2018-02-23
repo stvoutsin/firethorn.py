@@ -99,17 +99,15 @@ class QueryEngine(object):
     
     
                 
-    def run_query(self, query=None, query_name="", query_space="", query_mode="AUTO", test_email="", mode="SYNC", **kwargs):
+    def run_query(self, query=None, query_name="", resource=None, query_mode="AUTO", test_email="", mode="SYNC", **kwargs):
         """
         Run a query on a resource
-               
-        :param query:
-        :param query_name:
-        :param query_space:
         """
         
-        f=''
-        query_space = string_functions.decode(query_space)
+        query_space=''
+        
+        if (resource!=None):
+            query_space = string_functions.decode(resource.url)
         query_identity = ""
 
 
@@ -167,13 +165,17 @@ class QueryEngine(object):
         
         try :
             from datetime import datetime                     
-            urlenc = {config.query_param : adql_query_input}
+            urlenc = {}
+            
+            if (adql_query_input!=None):
+                urlenc.update({config.query_param : adql_query_input})     
             if (adql_query_status_next!=None):
                 urlenc.update({config.query_status_update : adql_query_status_next})
             if (adql_query_wait_time!=None):
                 urlenc.update({config.query_wait_time_param : adql_query_wait_time})
             if (jdbc_schema_ident!=None):
-                urlenc.update({config.jdbc_schema_ident : jdbc_schema_ident})                
+                urlenc.update({config.jdbc_schema_ident : jdbc_schema_ident})   
+            
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
             request = urllib.request.Request(adql_resource.url + config.query_create_uri, data,headers=firethorn_engine.identity.get_identity_as_headers())
             with urllib.request.urlopen(request) as response:
@@ -196,8 +198,11 @@ class QueryEngine(object):
         json_result = {}
         
         try :
-            from datetime import datetime
-            urlenc = {config.query_param : adql_query_input}
+            
+            urlenc = {}
+            
+            if (adql_query_input!=None):
+                urlenc.update({config.query_param : adql_query_input})           
             if (adql_query_status_next!=None):
                 urlenc.update({config.query_status_update : adql_query_status_next})
             if (adql_query_wait_time!=None):
@@ -205,6 +210,7 @@ class QueryEngine(object):
                                                 
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
             request = urllib.request.Request(adql_query.url, data,headers=firethorn_engine.identity.get_identity_as_headers())
+
             with urllib.request.urlopen(request) as response:
                 json_result = json.loads(response.read().decode('UTF-8'))
                 

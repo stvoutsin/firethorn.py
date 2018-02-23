@@ -26,67 +26,14 @@ class Table(object):
     """
 
 
-    def __init__(self, tableident=None, firethorn_engine=None):
+    def __init__(self, firethorn_engine=None, table=None):
         
-        self.tableident = tableident
+        self.table = table
         self.firethorn_engine = firethorn_engine
-        if (self.tableident):
-            self.astropy_table = astropy_Table.read(tableident + "/votable", format="votable")        
+        if (self.table!=None):
+            self.astropy_table = astropy_Table.read(self.table.url + "/votable", format="votable")        
         else:
             self.astropy_table = None
-        
-        self.error = None
-        
-    
-    def __get_json(self, url): 
-        """Get request to a JSON service
-        
-        Parameters
-        ----------
-        url: string, required
-            JSON Web Resource URL
-            
-        Returns    
-        -------
-        query_json: json
-            JSON object returned by GET request
-        
-        """
-
-        query_json=[]
-        try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
-            with urllib.request.urlopen(request) as response:
-                query_json = json.loads(response.read().decode('utf-8'))            
-        except Exception as e:
-            logging.exception(e)
-        return query_json    
-             
-             
-    def __get_votable(self, url): 
-        """Get request to a service that returns a VOTable
-        
-        Parameters
-        ----------
-        url: string, required
-            VOTable web Resource URL
-            
-        Returns    
-        -------
-        query_xml: string
-            XML as string returned by GET request
-        
-        """
-
-        query_xml=""
-        request=None
-        try:
-            request = urllib.request.Request(url, headers=self.firethorn_engine.identity.get_identity_as_headers())
-            with urllib.request.urlopen(request) as response:
-                query_xml =  response.read().decode('utf-8')   
-        except Exception as e:
-            logging.exception(e)
-        return query_xml  
         
                    
     @property
@@ -128,13 +75,9 @@ class Table(object):
         self.error: string
             Error Message 
         """        
-        try: 
-            if not self.error:
-                self.error = self.__get_json(self.tableident).get("syntax",[]).get("friendly",None)
-        except Exception as e:
-            logging.exception(e) 
-               
-        return self.error
+
+        if self.table!=None:
+            return self.table.get_error()
     
     
     def rwocount (self):

@@ -17,6 +17,7 @@ try:
     import urllib.request
     import core as core
     import adql
+    import time
 except Exception as e:
     logging.exception(e)
     
@@ -32,6 +33,7 @@ class AdqlQuery(BaseObject):
         Constructor    
         """
         super().__init__(firethorn_engine, json_object, url) 
+        self.query_engine = core.query_engine.QueryEngine(self.firethorn_engine)
         
         
     def ident(self):
@@ -45,7 +47,7 @@ class AdqlQuery(BaseObject):
         
     def resource(self):
         if (self.json_object!=None):
-            return adql.AdqlResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("parent",""))
+            return adql.AdqlResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("workspace",""))
         else:
             return None 
         
@@ -66,7 +68,18 @@ class AdqlQuery(BaseObject):
                 return self.json_object.get("adql","")
         else:
             return self.json_object.get("adql","")
-        
+
+
+    def error (self):
+        """Get Error message
+        """
+        try: 
+            error = self.adql_query.getAttr("syntax").get("friendly",None)
+        except Exception as e:
+            logging.exception(e) 
+               
+        return error
+
         
     def status(self):
         if (self.json_object==None):
@@ -96,13 +109,18 @@ class AdqlQuery(BaseObject):
         
     
     def update(self, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None):
-        qry_engine = core.query_engine.QueryEngine()
-        return qry_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time)
+        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time)
 
-    
-    
+
+    def run_sync(self):
+        self.query_engine.run_query(self.adql(), "", self.resource(), "AUTO", None, "SYNC")
+        while self.status()=="RUNNING" or self.status()=="READY":
+            time.sleep(5)
+        
+        return 
+             
+             
     def __str__(self):
         """ Print Class as string
         """
-        print (self.json_object)
         return 'Query URL: %s' %(self.json_object.get("self",""))
