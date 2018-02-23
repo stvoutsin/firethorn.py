@@ -7,7 +7,6 @@ import unittest
 
 try:
     import logging
-    import config as config
     import firethorn
 except Exception as e:
     logging.exception(e)
@@ -16,7 +15,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=config.default_endpoint + "/firethorn")
+        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
         print ("Checking System info as " + str(ft.identity()))
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.system_info_check())
@@ -69,14 +68,14 @@ class Test(unittest.TestCase):
         print ("")
             
             
-        ft = firethorn.Firethorn(endpoint=config.default_endpoint + "/firethorn")
+        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
         print ("Try creating JDBC resources as " + str(ft.identity()))
         print (ft.firethorn_engine.identity())
                 
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
-        jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource(jdbc_name ,config.datadata, config.datacatalog, config.datatype, config.datahost, config.datauser, config.datapass)
+        jdbc_url="jdbc:jtds:sqlserver://" + firethorn.config.datahost + "/ATLASDR1"
+        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource(jdbc_name ,firethorn.config.datadata, firethorn.config.datacatalog, firethorn.config.datatype, firethorn.config.datahost, firethorn.config.datauser, firethorn.config.datapass)
         print (atlas_jdbc_url)
         print ("") 
     
@@ -87,8 +86,8 @@ class Test(unittest.TestCase):
                 
         #  Create a JdbcResource to represent the local JDBC database.
         jdbc_name="ATLAS JDBC resource"
-        jdbc_url="jdbc:jtds:sqlserver://" + config.datahost + "/ATLASDR1"
-        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource(jdbc_name ,config.datadata, config.datacatalog, config.datatype, config.datahost, config.datauser, config.datapass)
+        jdbc_url="jdbc:jtds:sqlserver://" + firethorn.config.datahost + "/ATLASDR1"
+        atlas_jdbc_url = ft.firethorn_engine.create_jdbc_resource(jdbc_name ,firethorn.config.datadata, firethorn.config.datacatalog, firethorn.config.datatype, firethorn.config.datahost, firethorn.config.datauser, firethorn.config.datapass)
         print (atlas_jdbc_url)
         print ("") 
         

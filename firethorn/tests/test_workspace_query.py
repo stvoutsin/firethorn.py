@@ -8,9 +8,8 @@ import unittest
 
 try:
     import logging
-    import config as config
     import time
-    from pyfirethorn import Firethorn
+    import firethorn
 except Exception as e:
     logging.exception(e)
 
@@ -18,7 +17,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = Firethorn(endpoint=config.default_endpoint + "/firethorn")
+        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
         ft.login("orinoco", "wombleden", "wombles")
         
         osa = ft.get_workspace("OSA")
