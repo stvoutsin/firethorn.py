@@ -8,11 +8,6 @@ import unittest
 
 try:
     import logging
-    from models.query import Query
-    from models.workspace import Workspace 
-    from models import identity
-    from core.firethorn_engine import FirethornEngine
-    from adql_query.adql_query import AdqlQuery
     import config as config
     import time
     from pyfirethorn import Firethorn
@@ -52,13 +47,6 @@ class Test(unittest.TestCase):
         query_resource = ft.firethorn_engine.create_adql_resource(adqlname)
         query_resource.import_adql_schema(atlas_adql_schema)
 
-        osa = ft.get_workspace("OSA")
-        wspace = ft.new_workspace("ATLAS")
-        wspace.import_schema(osa.get_schema("ATLASDR1"))
-        
-        # List the workspace schema.
-        print (wspace.get_schemas())
-        
         
         querytext = "SELECT * FROM ATLASDR1.Filter"
         
@@ -73,20 +61,8 @@ class Test(unittest.TestCase):
             print (admin_query.status())
             time.sleep(5)
             
-        
-        print ("Running query using Query (SYNC) class.. ")
-        qry = wspace.query("Select top 2 * from ATLASDR1.Filter")
-        print (qry.results().as_astropy())
 
-
-        print ("Running query using Query (ASYNC) class.. ")
-        myquery = wspace.query_async(querytext)
-        myquery.run()
-        while myquery.status()=="RUNNING" or myquery.status()=="READY":
-            print (myquery.status())
-            time.sleep(5)
-        
-        print (myquery.results().as_astropy())
+        print (admin_query.results())
         
 
 
