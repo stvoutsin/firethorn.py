@@ -192,7 +192,7 @@ class AdqlResource(BaseResource):
     
     
     def select_schemas(self):
-        return self.auth_engine.get_json(self.url + "/schemas/select")
+        return self.get_json(self.url + "/schemas/select")
     
     
     def select_schema_by_ident(self, ident):
