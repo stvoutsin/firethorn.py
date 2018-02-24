@@ -192,14 +192,27 @@ class AdqlResource(BaseResource):
     
     
     def select_schemas(self):
-        return self.get_json(self.url + "/schemas/select")
+        """
+        Select Schemas, returns a list of AdqlSchema objects
+        """
+        schema_list = []
+        json_list = self.get_json(self.url + "/schemas/select")
+        for schema in json_list:
+            schema_list.append(adql.AdqlSchema(json_object=schema, auth_engine=self.auth_engine))
+        return schema_list
     
     
     def select_schema_by_ident(self, ident):
+        """
+        Select by identity, returns an AdqlSchema object
+        """
         return adql.AdqlSchema(url=ident, auth_engine=self.auth_engine)
     
     
     def select_schema_by_name(self,schema_name):
+        """
+        Select Schema by name, returns an AdqlSchema object
+        """
         response_json = {}
         try :
             data = urllib.parse.urlencode({config.resource_create_name_params["http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json"] : schema_name }).encode("utf-8")
@@ -214,11 +227,17 @@ class AdqlResource(BaseResource):
     
 
     def create_query(self, adql_query_input, adql_query_status_next="COMPLETED", jdbc_schema_ident=None, adql_query_wait_time=600000):
+        """
+        Create a query on this resource
+        """
         qry_engine = QueryEngine()
         return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, auth_engine=self.auth_engine, adql_query_wait_time=adql_query_wait_time, jdbc_schema_ident=jdbc_schema_ident)
     
     
     def select_queries(self):
+        """
+        Select queries for this resource, returns a list of AdqlQuery objects
+        """
         response_json = {}
         try :
 
@@ -229,7 +248,11 @@ class AdqlResource(BaseResource):
         except Exception as e:
             logging.exception(e)      
             
-        return response_json
+        query_list = []
+        for query in response_json:
+            query_list.append(adql.adql_query.AdqlQuery(json_object=query, auth_engine=self.auth_engine))
+            
+        return query_list
         
     
     

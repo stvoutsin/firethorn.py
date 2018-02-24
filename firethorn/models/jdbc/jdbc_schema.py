@@ -36,7 +36,13 @@ class JdbcSchema(BaseSchema):
     
     
     def select_tables(self):
-        return self.get_json(self.json_object.get("tables",""))
+        table_list = []
+        json_list = self.get_json(self.json_object.get("tables",""))
+
+        for column in json_list:
+            table_list.append(jdbc.JdbcTable(json_object=column, auth_engine=self.auth_engine))
+            
+        return table_list
     
         
     def select_table_by_ident(self, ident):

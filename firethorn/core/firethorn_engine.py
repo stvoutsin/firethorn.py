@@ -65,6 +65,7 @@ class FirethornEngine(object):
         
         return None
 
+
     def system_info_check(self):
         """
         Check system info
@@ -238,7 +239,11 @@ class FirethornEngine(object):
         except Exception as e:
             logging.exception(e)
             
-        return adqlresources
+        resource_object_list = []
+        for resource in adqlresources:
+            resource_object_list.append(models.adql.AdqlResource(json_object=resource, auth_engine=self.auth_engine))
+
+        return resource_object_list
     
     
     def select_adql_resource_by_name(self, resource_name):
@@ -269,8 +274,13 @@ class FirethornEngine(object):
             response.close()
         except Exception as e:
             logging.exception(e)
-            
-        return ivoaresources
+
+        resource_object_list = []
+        for resource in ivoaresources:
+            resource_object_list.append(models.ivoa.IvoaResource(json_object=resource, auth_engine=self.auth_engine))
+
+        return resource_object_list
+               
     
     
     def select_ivoa_resource_by_name(self, name):

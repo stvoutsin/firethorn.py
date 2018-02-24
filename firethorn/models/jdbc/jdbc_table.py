@@ -32,10 +32,16 @@ class JdbcTable(BaseTable):
         else:
             return None 
     
-    """    
+        
     def select_columns(self):
-        return self.firethorn_engine.get_json(self.json_object.get("columns",""))
-    """
+        column_list = []
+        json_list = self.get_json(self.json_object.get("columns",""))
+
+        for column in json_list:
+            column_list.append(jdbc.JdbcColumn(json_object=column, auth_engine=self.auth_engine))
+            
+        return column_list
+    
     
     def select_column_by_ident(self, ident):
         return jdbc.JdbcColumn(auth_engine=self.auth_engine, url=ident)

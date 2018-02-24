@@ -29,7 +29,13 @@ class IvoaTable(BaseTable):
     
     
     def select_columns(self):
-        return self.get_json(self.url + "/columns/select")
+        column_list = []
+        json_list = self.get_json(self.url + "/columns/select")
+
+        for column in json_list:
+            column_list.append(ivoa.IvoaColumn(json_object=column, auth_engine=self.auth_engine))
+            
+        return column_list
     
         
     def select_column_by_ident(self, ident):

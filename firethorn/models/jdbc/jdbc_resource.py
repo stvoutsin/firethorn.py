@@ -24,7 +24,13 @@ class JdbcResource(BaseResource):
         
 
     def select_schemas(self):
-        return self.get_json(self.url + "/schemas/select")
+        schema_list = []
+        json_list = self.get_json(self.url + "/schemas/select")
+        
+        for schema in json_list:
+            schema_list.append(jdbc.JdbcSchema(json_object=schema, auth_engine=self.auth_engine))
+        
+        return schema_list
     
     
     def select_schema_by_ident(self, ident):

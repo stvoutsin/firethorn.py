@@ -35,6 +35,16 @@ class AdqlTable(BaseTable):
             return None 
     
     
+    def select_columns(self):
+        column_list = []
+        json_list = self.get_json(self.url + "/columns/select")
+
+        for column in json_list:
+            column_list.append(adql.AdqlColumn(json_object=column, auth_engine=self.auth_engine))
+            
+        return column_list
+    
+    
     def select_column_by_ident(self, ident):
         return adql.AdqlColumn(auth_engine=self.auth_engine, url=ident)
  

@@ -32,7 +32,7 @@ class Test(unittest.TestCase):
         print ("select_schemas() : ")
         print (atlas_jdbc.select_schemas()) 
         print ("select_schema_by_ident(): ")
-        print (atlas_jdbc.select_schema_by_ident(atlas_jdbc.select_schemas()[0].get("self"))) 
+        print (atlas_jdbc.select_schema_by_ident(atlas_jdbc.select_schemas()[0].url)) 
         print ("select_schema_by_name(): ")
         print (atlas_jdbc.select_schema_by_name("ATLASDR1", "dbo")) 
         print ("create_schema(): ") 
@@ -52,7 +52,7 @@ class Test(unittest.TestCase):
         
         # Jdbc Schema Tests
         atlas_jdbc_schema = ft.firethorn_engine.select_jdbc_schema_by_name(atlas_jdbc.url, catalog, schema)
-        filter_jdbc_table = atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].get("self"))
+        filter_jdbc_table = atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].url)
 
         print ("atlas_jdbc_schema: ")
         print (atlas_jdbc_schema)
@@ -62,7 +62,7 @@ class Test(unittest.TestCase):
         print ("select_tables(): ")
         print (atlas_jdbc_schema.select_tables())
         print ("select_table_by_ident(): ")
-        print (atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].get("self")))
+        print (atlas_jdbc_schema.select_table_by_ident(atlas_jdbc_schema.select_tables()[0].url))
         print ("select_table_by_name(): ") 
         print (atlas_jdbc_schema.select_table_by_name(filter_jdbc_table.name)) ## ???? ## ???? Not implemented yet
         print ("create_table(): ") 
@@ -79,7 +79,7 @@ class Test(unittest.TestCase):
         print ("select_columns(): ") 
         print (filter_jdbc_table.select_columns())
         print ("select_column_by_ident(): ")
-        filterID_jdbc_column = filter_jdbc_table.select_column_by_ident(filter_jdbc_table.select_columns()[0].get("self"))
+        filterID_jdbc_column = filter_jdbc_table.select_column_by_ident(filter_jdbc_table.select_columns()[0].url)
         print (filterID_jdbc_column)
         print ("select_column_by_name(): ")
         print (filter_jdbc_table.select_column_by_name(filterID_jdbc_column.name)) ## ?? Not implemented yet
@@ -116,17 +116,17 @@ class Test(unittest.TestCase):
         print (ft.firethorn_engine.select_ivoa_resource_by_ident(gaia_ivoa_resource.url))    
         print (ft.firethorn_engine.select_ivoa_resource_by_name(None)) ## Not implemented yet
         print (gaia_ivoa_resource.select_schemas())
-        print (gaia_ivoa_resource.select_schema_by_ident(gaia_ivoa_resource.select_schemas()[0].get("self")))
+        print (gaia_ivoa_resource.select_schema_by_ident(gaia_ivoa_resource.select_schemas()[0].url))
         print (gaia_ivoa_resource.select_schema_by_name("gaiadr1"))
                 
 
         # Test IVOA Schema
-        ivoa_schema = gaia_ivoa_resource.select_schema_by_ident(gaia_ivoa_resource.select_schemas()[0].get("self"))
+        ivoa_schema = gaia_ivoa_resource.select_schema_by_ident(gaia_ivoa_resource.select_schemas()[0].url)
         print (ivoa_schema.name())
         print (ivoa_schema.resource())
         print (ivoa_schema.schema_name())
         print (ivoa_schema.select_tables())
-        ivoa_table = ivoa_schema.select_table_by_ident(ivoa_schema.select_tables()[0].get("self"))
+        ivoa_table = ivoa_schema.select_table_by_ident(ivoa_schema.select_tables()[0].url)
         print (ivoa_table)
         print (ivoa_schema.select_table_by_name(ivoa_table.name))
 
@@ -135,7 +135,7 @@ class Test(unittest.TestCase):
         print (ivoa_table)
         print (ivoa_table.name())
         print (ivoa_table.select_columns())
-        ivoa_column = ivoa_table.select_column_by_ident(ivoa_table.select_columns()[0].get("self"))
+        ivoa_column = ivoa_table.select_column_by_ident(ivoa_table.select_columns()[0].url)
         print (ivoa_column)
         print (ivoa_table.select_column_by_name(ivoa_column.name))
         
@@ -183,7 +183,7 @@ class Test(unittest.TestCase):
         print ("select_tables(): ")
         print (my_atlas_schema.select_tables())
         print ("select_table_by_ident(): ")
-        print (my_atlas_schema.select_table_by_ident(my_atlas_schema.select_tables()[0].get("self")))
+        print (my_atlas_schema.select_table_by_ident(my_atlas_schema.select_tables()[0].url))
         print ("select_table_by_name(): ") 
         my_adql_table = my_atlas_schema.select_table_by_name("Filter")
         print (my_adql_table)
@@ -203,7 +203,7 @@ class Test(unittest.TestCase):
         print ("select_columns(): ") 
         print (my_adql_table.select_columns())
         print ("select_column_by_ident(): ")
-        my_column = my_adql_table.select_column_by_ident(my_adql_table.select_columns()[0].get("self"))
+        my_column = my_adql_table.select_column_by_ident(my_adql_table.select_columns()[0].url)
         print (my_column)
         print ("select_column_by_name(): ")
         print (my_adql_table.select_column_by_name(my_column.name)) ## ?? Not implemented yet
