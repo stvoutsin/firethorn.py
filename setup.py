@@ -19,7 +19,7 @@ setup(
     url = "http://wfau.metagrid.co.uk/code/firethorn",
     #packages=['firethorn'],
     include_package_data = True,  
-    packages=['firethorn.config', 'firethorn.utils', 'firethorn.models','firethorn.models.base','firethorn.models.jdbc','firethorn.models.ivoa','firethorn.models.adql','firethorn.models.adql_query','firethorn.models.adql_table' 'firethorn.tap', 'firethorn.core', 'firethorn'],
+    packages=['firethorn.config', 'firethorn.utils', 'firethorn.models','firethorn.models.base','firethorn.models.jdbc','firethorn.models.ivoa','firethorn.models.adql','firethorn.models.adql_query','firethorn.models.adql_table', 'firethorn.tap', 'firethorn.core', 'firethorn'],
     long_description=read('README'),
     classifiers=[
         "Development Status :: 1 - Alpha",
