@@ -7,6 +7,7 @@ Created on Feb 8, 2018
 try:
     from base.base_resource import BaseResource
     import adql
+    import models
     import json
     import config as config
     import logging
@@ -250,7 +251,7 @@ class AdqlResource(BaseResource):
             
         query_list = []
         for query in response_json:
-            query_list.append(adql.adql_query.AdqlQuery(json_object=query, auth_engine=self.auth_engine))
+            query_list.append(models.adql_query.AdqlQuery(json_object=query, auth_engine=self.auth_engine))
             
         return query_list
         
