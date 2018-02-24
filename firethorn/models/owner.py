@@ -58,9 +58,4 @@ class Owner(BaseObject):
             return self.json_object.get("modified","")
         
         
-    def __str__(self):
-        """ Print Owner as string
-        """
-        return 'Owner name: %s ' %(self.name()) 
-
         

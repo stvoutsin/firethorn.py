@@ -106,6 +106,7 @@ class QueryEngine(object):
         
         if (resource!=None):
             query_space = string_functions.decode(resource.url)
+            
         query_identity = ""
 
 
@@ -128,6 +129,7 @@ class QueryEngine(object):
             with urllib.request.urlopen(request) as response:
                 query_create_result = json.loads(response.read().decode('utf-8'))
             query_identity = query_create_result["self"]
+            
             # Update query
             urlenc_updt = { config.query_limit_rows_param : config.firethorn_limits_rows_absolute, config.query_limit_time_param : config.firethorn_limits_time }
             data_updt = urllib.parse.urlencode(urlenc_updt).encode('utf-8')

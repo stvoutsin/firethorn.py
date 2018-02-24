@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
+        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint)
         ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
         
         osa = ft.get_workspace("OSA")
@@ -39,9 +39,9 @@ class Test(unittest.TestCase):
 
         # Test an Asynchronous query       
         print ("Running query using Query (ASYNC) class.. ")
-        myquery = wspace.query_async(querytext)
+        myquery = wspace.query(querytext,"ASYNC")
         myquery.run()
-        while myquery.status()=="RUNNING" or myquery.status()=="READY":
+        while myquery.isRunning():
             print (myquery.status())
             time.sleep(5)
         

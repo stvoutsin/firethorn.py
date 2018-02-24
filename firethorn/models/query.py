@@ -12,7 +12,8 @@ except ImportError:
 
 
 class Query(object):
-    """Query Class, stores information for a Firethorn query 
+    """
+    Query Class, stores information for a Firethorn query 
     
     Attributes
     ----------
@@ -25,16 +26,20 @@ class Query(object):
     adql_query: string, optional
         The AdqlQuery object
         
-    firethorn_engine: FirethornEngine, optional
-        The Firethorn Engine currently driving this query   
+    auth_engine: AuthEngine, optional
+        Reference to the he Authentication Engine being used
                   
     """
 
-    def __init__(self, auth_engine=None, querystring=None,  adql_query=None):
+    def __init__(self, auth_engine=None, querystring=None,  adql_query=None, mode="SYNC"):
         self.adql_query = adql_query
+        self.mode = mode
         self.querystring = querystring
+        self.auth_engine = auth_engine
         if (self.auth_engine==None and self.adql_query!=None):
             self.auth_engine = self.adql_query.auth_engine
+        if (mode=="SYNC"):
+            self.run()
         pass
        
             
@@ -56,75 +61,30 @@ class Query(object):
     @adql_query.setter
     def adql_query(self, adql_query):
         self.__adql_query = adql_query    
+ 
+ 
+    @property
+    def mode(self):
+        return self.__mode
         
+        
+    @mode.setter
+    def mode(self, mode):
+        self.__mode = mode    
+               
                      
     def run (self):
-        """Run a query
+        """
+        Run a query
         
         """
         try: 
-            self.adql_query.run_sync()
+            if (self.mode.upper()=="SYNC"):
+                self.adql_query.run_sync()
+            else :      
+                self.adql_query.update(adql_query_status_next="COMPLETED")
         except Exception as e:
             logging.exception(e)
-        return 
-    
-
-    def results (self):
-        """Get Results
-        
-        """
-        if (self.adql_query!=None):
-            if (self.adql_query.table()!=None):
-                return Table(table=self.adql_query.table(), auth_engine=self.auth_engine)
-        
-        return None
-
-
-    def status (self):
-        """Get Status 
-        """
-        return self.adql_query.status()
-
-                   
-    def error (self):
-        """Get Error message
-        """
-        return self.adql_query.get_error()
-
-                        
-    def __str__(self):
-        """ Print class as string
-        """
-        return 'Query: %s\nQuery ID: %s\n ' %(self.querystring, self.adql_query.url) 
-    
-
-
-class AsyncQuery(Query):
-    """AsyncQuery Model, stores information for a Firethorn query 
-    
-    Attributes
-    ----------
-    querystring: string, optional
-        The Query as a sring
-
-    adql_query: string, optional
-        The AdqlQuery object
-                  
-                    
-    """
-
-    def __init__(self, auth_engine=None, querystring=None, adql_query=None):
-        super().__init__(auth_engine=auth_engine, querystring=querystring, adql_query=adql_query)
-        
-                     
-    def run (self):
-        """
-        Run Query
-        """
-        try: 
-            self.adql_query.update(adql_query_status_next="COMPLETED")
-        except Exception as e:
-            logging.exception(e)    
             
         return 
     
@@ -140,10 +100,50 @@ class AsyncQuery(Query):
             
         return 
     
-
-    def __str__(self):
-        """ Print Class as string
+    
+    def results (self):
         """
-        return 'Query: %s\nQuery URL: %s\n ' %(self.querystring, self.adql_query.url) 
+        Get Results
+        
+        """
+        if (self.adql_query!=None):
+            if (self.adql_query.table()!=None):
+                return Table(table=self.adql_query.table(), auth_engine=self.auth_engine)
+        
+        return None
+
+
+    def status (self):
+        """
+        Get Status 
+        """
+        if self.adql_query!=None:
+            return self.adql_query.status()
+
+                   
+    def error (self):
+        """
+        Get Error message
+        """
+        if self.adql_query!=None:
+            return self.adql_query.get_error()
+
+
+    def isRunning(self):
+        """
+        Check if a Query is running
+        """
+        if self.adql_query!=None:
+            return self.adql_query.isRunning()
+    
+    
+    def __str__(self):
+        """ Print class as string
+        """
+        return 'Query: %s\nQuery ID: %s\n ' %(self.querystring, self.adql_query.url) 
+    
+
+
+
     
         

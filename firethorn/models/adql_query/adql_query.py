@@ -27,7 +27,7 @@ class AdqlQuery(BaseObject):
         """
         super().__init__(auth_engine, json_object, url) 
         self.query_engine = core.query_engine.QueryEngine(self.auth_engine)
-        
+        self.auth_engine = auth_engine
         
     def ident(self):
         if (self.json_object==None):
@@ -74,13 +74,17 @@ class AdqlQuery(BaseObject):
         return error
 
         
-    def status(self):
-        if (self.json_object==None):
-            if (self.url!=None):
-                self.json_object = self.get_json(self.url)
-                return self.json_object.get("status","").upper()
-        else:
+    def status(self, refresh=True):
+        if (refresh):
+            self.json_object = self.get_json(self.url)
             return self.json_object.get("status","").upper()
+        else:
+            if (self.json_object==None):
+                if (self.url!=None):
+                    self.json_object = self.get_json(self.url)
+                    return self.json_object.get("status","").upper()
+            else:
+                return self.json_object.get("status","").upper()
         
         
     def results(self):
@@ -115,14 +119,20 @@ class AdqlQuery(BaseObject):
 
 
     def run_sync(self):
-        self.query_engine.run_query(self.adql(), "", self.resource(), "AUTO", None, "SYNC")
+        self.update(adql_query_status_next="COMPLETED")
         while self.status()=="RUNNING" or self.status()=="READY":
             time.sleep(3)
         
         return 
              
              
-    def __str__(self):
-        """ Print Class as string
+    def isRunning(self):
         """
-        return 'Query URL: %s' %(self.json_object.get("self",""))
+        Check if a Query is running
+        """
+        
+        if (self.status(True)=="RUNNING" or self.status(True)=="READY"):
+            return True
+        else:
+            return False           
+        

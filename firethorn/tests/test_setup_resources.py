@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
+        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint)
         ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
 
         

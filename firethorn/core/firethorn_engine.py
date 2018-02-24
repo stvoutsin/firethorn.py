@@ -71,7 +71,6 @@ class FirethornEngine(object):
         """
         try :
             req = urllib.request.Request(self.endpoint + config.system_info, headers=self.auth_engine.get_identity_as_headers())
-            print (self.auth_engine.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 return (json.loads(response.read().decode('utf-8')))
         except Exception as e:
@@ -359,8 +358,6 @@ class FirethornEngine(object):
         
         try :
             req_exc = urllib.request.Request(ident, headers=self.auth_engine.get_identity_as_headers())
-            print (ident)
-            print (self.auth_engine.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 json_result =  json.loads(response.read().decode('utf-8'))
      

@@ -40,8 +40,3 @@ class BaseSchema(BaseObject):
     def select_table_by_name(self, table_name):
         return
     
-    
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Schema URL: %s' %(self.json_object.get("self",""))

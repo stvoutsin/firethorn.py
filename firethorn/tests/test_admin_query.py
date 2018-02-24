@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint + "/firethorn")
+        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint)
         ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
 
         
@@ -48,18 +48,21 @@ class Test(unittest.TestCase):
 
         
         querytext = "SELECT * FROM ATLASDR1.Filter"
-        
-        admin_query = query_resource.create_query(querytext, "COMPLETED") 
-        admin_query.update(adql_query_status_next="COMPLETED")
-        
+
         print ("Creating query using AdqlQuery.. ")
+        admin_query = query_resource.create_query(querytext, "COMPLETED") 
+        print (admin_query)
+        
+        
         print ("List of Running queries: ")
         print ( query_resource.select_queries())
         
-        while admin_query.status()=="RUNNING" or admin_query.status()=="READY":
+        while admin_query.isRunning():
             print (admin_query.status())
             time.sleep(5)
-            
+            admin_query = admin_query.update(querytext, "COMPLETED") 
+
+        print (admin_query)
 
         print (admin_query.results())
         

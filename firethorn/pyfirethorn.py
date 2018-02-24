@@ -36,7 +36,7 @@ class Firethorn(object):
     __id__ = ""
     
     
-    def __init__(self, username=None, password=None, endpoint = config.default_endpoint + "/firethorn", community=None):
+    def __init__(self, username=None, password=None, endpoint = config.default_endpoint, community=None):
         self.endpoint = endpoint
         self.firethorn_engine =  FirethornEngine(endpoint=endpoint)
 

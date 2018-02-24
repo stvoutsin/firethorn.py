@@ -29,11 +29,3 @@ class BaseResource(BaseObject):
     def select_schema_by_name(self, catalog_name, schema_name):
         return
 
-
-    def __str__(self):
-        """ Print Class as string
-        """
-        if (self.json_object!=None):
-            return 'Resource URL: %s' %(self.json_object.get("self",""))
-        else:
-            return ""

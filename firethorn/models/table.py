@@ -83,4 +83,4 @@ class Table(object):
     def __str__(self):
         """Get class as string
         """
-        return 'Table ID: %s\n ' %(self.tableident) 
+        return self.astropy_table

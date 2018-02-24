@@ -1,5 +1,5 @@
 import logging
-from models.query import Query, AsyncQuery
+from models.query import Query
 import urllib
 import json
 from models.adql import adql_resource
@@ -28,6 +28,7 @@ class Workspace(object):
         self.url = url             
         self.adql_resource = adql_resource
         return        
+
 
     @property
     def url(self):
@@ -68,7 +69,7 @@ class Workspace(object):
         return adql_schema
 
     
-    def query(self, query=""):
+    def query(self, query="", mode="SYNC"):
         """        
         Run a query on the imported resources
         
@@ -83,28 +84,8 @@ class Workspace(object):
             The created Query
         """
         adql_query = self.adql_resource.create_query(query)
-        adql_query.run_sync()
-        return Query(adql_query=adql_query, auth_engine=self.auth_engine)
+        return Query(adql_query=adql_query, auth_engine=self.auth_engine, mode=mode)
 
-    
-    
-    def query_async(self, query=""):
-        """        
-        Run am Asynchronous query on the imported resources
-        
-        Parameters
-        ----------
-        query : str, required
-            The query string
-            
-        Returns
-        -------
-        query : `AsyncQuery`
-            The created AsyncQuery
-        """
-        adql_query = self.adql_resource.create_query(query)
-        return AsyncQuery(adql_query=adql_query, auth_engine=self.auth_engine)
-                
 
     def get_schemas(self):
         """Get list of schemas in a workspace

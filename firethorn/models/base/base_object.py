@@ -8,6 +8,7 @@ import urllib
 import json
 import logging
 import os
+import json
 
 class BaseObject(object):
     """
@@ -93,3 +94,9 @@ class BaseObject(object):
         self.json_object = self.get_json(self.url)
       
 
+    def __str__(self):
+        """ 
+        Print Class as string
+        """
+         
+        return str(json.dumps( self.json_object ,indent=2))

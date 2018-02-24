@@ -29,8 +29,3 @@ class BaseTable(BaseObject):
     def select_columns(self):
         return self.get_json(self.json_object.get("columns",""))
     
-        
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Table URL: %s' %(self.json_object.get("self",""))

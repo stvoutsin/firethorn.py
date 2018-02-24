@@ -63,10 +63,5 @@ class BaseColumn(BaseObject):
                 return self.json_object.get("meta").get("adql").get("utype","")
         return None
     
-    
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Column URL: %s' %(self.json_object.get("self",""))    
-    
+
     
