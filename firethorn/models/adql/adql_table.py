@@ -5,8 +5,8 @@ Created on Feb 8, 2018
 '''
 from base.base_table import BaseTable
 import adql
-import urllib
-import json
+import logging
+
 
 class AdqlTable(BaseTable):
     """
@@ -64,15 +64,9 @@ class AdqlTable(BaseTable):
         """
         response_json = {}
         try :
-            data = urllib.parse.urlencode({ "adql.column.name": column_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/columns/select", headers=self.auth_engine.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json(  self.url + "/columns/select", { "adql.column.name": column_name })
         except Exception as e:
-            #logging.exception(e)   
-            print (e)   
+            logging.exception(e)   
             
         return adql.AdqlColumn(json_object = response_json, auth_engine=self.auth_engine)    
                    

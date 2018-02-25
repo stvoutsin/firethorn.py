@@ -40,12 +40,7 @@ class JdbcResource(BaseResource):
     def select_schema_by_name(self, catalog_name, schema_name):
         response_json = {}
         try :
-            data = urllib.parse.urlencode({config.jdbc_schema_catalog : catalog_name, config.jdbc_schema_schema : schema_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/schemas/select", headers=self.auth_engine.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json(self.url + "/schemas/select", {config.jdbc_schema_catalog : catalog_name, config.jdbc_schema_schema : schema_name })                
         except Exception as e:
             logging.exception(e)      
             

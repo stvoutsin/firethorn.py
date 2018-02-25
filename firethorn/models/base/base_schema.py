@@ -21,6 +21,8 @@ class BaseSchema(BaseObject):
     def resource(self):
         return 
     
+    def name(self):
+        return self.schema_name()
     
     def schema_name(self):
         if (self.json_object!=None):

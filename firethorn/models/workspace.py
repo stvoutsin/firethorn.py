@@ -94,11 +94,8 @@ class Workspace(object):
         schemas = []
         
         try:
-            req = urllib.request.Request( self.adql_resource.url + "/schemas/select", headers=self.auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(req) as response:
-                schemas_json =  json.loads(response.read().decode('utf-8'))
-            response.close()
-            for val in schemas_json:
+            response_json = self.adql_resource.get_json(self.adql_resource.url + "/schemas/select")                
+            for val in response_json:
                 schemas.append(val["name"])
 
         except Exception as e:
@@ -120,14 +117,12 @@ class Workspace(object):
         table_list: list
             List of table names
         """
-        schemaident = self.adql_resource.select_schema_by_name(schemaname)
+        adql_schema = self.adql_resource.select_schema_by_name(schemaname)
         response_json = None
         table_list = []
         
         try :
-            req_exc = urllib.request.Request( schemaident.url + "/tables/select", headers=self.auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(req_exc) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
+            response_json = self.get_json(adql_schema.url + "/tables/select") 
             for val in response_json:
                 table_list.append(val["name"])
      

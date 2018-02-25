@@ -177,8 +177,8 @@ class QueryEngine(object):
                 urlenc.update({config.jdbc_schema_ident : jdbc_schema_ident})   
             
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
-            request = urllib.request.Request(adql_resource.url + config.query_create_uri, data,headers=auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(request) as response:
+            request = urllib.request.Request(adql_resource.url + config.query_create_uri, headers=auth_engine.get_identity_as_headers())
+            with urllib.request.urlopen(request, data) as response:
                 json_result = json.loads(response.read().decode('UTF-8'))
                 
         except Exception as e:
@@ -209,9 +209,9 @@ class QueryEngine(object):
                 urlenc.update({config.query_wait_time_param : adql_query_wait_time})
                                                 
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
-            request = urllib.request.Request(adql_query.url, data,headers=auth_engine.get_identity_as_headers())
+            request = urllib.request.Request(adql_query.url, headers=auth_engine.get_identity_as_headers())
 
-            with urllib.request.urlopen(request) as response:
+            with urllib.request.urlopen(request, data) as response:
                 json_result = json.loads(response.read().decode('UTF-8'))
                 
         except Exception as e:

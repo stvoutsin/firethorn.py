@@ -44,13 +44,9 @@ class IvoaTable(BaseTable):
     
     def select_column_by_name(self,column_name):
         response_json = {}
+        
         try :
-            data = urllib.parse.urlencode({config.ivoa_column_select_by_name_param : column_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/columns/select", headers=self.auth_engine.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json( self.url + "/columns/select", {config.ivoa_column_select_by_name_param : column_name })
         except Exception as e:
             logging.exception(e)      
             

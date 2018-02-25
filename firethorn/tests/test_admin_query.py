@@ -46,21 +46,21 @@ class Test(unittest.TestCase):
         query_resource = ft.firethorn_engine.create_adql_resource(adqlname)
         query_resource.import_adql_schema(atlas_adql_schema)
 
-        
         querytext = "SELECT * FROM ATLASDR1.Filter"
 
         print ("Creating query using AdqlQuery.. ")
-        admin_query = query_resource.create_query(querytext, "COMPLETED") 
+        admin_query = query_resource.create_query(querytext) 
         print (admin_query)
         
         
         print ("List of Running queries: ")
         print ( query_resource.select_queries())
+
+        admin_query = admin_query.update(adql_query_status_next="COMPLETED") 
         
         while admin_query.isRunning():
             print (admin_query.status())
             time.sleep(5)
-            admin_query = admin_query.update(querytext, "COMPLETED") 
 
         print (admin_query)
 

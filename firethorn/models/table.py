@@ -41,7 +41,8 @@ class Table(object):
         
     def as_astropy (self):
         """Get Astropy table
-        
+                    response_json = self.get_json(self.url + "/tables/select", { "jdbc.table.name": table_name })                
+
         Returns
         -------
         astropy_table: Astropy.Table
@@ -72,8 +73,9 @@ class Table(object):
             Count of rows  
         """  
         rowcount=None
+        
         try: 
-            rowcount = self.__get_json(self.tableident).get("metadata",[]).get("adql",[]).get("count",None)
+            rowcount = self.get_json(self.table.url).get("metadata",[]).get("adql",[]).get("count",None)
         except Exception as e:
             logging.exception(e) 
                

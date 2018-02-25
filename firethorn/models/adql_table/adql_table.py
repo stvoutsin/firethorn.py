@@ -8,7 +8,6 @@ Created on Feb 21, 2018
 try:
     import logging
     from models.base.base_object import BaseObject
-    import json
     import os
     import urllib.request
     import adql
@@ -70,31 +69,6 @@ class AdqlTable(BaseObject):
                
         return error
 
-
-    def __get_json(self, url): 
-        """Get request to a JSON service
-        
-        Parameters
-        ----------
-        url: string, required
-            JSON Web Resource URL
-            
-        Returns    
-        -------
-        query_json: json
-            JSON object returned by GET request
-        
-        """
-
-        query_json=[]
-        try:
-            request = urllib.request.Request(url, headers=self.auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(request) as response:
-                query_json = json.loads(response.read().decode('utf-8'))            
-        except Exception as e:
-            logging.exception(e)
-        return query_json    
-             
              
     def __get_votable(self, url): 
         """Get request to a service that returns a VOTable

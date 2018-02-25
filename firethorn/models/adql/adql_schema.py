@@ -5,8 +5,8 @@ Created on Feb 8, 2018
 '''
 from base.base_schema import BaseSchema
 import adql
-import urllib
-import json
+import logging
+
 
 class AdqlSchema(BaseSchema):
     """
@@ -57,15 +57,9 @@ class AdqlSchema(BaseSchema):
         """
         response_json = {}
         try :
-            data = urllib.parse.urlencode({ "adql.table.name": table_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/tables/select", headers=self.auth_engine.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json( self.url + "/tables/select", { "adql.table.name": table_name })
         except Exception as e:
-            #logging.exception(e)   
-            print (e)   
+            logging.exception(e)   
             
         return adql.AdqlTable(json_object = response_json, auth_engine=self.auth_engine)    
     

@@ -37,22 +37,22 @@ class AdqlResource(BaseResource):
         """
         Create an Adql schema
  
-        """
-
+        """ 
+      
+        response_json = {}
+        
         try:
-           
             if schema_name!="":
-                data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json'] : schema_name}).encode("utf-8")
-                req = urllib.request.Request( self.url + config.schema_create_uri, headers=self.auth_engine.get_identity_as_headers()) 
-                with urllib.request.urlopen(req, data) as response:
-                    json_result = json.loads(response.read().decode("utf-8"))
+                response_json = self.get_json(self.url + config.schema_create_uri, {config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json'] : schema_name})
+
         except Exception as e:
             logging.exception(e)
             
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = json_result)
+        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
     
     
     def import_ivoa_schema(self, ivoa_schema, schema_name=None):
+        response_json = {}
 
         try:
             if schema_name:
@@ -61,14 +61,12 @@ class AdqlResource(BaseResource):
                 importname = ivoa_schema.name()
                 
             if importname!="":
-                data = urllib.parse.urlencode({config.workspace_import_schema_base : ivoa_schema.url, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( self.url + config.workspace_import_uri, headers=self.auth_engine.get_identity_as_headers()) 
-                with urllib.request.urlopen(req, data) as response:
-                    json_result = json.loads(response.read().decode("utf-8"))
+                response_json = self.get_json( self.url + config.workspace_import_uri, {config.workspace_import_schema_base : ivoa_schema.url, config.workspace_import_schema_name : importname})
+
         except Exception as e:
             logging.exception(e)
             
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = json_result)
+        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
     
     
     def import_jdbc_schema(self, jdbc_schema, schema_name=None, metadoc=None):                  
@@ -95,7 +93,7 @@ class AdqlResource(BaseResource):
         
         ## Needs refactoring to not use temp file
       
-        adqlschema={}
+        response_json={}
         
         if (metadoc!=None):
             #buf = StringIO()
@@ -142,7 +140,7 @@ class AdqlResource(BaseResource):
                          
                 c.perform()
                 c.close()
-                adqlschema = json.loads(buf.getvalue().decode("utf-8"))[0]
+                response_json = json.loads(buf.getvalue().decode("utf-8"))[0]
                 buf.close() 
                 
             except Exception as e:
@@ -150,17 +148,18 @@ class AdqlResource(BaseResource):
         else :
     
             try:
-                importname = schema_name
+                if schema_name!=None:
+                    importname = schema_name
+                else :
+                    importname = jdbc_schema.name()
+                    
                 if importname!="":
-                    data = urllib.parse.urlencode({config.workspace_import_schema_base : jdbc_schema.url, config.workspace_import_schema_name : importname}).encode("utf-8")
-                    req = urllib.request.Request( self.url + config.workspace_import_uri, headers=self.auth_engine.get_identity_as_headers()) 
-                    with urllib.request.urlopen(req, data) as response:
-                        adqlschema = json.loads(response.read().decode("utf-8"))
+                    response_json = self.get_json( self.url + config.workspace_import_uri, {config.workspace_import_schema_base : jdbc_schema.url, config.workspace_import_schema_name : importname})
                         
             except Exception as e:
                 logging.exception(e)
     
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = adqlschema)
+        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
     
         
     def import_adql_schema(self, adql_schema, schema_name=None):                   
@@ -175,21 +174,24 @@ class AdqlResource(BaseResource):
             Name of Schema
         
         """
-        json_result = {}
+        
+        response_json = {}
+        importname=""
+        
         try:
             if schema_name:
                 importname = schema_name
             else:
                 importname = adql_schema.name()
+                
+            print (importname)
             if importname!="":
-                data = urllib.parse.urlencode({config.workspace_import_schema_base : adql_schema.url, config.workspace_import_schema_name : importname}).encode("utf-8")
-                req = urllib.request.Request( self.url + config.workspace_import_uri, headers=self.auth_engine.get_identity_as_headers()) 
-                with urllib.request.urlopen(req, data) as response:
-                    json_result = json.loads(response.read().decode("utf-8"))
+                response_json = self.get_json( self.url + config.workspace_import_uri, {config.workspace_import_schema_base : adql_schema.url, config.workspace_import_schema_name : importname})
+
         except Exception as e:
             logging.exception(e)
             
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = json_result)
+        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
     
     
     def select_schemas(self):
@@ -214,20 +216,11 @@ class AdqlResource(BaseResource):
         """
         Select Schema by name, returns an AdqlSchema object
         """
-        response_json = {}
-        try :
-            data = urllib.parse.urlencode({config.resource_create_name_params["http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json"] : schema_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/schemas/select", headers=self.auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
-        except Exception as e:
-            logging.exception(e)      
-            
+        response_json = self.get_json( self.url + "/schemas/select", {config.resource_create_name_params["http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json"] : schema_name })
         return adql.AdqlSchema(json_object = response_json, auth_engine=self.auth_engine) 
     
 
-    def create_query(self, adql_query_input, adql_query_status_next="COMPLETED", jdbc_schema_ident=None, adql_query_wait_time=600000):
+    def create_query(self, adql_query_input, adql_query_status_next=None, jdbc_schema_ident=None, adql_query_wait_time=600000):
         """
         Create a query on this resource
         """
@@ -239,17 +232,9 @@ class AdqlResource(BaseResource):
         """
         Select queries for this resource, returns a list of AdqlQuery objects
         """
-        response_json = {}
-        try :
-
-            req = urllib.request.Request( self.url + "/queries/select", headers=self.auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(req) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
-        except Exception as e:
-            logging.exception(e)      
-            
         query_list = []
+
+        response_json = self.get_json( self.url + "/queries/select")
         for query in response_json:
             query_list.append(models.adql_query.AdqlQuery(json_object=query, auth_engine=self.auth_engine))
             

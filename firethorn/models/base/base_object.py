@@ -67,7 +67,7 @@ class BaseObject(object):
             return self.json_object.get("owner","")
 
 
-    def get_json(self, ident):
+    def get_json(self, ident, postparams=None):
         """Select a JSON HTTP resource
         
         Parameters
@@ -77,13 +77,18 @@ class BaseObject(object):
 
         """
         
+        data=None
         json_result = {}
+        req = None
+        
+        if postparams!=None:
+            data = urllib.parse.urlencode(postparams).encode("utf-8")
         
         try :
-            req_exc = urllib.request.Request( ident, headers=self.auth_engine.get_identity_as_headers())
-            with urllib.request.urlopen(req_exc) as response:
+            req = urllib.request.Request( ident, headers=self.auth_engine.get_identity_as_headers())
+            
+            with urllib.request.urlopen( req, data) as response:
                 json_result =  json.loads(response.read().decode('utf-8'))
-     
         except Exception as e:
             logging.exception(e)
             
