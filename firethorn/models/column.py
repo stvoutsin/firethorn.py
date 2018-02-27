@@ -9,15 +9,15 @@ class Column(object):
     """
 
 
-    def __init__(self, column=None):
-        self.__column = column
+    def __init__(self, adql_column=None):
+        self.__adql_column = adql_column
         
     
     def name(self):
-        return self.__column.name()                    
+        return self.__adql_column.name()                    
     
     
     def __str__(self):
         """Get class as string
         """
-        return self.__column
+        return self.__adql_column

@@ -50,7 +50,7 @@ class AdqlTable(BaseTable):
         """
         response_json = {}
         try :
-            response_json = self.get_json(  self.url + "/columns/select", { "adql.column.name": column_name })
+            response_json = self.get_json(  self.url + "/columns/select", { "adql.table.column.select.name": column_name })
         except Exception as e:
             logging.exception(e)   
             

@@ -1,7 +1,6 @@
-import account
 try:
     import logging
-    from models.workspace import Workspace 
+    from models.resource import Resource 
     from core.firethorn_engine import FirethornEngine
     import config as config
     from adql.adql_resource import AdqlResource
@@ -32,7 +31,7 @@ class Firethorn(object):
     """
 
 
-    __predefined_workspaces__ = {"OSA": config.osa_endpoint}
+    __predefined_resources__ = {"OSA": config.osa_endpoint}
     __id__ = ""
     
     
@@ -69,8 +68,30 @@ class Firethorn(object):
         return self.firethorn_engine.account
     
     
-    def get_workspace(self, name):
-        """ Select a workspace from the predefined list of workspaces, by name
+    def get_public_resources(self):
+        """ Get public resource list 
+        """
+        resource_list = []
+        
+        for resource in self.__predefined_resources__:
+            resource_list.append(Resource(adql_resource=AdqlResource(url=self.__predefined_resources__.get(resource,None), account=self.firethorn_engine.account)))             
+      
+        return resource_list
+    
+    
+    def get_public_resource_names(self):
+        """ Get a list of available public predefined resources
+               
+        Returns
+        -------
+        list : list
+            List of resource names (strings)
+        """
+        return list(self.__predefined_resources__.keys())
+    
+    
+    def get_public_resource_by_name(self, name):
+        """ Select a resource from the public list of resources, by name
         
         Parameters
         ----------
@@ -80,9 +101,9 @@ class Firethorn(object):
         Returns
         -------
         Workspace : Workspace
-            A copy of the selected Workspace object
+            A copy of the selected Resource object
         """
-        return Workspace(adql_resource=AdqlResource(url=self.__predefined_workspaces__.get(name,None),account=self.firethorn_engine.account))
+        return Resource(adql_resource=AdqlResource(url=self.__predefined_resources__.get(name,None), account=self.firethorn_engine.account))
     
     
     def new_workspace(self, name=None):
@@ -95,23 +116,15 @@ class Firethorn(object):
                       
         Returns
         -------
-        Workspace : Workspace
-            The newly created Workspace
+        Resource : Resource
+            The newly created Resource
         """
         
         resource = self.firethorn_engine.create_adql_resource(name)
-        return Workspace(adql_resource=resource)
+        return Resource(adql_resource=resource)
     
     
-    def get_public_workspaces(self):
-        """ Get a list of available public predefined workspaces
-               
-        Returns
-        -------
-        list : list
-            List of workspace names (strings)
-        """
-        return list(self.__predefined_workspaces__.keys())
+
     
 
 

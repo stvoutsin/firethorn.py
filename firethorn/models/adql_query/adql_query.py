@@ -67,8 +67,9 @@ class AdqlQuery(BaseObject):
     def error (self):
         """Get Error message
         """
+        error = ""
         try: 
-            error = self.adql_query.getAttr("syntax").get("friendly",None)
+            error = self.json_object.get("syntax").get("friendly",None)
         except Exception as e:
             logging.exception(e) 
                

@@ -5,6 +5,8 @@ Created on Feb 8, 2018
 '''
 from base.base_table import BaseTable
 import jdbc
+import logging
+
 
 class JdbcTable(BaseTable):
     """
@@ -28,10 +30,6 @@ class JdbcTable(BaseTable):
     
     
     def schema(self):
-        #if (self.json_object!=None):
-        #    return jdbc.JdbcSchema(adql_table=self, url=self.json_object.get("schema",""))
-        #else:
-        #    return None 
         return self.jdbc_schema
         
         
@@ -50,7 +48,25 @@ class JdbcTable(BaseTable):
  
     
     def select_column_by_name(self, column_name):
-        return 
+        """Get column by name
+        
+        Parameters
+        ----------
+        column_name: string, required
+            The name of the Table being searched
+         
+        Returns
+        -------
+        column_list: list
+            List of table names
+        """
+        response_json = {}
+        try :
+            response_json = self.get_json(  self.url + "/columns/select", { "jdbc.table.column.select.name": column_name })
+        except Exception as e:
+            logging.exception(e)   
+            
+        return jdbc.JdbcColumn(json_object = response_json, jdbc_table=self)    
                          
                          
     def create_column(self, column_name):

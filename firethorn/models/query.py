@@ -126,7 +126,7 @@ class Query(object):
         Get Error message
         """
         if self.adql_query!=None:
-            return self.adql_query.get_error()
+            return self.adql_query.error()
 
 
     def isRunning(self):
