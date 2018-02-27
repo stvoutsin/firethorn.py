@@ -14,6 +14,7 @@ import warnings
 from models.column import Column
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
+import config as config
 
 class Table(object):
     """Table class, equivalent to a Firethorn ADQL Table
@@ -44,7 +45,7 @@ class Table(object):
         return Column(self.__adql_table.select_column_by_name(name))
     
     
-    def as_astropy (self):
+    def as_astropy (self, limit=True):
         """Get Astropy table
                              
         Returns
@@ -53,7 +54,11 @@ class Table(object):
             Table as Astropy table 
         """
         if (self.__adql_table!=None):
-            return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")        
+            if (limit):
+                if (self.__adql_table.count()>config.maxrows):
+                    raise Exception ("Max row limit exceeded")
+            else:
+                return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")        
         else:
             return None
                 
