@@ -37,7 +37,7 @@ class BaseObject(object):
     def url(self, url):
         self.__url= url 
         if (self.json_object!=None and url==None):
-            self.__url = self.json_object.get("self","")           
+            self.__url = self.json_object.get("self",None)           
 
 
     def name(self):

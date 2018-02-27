@@ -206,7 +206,7 @@ print (wspace.get_schemas())
 
 querytext = "SELECT * FROM ATLASDR1.Filter"
 
-admin_query = query_resource.create_query(querytext, "COMPLETED") 
+admin_query = query_resource.create_query(querytext) 
 admin_query.update(adql_query_status_next="COMPLETED")
 
 print ("Creating query using AdqlQuery.. ")

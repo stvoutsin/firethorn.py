@@ -3,6 +3,7 @@ Created on Feb 8, 2018
 
 @author: stelios
 '''
+from click.json_helpers import json_object_to_python
 
 try:
     import logging
@@ -102,9 +103,13 @@ class AdqlQuery(BaseObject):
         if (self.json_object==None):
             if (self.url!=None):
                 self.json_object = self.get_json(self.url)
-                return self.json_object.get("results","").get("table",None)
-        else:
-            return self.json_object.get("results","").get("table",None)  
+               
+        table_json = self.get_json(self.json_object.get("results",None).get("table",None))
+        schema_json = self.get_json(table_json.get("schema",None))
+        resource_json = self.get_json(schema_json.get("resource",None))
+        new_resource = adql.AdqlResource(json_object=resource_json, account=self.account)
+        new_schema = adql.AdqlSchema(json_object=schema_json, adql_resource = new_resource)
+        return adql.AdqlTable(url=self.json_object.get("results",None).get("table",None), adql_schema=new_schema)
         
         
     def getAttr(self, attribute):

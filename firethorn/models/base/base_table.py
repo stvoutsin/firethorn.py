@@ -16,7 +16,7 @@ class BaseTable(BaseObject):
         Constructor
         """
         self.parent = parent
-        super().__init__(self.parent.account, json_object, url) 
+        super().__init__(account=self.parent.account, json_object=json_object, url=url) 
         
         
     def resource(self):

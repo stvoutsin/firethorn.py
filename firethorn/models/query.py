@@ -108,7 +108,7 @@ class Query(object):
         """
         if (self.adql_query!=None):
             if (self.adql_query.table()!=None):
-                return self.adql_query.table()
+                return Table(adql_table=self.adql_query.table())
         
         return None
 

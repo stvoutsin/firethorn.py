@@ -63,7 +63,7 @@ class Table(object):
             return None
                 
     
-    def rwocount (self):
+    def rowcount (self):
         """Get Row count
         
         Returns

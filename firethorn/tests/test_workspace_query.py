@@ -51,7 +51,7 @@ class Test(unittest.TestCase):
         async_query = my_workspace.query("SELECT TOP * FROM ATLASDR1.Filter", "ASYNC")
         # Test an Asynchronous query       
         print (async_query.error())
-        async_query.update("SELECT * FROM ATLASDR1.Filter")
+        async_query.update("SELECT TOP 1000 * FROM ATLASDR1.atlasSource")
         
         async_query.run()
         while async_query.isRunning():
@@ -63,11 +63,12 @@ class Test(unittest.TestCase):
                 
         
         # Run a Synchronous query
-        query = my_workspace.query("SELECT TOP 10 ra,dec FROM ATLASDR1.atlasSource")
+        query = my_workspace.query("SELECT TOP 1000 * FROM ATLASDR1.atlasSource")
         # Get results table
         table = query.results()
+        print ("Status: "+ str(query.status()))
         # Get results table row count
-        table.rowcount()
+        print ("Row count: " + str(table.rowcount()))
         # Get results table as astropy table
         table.as_astropy()
 

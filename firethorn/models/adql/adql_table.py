@@ -19,7 +19,7 @@ class AdqlTable(BaseTable):
         Constructor
         """
         super().__init__(adql_schema, json_object, url) 
-    
+
         
     def select_columns(self):
         column_list = []
