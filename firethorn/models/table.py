@@ -19,50 +19,27 @@ class Table(object):
     """
 
 
-    def __init__(self, auth_engine=None, table=None):
-        
-        self.table = table
-        self.auth_engine = auth_engine
-        if (self.table!=None):
-            self.astropy_table = astropy_Table.read(self.table.url + "/votable", format="votable")        
-        else:
-            self.astropy_table = None
-        
-                   
-    @property
-    def astropy_table(self):
-        return self.__astropy_table
+    def __init__(self, table=None):
+        self.__table = table
         
         
-    @astropy_table.setter
-    def astropy_table(self, astropy_table):
-        self.__astropy_table = astropy_table
-        
-        
+    def name(self):
+        return self.__table.name()   
+    
+            
     def as_astropy (self):
         """Get Astropy table
-                    response_json = self.get_json(self.url + "/tables/select", { "jdbc.table.name": table_name })                
-
+                             
         Returns
         -------
         astropy_table: Astropy.Table
             Table as Astropy table 
         """
-        return self.astropy_table
+        if (self.__table!=None):
+            return astropy_Table.read(self.__table.url + "/votable", format="votable")        
+        else:
+            return None
                 
-                
-    def get_error (self):
-        """Get Error message
-        
-        Returns
-        -------
-        self.error: string
-            Error Message 
-        """        
-
-        if self.table!=None:
-            return self.table.get_error()
-    
     
     def rwocount (self):
         """Get Row count
@@ -72,17 +49,15 @@ class Table(object):
         rowcount: integer
             Count of rows  
         """  
-        rowcount=None
         
-        try: 
-            rowcount = self.get_json(self.table.url).get("metadata",[]).get("adql",[]).get("count",None)
-        except Exception as e:
-            logging.exception(e) 
-               
-        return rowcount    
+        if (self.__table!=None):
+            return self.__table.count()  
+        else:
+            return None        
+          
     
                         
     def __str__(self):
         """Get class as string
         """
-        return self.astropy_table
+        return self.__table

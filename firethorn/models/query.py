@@ -5,6 +5,7 @@ Created on Nov 4, 2017
 '''
 import logging
 from table import Table
+from adql import adql_schema
 try:
     import simplejson as json
 except ImportError:
@@ -26,18 +27,17 @@ class Query(object):
     adql_query: string, optional
         The AdqlQuery object
         
-    auth_engine: AuthEngine, optional
+    account: Account, optional
         Reference to the he Authentication Engine being used
                   
     """
 
-    def __init__(self, auth_engine=None, querystring=None,  adql_query=None, mode="SYNC"):
+    def __init__(self,  querystring=None,  adql_query=None, mode="SYNC"):
         self.adql_query = adql_query
         self.mode = mode
         self.querystring = querystring
-        self.auth_engine = auth_engine
-        if (self.auth_engine==None and self.adql_query!=None):
-            self.auth_engine = self.adql_query.auth_engine
+        if (self.adql_query!=None):
+            self.account = self.adql_query.account
         if (mode=="SYNC"):
             self.run()
         pass
@@ -108,7 +108,7 @@ class Query(object):
         """
         if (self.adql_query!=None):
             if (self.adql_query.table()!=None):
-                return Table(table=self.adql_query.table(), auth_engine=self.auth_engine)
+                return self.adql_query.table()
         
         return None
 

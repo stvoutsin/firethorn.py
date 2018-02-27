@@ -6,7 +6,6 @@ Created on Feb 8, 2018
 
 try:
     from base.base_resource import BaseResource
-    import adql
     import models
     import json
     import config as config
@@ -26,11 +25,11 @@ class AdqlResource(BaseResource):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, account, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(account, json_object, url) 
         
     
     def create_adql_schema(self, schema_name):
@@ -48,7 +47,7 @@ class AdqlResource(BaseResource):
         except Exception as e:
             logging.exception(e)
             
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
+        return models.adql.AdqlSchema(adql_resource = self, json_object = response_json)
     
     
     def import_ivoa_schema(self, ivoa_schema, schema_name=None):
@@ -66,7 +65,7 @@ class AdqlResource(BaseResource):
         except Exception as e:
             logging.exception(e)
             
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
+        return models.adql.AdqlSchema(adql_resource = self, json_object = response_json)
     
     
     def import_jdbc_schema(self, jdbc_schema, schema_name=None, metadoc=None):                  
@@ -121,21 +120,21 @@ class AdqlResource(BaseResource):
                 c.setopt(c.URL, str(url))
                 c.setopt(c.HTTPPOST, values)
                 c.setopt(c.WRITEFUNCTION, buf.write)
-                if (self.auth_engine.password!=None and self.auth_engine.community!=None):
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
-                                                  "firethorn.auth.password", self.auth_engine.password,
-                                                  "firethorn.auth.community",self.auth_engine.community
+                if (self.account.password!=None and self.account.community!=None):
+                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
+                                                  "firethorn.auth.password", self.account.password,
+                                                  "firethorn.auth.community",self.account.community
                                                 ])
                 elif (self.identity.password!=None ):
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
-                                                  "firethorn.auth.password", self.auth_engine.password,
+                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
+                                                  "firethorn.auth.password", self.account.password,
                                                 ])    
                 elif (self.identity.community!=None ):
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
-                                                  "firethorn.auth.community", self.auth_engine.community,
+                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
+                                                  "firethorn.auth.community", self.account.community,
                                                 ])    
                 else:
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
+                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
                                                 ])    
                          
                 c.perform()
@@ -159,7 +158,7 @@ class AdqlResource(BaseResource):
             except Exception as e:
                 logging.exception(e)
     
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
+        return models.adql.AdqlSchema(adql_resource = self, json_object = response_json)
     
         
     def import_adql_schema(self, adql_schema, schema_name=None):                   
@@ -191,7 +190,7 @@ class AdqlResource(BaseResource):
         except Exception as e:
             logging.exception(e)
             
-        return adql.AdqlSchema(auth_engine = self.auth_engine, json_object = response_json)
+        return models.adql.AdqlSchema(adql_resource = self, json_object = response_json)
     
     
     def select_schemas(self):
@@ -201,7 +200,7 @@ class AdqlResource(BaseResource):
         schema_list = []
         json_list = self.get_json(self.url + "/schemas/select")
         for schema in json_list:
-            schema_list.append(adql.AdqlSchema(json_object=schema, auth_engine=self.auth_engine))
+            schema_list.append(models.adql.AdqlSchema(json_object=schema, adql_resource = self))
         return schema_list
     
     
@@ -209,7 +208,7 @@ class AdqlResource(BaseResource):
         """
         Select by identity, returns an AdqlSchema object
         """
-        return adql.AdqlSchema(url=ident, auth_engine=self.auth_engine)
+        return models.adql.AdqlSchema(url=ident, adql_resource = self)
     
     
     def select_schema_by_name(self,schema_name):
@@ -217,7 +216,7 @@ class AdqlResource(BaseResource):
         Select Schema by name, returns an AdqlSchema object
         """
         response_json = self.get_json( self.url + "/schemas/select", {config.resource_create_name_params["http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-schema-1.0.json"] : schema_name })
-        return adql.AdqlSchema(json_object = response_json, auth_engine=self.auth_engine) 
+        return models.adql.AdqlSchema(json_object = response_json, adql_resource=self) 
     
 
     def create_query(self, adql_query_input, adql_query_status_next=None, jdbc_schema_ident=None, adql_query_wait_time=600000):
@@ -225,7 +224,7 @@ class AdqlResource(BaseResource):
         Create a query on this resource
         """
         qry_engine = QueryEngine()
-        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, auth_engine=self.auth_engine, adql_query_wait_time=adql_query_wait_time, jdbc_schema_ident=jdbc_schema_ident)
+        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, account=self.account, adql_query_wait_time=adql_query_wait_time, jdbc_schema_ident=jdbc_schema_ident)
     
     
     def select_queries(self):
@@ -236,7 +235,7 @@ class AdqlResource(BaseResource):
 
         response_json = self.get_json( self.url + "/queries/select")
         for query in response_json:
-            query_list.append(models.adql_query.AdqlQuery(json_object=query, auth_engine=self.auth_engine))
+            query_list.append(models.adql_query.AdqlQuery(json_object=query, adql_resource=self))
             
         return query_list
         

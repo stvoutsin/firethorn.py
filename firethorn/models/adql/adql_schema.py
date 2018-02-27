@@ -6,6 +6,7 @@ Created on Feb 8, 2018
 from base.base_schema import BaseSchema
 import adql
 import logging
+from adql import adql_resource
 
 
 class AdqlSchema(BaseSchema):
@@ -14,18 +15,11 @@ class AdqlSchema(BaseSchema):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, adql_resource, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
-        
-        
-    def resource(self):
-        if (self.json_object!=None):
-            return adql.AdqlResource(auth_engine=self.auth_engine, url=self.json_object.get("parent",""))
-        else:
-            return None 
+        super().__init__(adql_resource, json_object, url) 
         
         
     def select_tables(self):
@@ -33,13 +27,13 @@ class AdqlSchema(BaseSchema):
         json_list = self.get_json(self.json_object.get("tables",""))
 
         for table in json_list:
-            table_list.append(adql.AdqlTable(json_object=table, auth_engine=self.auth_engine))
+            table_list.append(adql.AdqlTable(json_object=table, adql_schema=self))
             
         return table_list
     
         
     def select_table_by_ident(self, ident):
-        return adql.AdqlTable(auth_engine=self.auth_engine, url=ident)
+        return adql.AdqlTable(adql_schema=self, url=ident)
     
     
     def select_table_by_name(self, table_name):
@@ -61,7 +55,7 @@ class AdqlSchema(BaseSchema):
         except Exception as e:
             logging.exception(e)   
             
-        return adql.AdqlTable(json_object = response_json, auth_engine=self.auth_engine)    
+        return adql.AdqlTable(json_object = response_json, adql_schema=self)    
     
                            
     def create_table(self, table_name):

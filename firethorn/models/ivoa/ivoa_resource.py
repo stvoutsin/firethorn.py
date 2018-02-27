@@ -24,11 +24,11 @@ class IvoaResource(BaseResource):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, account, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(account, json_object, url) 
         
 
     def select_schemas(self):
@@ -37,13 +37,13 @@ class IvoaResource(BaseResource):
         json_list = self.get_json(self.url + "/schemas/select")
         
         for schema in json_list:
-            schema_list.append(ivoa.IvoaSchema(json_object=schema, auth_engine=self.auth_engine))
+            schema_list.append(ivoa.IvoaSchema(json_object=schema, ivoa_resource=self))
         
         return schema_list
     
     
     def select_schema_by_ident(self, ident):
-        return ivoa.IvoaSchema(url=ident, auth_engine=self.auth_engine)
+        return ivoa.IvoaSchema(url=ident,  ivoa_resource=self)
     
     
     def select_schema_by_name(self,schema_name):
@@ -53,7 +53,7 @@ class IvoaResource(BaseResource):
         except Exception as e:
             logging.exception(e)      
             
-        return ivoa.IvoaSchema(json_object = response_json, auth_engine=self.auth_engine)  
+        return ivoa.IvoaSchema(json_object = response_json, ivoa_resource=self)  
     
 
     def import_ivoa_metadoc(self, metadoc):
@@ -96,21 +96,21 @@ class IvoaResource(BaseResource):
             c.setopt(c.URL, str(url))
             c.setopt(c.HTTPPOST, values)
             c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.auth_engine.password!=None and self.auth_engine.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
-                                              "firethorn.auth.password", self.auth_engine.password,
-                                              "firethorn.auth.community",self.auth_engine.community
+            if (self.account.password!=None and self.account.community!=None):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
+                                              "firethorn.auth.password", self.account.password,
+                                              "firethorn.auth.community",self.account.community
                                             ])
-            elif (self.auth_engine.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
-                                              "firethorn.auth.password", self.auth_engine.password,
+            elif (self.account.password!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
+                                              "firethorn.auth.password", self.account.password,
                                             ])    
-            elif (self.auth_engine.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
-                                              "firethorn.auth.community", self.auth_engine.community,
+            elif (self.account.community!=None ):
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
+                                              "firethorn.auth.community", self.account.community,
                                             ])    
             else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.auth_engine.username,
+                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
                                             ])    
                                                    
             c.perform()

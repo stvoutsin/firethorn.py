@@ -18,13 +18,10 @@ class Workspace(object):
     url: String, optional
         A String representing the URL of the workspace
         
-    auth_engine: AuthEngine, optional
-        A reference to the AuthEngine
-        
+
     """
 
-    def __init__(self, adql_resource=None, url=None, auth_engine=None):
-        self.auth_engine = auth_engine
+    def __init__(self, adql_resource=None, url=None):
         self.url = url             
         self.adql_resource = adql_resource
         return        
@@ -84,7 +81,7 @@ class Workspace(object):
             The created Query
         """
         adql_query = self.adql_resource.create_query(query)
-        return Query(adql_query=adql_query, auth_engine=self.auth_engine, mode=mode)
+        return Query(adql_query=adql_query, mode=mode)
 
 
     def get_schemas(self):

@@ -1,4 +1,4 @@
-import auth_engine
+import account
 try:
     import logging
     from models.workspace import Workspace 
@@ -43,7 +43,7 @@ class Firethorn(object):
         if username!=None:
             self.firethorn_engine.login(username, password, community)            
         else:
-            self.firethorn_engine.create_temporary_auth()
+            self.firethorn_engine.create_temporary_account()
         return        
 
 
@@ -64,9 +64,9 @@ class Firethorn(object):
 
     def identity(self):
         """
-        Get the name of the owner currently logged in
+        Get the name of the identity currently logged in
         """
-        return self.firethorn_engine.auth_engine
+        return self.firethorn_engine.account
     
     
     def get_workspace(self, name):
@@ -82,7 +82,7 @@ class Firethorn(object):
         Workspace : Workspace
             A copy of the selected Workspace object
         """
-        return Workspace(adql_resource=AdqlResource(url=self.__predefined_workspaces__.get(name,None),auth_engine=self.firethorn_engine.auth_engine), auth_engine=self.firethorn_engine.auth_engine)
+        return Workspace(adql_resource=AdqlResource(url=self.__predefined_workspaces__.get(name,None),account=self.firethorn_engine.account))
     
     
     def new_workspace(self, name=None):
@@ -100,7 +100,7 @@ class Firethorn(object):
         """
         
         resource = self.firethorn_engine.create_adql_resource(name)
-        return Workspace(adql_resource=resource, auth_engine = self.firethorn_engine.auth_engine)
+        return Workspace(adql_resource=resource)
     
     
     def get_public_workspaces(self):

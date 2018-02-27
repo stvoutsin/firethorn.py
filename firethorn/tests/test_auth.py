@@ -22,13 +22,13 @@ class Test(unittest.TestCase):
         print ("") 
         
         print ("Checking System info  as " + str(ft.identity()))
-        ft.firethorn_engine.auth_engine.community=None
+        ft.firethorn_engine.account.community=None
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.system_info_check())
         print ("") 
          
         print ("Checking System info  as " + str(ft.identity()))
-        ft.firethorn_engine.auth_engine.password=""
+        ft.firethorn_engine.account.password=""
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.system_info_check())
         print ("")  
@@ -40,14 +40,14 @@ class Test(unittest.TestCase):
         print ("") 
         
          
-        ft.firethorn_engine.auth_engine.community="NOT-wombles"
+        ft.firethorn_engine.account.community="NOT-wombles"
         print ("Checking System info as " + str(ft.identity()))
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.system_info_check())
         print ("") 
             
         ft.login("orinoco", "wombleden", "wombles")
-        ft.firethorn_engine.auth_engine.password="NOT-wombleden"
+        ft.firethorn_engine.account.password="NOT-wombleden"
         print ("Checking System info as " + str(ft.identity()))
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.system_info_check())
@@ -92,7 +92,7 @@ class Test(unittest.TestCase):
         print ("") 
         
     
-        ft.firethorn_engine.create_temporary_auth()
+        ft.firethorn_engine.create_temporary_account()
         print ("Select JDBC Resource as ")
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.get_json(atlas_jdbc_url.url))
@@ -112,7 +112,7 @@ class Test(unittest.TestCase):
         print ("") 
     
     
-        ft.firethorn_engine.create_temporary_auth()
+        ft.firethorn_engine.create_temporary_account()
         print ("Select ADQL Resource as ")
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.get_json(atlas_adql_url.url))

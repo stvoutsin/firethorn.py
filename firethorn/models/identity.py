@@ -10,15 +10,15 @@ except Exception as e:
     logging.exception(e)
     
 
-class Owner(BaseObject):
-    """Owner class 
+class Identity(BaseObject):
+    """Identity class 
     """
         
-    def __init__(self, auth_engine, json_object=None, url=None ):
+    def __init__(self, account, json_object=None, url=None ):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(account, json_object, url) 
         
         
     def community(self):

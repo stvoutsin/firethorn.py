@@ -10,17 +10,18 @@ import json
 import logging
 import jdbc
 
+
 class JdbcResource(BaseResource):
     """
     classdocs
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, account, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(account, json_object, url) 
         
 
     def select_schemas(self):
@@ -28,13 +29,13 @@ class JdbcResource(BaseResource):
         json_list = self.get_json(self.url + "/schemas/select")
         
         for schema in json_list:
-            schema_list.append(jdbc.JdbcSchema(json_object=schema, auth_engine=self.auth_engine))
+            schema_list.append(jdbc.JdbcSchema(json_object=schema, jdbc_resource=self))
         
         return schema_list
     
     
     def select_schema_by_ident(self, ident):
-        return jdbc.JdbcSchema(url=ident, auth_engine=self.auth_engine)
+        return jdbc.JdbcSchema(url=ident, jdbc_resource=self)
     
     
     def select_schema_by_name(self, catalog_name, schema_name):
@@ -44,7 +45,7 @@ class JdbcResource(BaseResource):
         except Exception as e:
             logging.exception(e)      
             
-        return jdbc.JdbcSchema(json_object = response_json, auth_engine=self.auth_engine)
+        return jdbc.JdbcSchema(json_object = response_json, jdbc_resource=self)
     
     
     def create_schema(self, catalog_name, schema_name):

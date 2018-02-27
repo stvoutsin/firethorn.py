@@ -11,18 +11,21 @@ class BaseSchema(BaseObject):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, parent, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        self.parent = parent
+        super().__init__(parent.account, json_object, url) 
         
         
     def resource(self):
-        return 
+        return self.parent
+    
     
     def name(self):
         return self.schema_name()
+    
     
     def schema_name(self):
         if (self.json_object!=None):

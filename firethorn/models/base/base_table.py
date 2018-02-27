@@ -11,19 +11,20 @@ class BaseTable(BaseObject):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, parent, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        self.parent = parent
+        super().__init__(self.parent.account, json_object, url) 
         
         
     def resource(self):
-        return
+        return self.parent.resource()
     
     
     def schema(self):
-        return
+        return self.parent
     
     
     def select_columns(self):

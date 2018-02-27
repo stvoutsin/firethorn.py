@@ -21,11 +21,11 @@ class IvoaTable(BaseTable):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, ivoa_schema, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(ivoa_schema, json_object, url) 
     
     
     def select_columns(self):
@@ -33,13 +33,13 @@ class IvoaTable(BaseTable):
         json_list = self.get_json(self.url + "/columns/select")
 
         for column in json_list:
-            column_list.append(ivoa.IvoaColumn(json_object=column, auth_engine=self.auth_engine))
+            column_list.append(ivoa.IvoaColumn(json_object=column, ivoa_table=self))
             
         return column_list
     
         
     def select_column_by_ident(self, ident):
-        return ivoa.IvoaColumn(url=ident, auth_engine=self.auth_engine)
+        return ivoa.IvoaColumn(url=ident,  ivoa_table=self)
     
     
     def select_column_by_name(self,column_name):
@@ -50,5 +50,5 @@ class IvoaTable(BaseTable):
         except Exception as e:
             logging.exception(e)      
             
-        return ivoa.IvoaColumn(json_object = response_json, auth_engine=self.auth_engine)  
+        return ivoa.IvoaColumn(json_object = response_json, ivoa_table=self)  
     

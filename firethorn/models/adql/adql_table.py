@@ -14,39 +14,25 @@ class AdqlTable(BaseTable):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, adql_schema, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(adql_schema, json_object, url) 
     
         
-    def resource(self):
-        if (self.json_object!=None):
-            return adql.AdqlResource(auth_engine=self.auth_engine, url=self.json_object.get("resource",""))
-        else:
-            return None 
-    
-    
-    def schema(self):
-        if (self.json_object!=None):
-            return adql.AdqlSchema(auth_engine=self.auth_engine, url=self.json_object.get("schema",""))
-        else:
-            return None 
-    
-    
     def select_columns(self):
         column_list = []
         json_list = self.get_json(self.url + "/columns/select")
 
         for column in json_list:
-            column_list.append(adql.AdqlColumn(json_object=column, auth_engine=self.auth_engine))
+            column_list.append(adql.AdqlColumn(json_object=column, adql_table=self))
             
         return column_list
     
     
     def select_column_by_ident(self, ident):
-        return adql.AdqlColumn(auth_engine=self.auth_engine, url=ident)
+        return adql.AdqlColumn(adql_table=self, url=ident)
  
     
     def select_column_by_name(self, column_name):
@@ -68,10 +54,29 @@ class AdqlTable(BaseTable):
         except Exception as e:
             logging.exception(e)   
             
-        return adql.AdqlColumn(json_object = response_json, auth_engine=self.auth_engine)    
+        return adql.AdqlColumn(json_object = response_json, adql_table=self)    
                    
     
     def create_adql_column(self, column_name):
         return
+    
+    
+    def count(self):
+        """Get Row count
+        
+        Returns
+        -------
+        rowcount: integer
+            Count of rows  
+        """  
+        rowcount=None
+        
+        try:
+            if (self.json_object!=None):  
+                rowcount = self.json_object.get("metadata",[]).get("adql",[]).get("count",None)
+        except Exception as e:
+            logging.exception(e) 
+               
+        return rowcount
     
     

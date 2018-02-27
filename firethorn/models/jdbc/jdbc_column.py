@@ -13,18 +13,11 @@ class JdbcColumn(BaseColumn):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, jdbc_table, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
-        
-        
-    def table(self):
-        if (self.json_object!=None):
-            return jdbc.JdbcTable(auth_engine=self.auth_engine, url=self.json_object.get("parent",""))
-        else:
-            return None 
+        super().__init__(jdbc_table, json_object, url) 
         
         
     def type(self):

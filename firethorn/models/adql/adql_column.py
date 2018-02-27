@@ -13,17 +13,12 @@ class AdqlColumn(BaseColumn):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, adql_table, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
-        
-    def table(self):
-        if (self.json_object!=None):
-            return adql.AdqlTable(auth_engine=self.auth_engine, url=self.json_object.get("parent",""))
-        else:
-            return None         
+        super().__init__(adql_table, json_object, url) 
+             
         
     def type(self):
         if (self.json_object.get("meta","")!=""):

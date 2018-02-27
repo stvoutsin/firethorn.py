@@ -11,8 +11,8 @@ class IvoaColumn(BaseColumn):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, ivoa_table, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(ivoa_table, json_object, url) 

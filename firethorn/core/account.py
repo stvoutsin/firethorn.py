@@ -8,7 +8,7 @@ import urllib
 import config as config
 import logging
 
-class AuthEngine(object):
+class Account(object):
     '''
     classdocs
     '''
@@ -66,7 +66,7 @@ class AuthEngine(object):
     def login(self, username=None, password=None, community=None):
         try :
             
-            new_auth = AuthEngine(username, password, community)
+            new_auth = Account(username, password, community)
             req = urllib.request.Request(self.endpoint + config.system_info, headers=new_auth.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 response.read().decode('utf-8')     

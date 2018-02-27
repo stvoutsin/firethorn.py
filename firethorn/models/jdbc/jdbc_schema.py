@@ -14,19 +14,17 @@ class JdbcSchema(BaseSchema):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, jdbc_resource, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(auth_engine, json_object, url) 
+        super().__init__(jdbc_resource, json_object, url) 
+        self.jdbc_resource = jdbc_resource
     
     
     def resource(self):
-        if (self.json_object!=None):
-            return jdbc.JdbcResource(auth_engine=self.auth_engine, url=self.json_object.get("parent",""))
-        else:
-            return None 
-    
+        return self.jdbc_resource
+        
         
     def catalog_name(self):
         if (self.json_object!=None):
@@ -40,13 +38,13 @@ class JdbcSchema(BaseSchema):
         json_list = self.get_json(self.json_object.get("tables",""))
 
         for column in json_list:
-            table_list.append(jdbc.JdbcTable(json_object=column, auth_engine=self.auth_engine))
+            table_list.append(jdbc.JdbcTable(json_object=column, jdbc_schema=self))
             
         return table_list
     
         
     def select_table_by_ident(self, ident):
-        return jdbc.JdbcTable(auth_engine=self.auth_engine, url=ident)
+        return jdbc.JdbcTable(jdbc_schema=self, url=ident)
     
     
     def select_table_by_name(self, table_name):
@@ -68,7 +66,7 @@ class JdbcSchema(BaseSchema):
         except Exception as e:
             logging.exception(e)   
             
-        return jdbc.JdbcTable(json_object = response_json, auth_engine=self.auth_engine)    
+        return jdbc.JdbcTable(json_object = response_json, jdbc_schema=self)    
     
                            
     def create_table(self, table_name):

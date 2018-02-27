@@ -16,13 +16,13 @@ class BaseObject(object):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None ):
+    def __init__(self, account, json_object=None, url=None ):
         """
         Constructor
         """
         self.json_object = json_object
         self.url = url
-        self.auth_engine = auth_engine
+        self.account = account
         if (self.json_object==None and self.url!=None):
             self.json_object = self.get_json(self.url) 
              
@@ -85,7 +85,7 @@ class BaseObject(object):
             data = urllib.parse.urlencode(postparams).encode("utf-8")
         
         try :
-            req = urllib.request.Request( ident, headers=self.auth_engine.get_identity_as_headers())
+            req = urllib.request.Request( ident, headers=self.account.get_identity_as_headers())
             
             with urllib.request.urlopen( req, data) as response:
                 json_result =  json.loads(response.read().decode('utf-8'))

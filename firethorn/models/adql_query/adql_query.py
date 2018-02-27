@@ -21,13 +21,14 @@ class AdqlQuery(BaseObject):
     """
 
 
-    def __init__(self, auth_engine, json_object=None, url=None):
+    def __init__(self, adql_resource, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(auth_engine, json_object, url) 
-        self.query_engine = core.query_engine.QueryEngine(self.auth_engine)
-        self.auth_engine = auth_engine
+        self.adql_resource = adql_resource
+        super().__init__(self.adql_resource.account, json_object, url) 
+        self.query_engine = core.query_engine.QueryEngine(self.account)
+        
         
     def ident(self):
         if (self.json_object==None):
@@ -40,7 +41,7 @@ class AdqlQuery(BaseObject):
         
     def resource(self):
         if (self.json_object!=None):
-            return adql.AdqlResource(auth_engine=self.auth_engine, url=self.json_object.get("workspace",""))
+            return adql.AdqlResource(account=self.account, url=self.json_object.get("workspace",""))
         else:
             return None 
         
@@ -115,7 +116,7 @@ class AdqlQuery(BaseObject):
         
     
     def update(self, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None):
-        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, auth_engine=self.auth_engine, adql_query_wait_time=adql_query_wait_time)
+        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, adql_query_wait_time=adql_query_wait_time)
 
 
     def run_sync(self):
