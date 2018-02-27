@@ -57,6 +57,8 @@ class Table(object):
             if (limit):
                 if (self.__adql_table.count()>config.maxrows):
                     raise Exception ("Max row limit exceeded")
+                else :
+                    return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")
             else:
                 return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")        
         else:
