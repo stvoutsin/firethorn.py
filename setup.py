@@ -29,6 +29,7 @@ setup(
     install_requires=[
         'numpy>=1.4.0',
         'astropy>=0.4.1',
+        'requests'
     ]
 )
 
