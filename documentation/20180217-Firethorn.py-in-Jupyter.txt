@@ -80,6 +80,7 @@ adminpass=wombleden
 
 guestgroup=friends
 osa_endpoint=http://gillian:8080/firethorn/adql/resource/208834 
+endpoint=http://gillian:8080
 
 EOF
 

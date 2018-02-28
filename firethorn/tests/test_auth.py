@@ -15,7 +15,7 @@ class Test(unittest.TestCase):
 
 
     def testAuth(self):
-        ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint)
+        ft = firethorn.Firethorn(endpoint=firethorn.config.endpoint)
         print ("Checking System info as " + str(ft.identity()))
         print (ft.firethorn_engine.identity())
         print (ft.firethorn_engine.system_info_check())

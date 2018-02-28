@@ -11,9 +11,9 @@ try:
     import json
     import config as config
     import logging
-    import pycurl
     import io
     import uuid
+    import requests
 except Exception as e:
     logging.exception(e)
 
@@ -72,51 +72,17 @@ class IvoaResource(BaseResource):
         
         """
       
-
-        buf = io.BytesIO()
-        vosi_file = None
-        
         try:
-           
-            c = pycurl.Curl()   
             if (metadoc.lower().startswith("http://") or metadoc.lower().startswith("https://")):
-                unique_filename = str(uuid.uuid4())
-                tmpname = "/tmp/" + unique_filename
-
-                with urllib.request.urlopen(metadoc) as response, open(tmpname, 'wb') as out_file:
-                    data = response.read() # a `bytes` object
-                    out_file.write(data)
-                
-                vosi_file = tmpname
-
-            url = self.url + "/vosi/import"        
-            values = [  
-                      ("vosi.tableset", (c.FORM_FILE, vosi_file ))]
-                       
-            c.setopt(c.URL, str(url))
-            c.setopt(c.HTTPPOST, values)
-            c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.account.password!=None and self.account.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                              "firethorn.auth.password", self.account.password,
-                                              "firethorn.auth.community",self.account.community
-                                            ])
-            elif (self.account.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                              "firethorn.auth.password", self.account.password,
-                                            ])    
-            elif (self.account.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                              "firethorn.auth.community", self.account.community,
-                                            ])    
-            else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                            ])    
-                                                   
-            c.perform()
-            c.close()
-            buf.close() 
+                rsrc = requests.get(metadoc)
+                files = {'vosi.tableset':  rsrc.content  }
+            else :
+                files = {'vosi.tableset':  open(metadoc,'rb') }
+               
             
+            urldst = self.url + "/vosi/import"
+            requests.post(urldst, files=files, headers=self.account.get_identity_as_headers())
+                       
         except Exception as e:
             logging.exception(e)
      

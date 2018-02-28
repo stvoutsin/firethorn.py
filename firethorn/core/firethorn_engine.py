@@ -52,7 +52,7 @@ class FirethornEngine(object):
         """    
           
         
-        new_auth = Account()
+        new_auth = Account(endpoint=self.endpoint)
         new_auth.login(username, password, community)
         if (new_auth.logged_in):
             self.account = new_auth
@@ -102,7 +102,7 @@ class FirethornEngine(object):
         except Exception as e:
             logging.exception(e)
             
-        self.account = Account(username = username, community = community)
+        self.account = Account(username = username, community = community, endpoint=self.endpoint)
         
         return
         
@@ -352,6 +352,23 @@ class FirethornEngine(object):
             logging.exception(e)
         return attr_val
     
+
+    def import_schema_list(self, schema_names, adql_resource, jdbc_resource):
+  
+        for schema in schema_names:
+            jdbc_schema = atlas_jdbc.select_schema_by_name(
+                mapping,
+                "dbo"
+                )
+            if (None != jdbc_schema):
+                metadoc="https://raw.githubusercontent.com/wfau/metadata/master/metadocs/" + mapping + "_TablesSchema.xml"
+                adql_schema = atlas_adql.import_jdbc_schema(
+                    jdbc_schema,
+                    mapping,
+                    metadoc=metadoc
+                    )
+        
+
 
 
     def get_json(self, ident):

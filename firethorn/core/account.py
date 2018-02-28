@@ -14,7 +14,7 @@ class Account(object):
     '''
 
     
-    def __init__(self, username=None, password=None, community=None, endpoint=config.default_endpoint):
+    def __init__(self, username=None, password=None, community=None, endpoint=config.endpoint):
         self.username = username
         self.password = password
         self.community = community     

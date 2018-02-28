@@ -17,6 +17,6 @@ datacatalog=os.environ.get('datacatalog', 'ATLASDR1')
 datatype=os.environ.get('datatype', 'mssql')
 datadriver="net.sourceforge.jtds.jdbc.Driver"
 dataurl=os.environ.get('dataurl', '')
-default_endpoint=os.environ.get('default_endpoint', '')
+endpoint=os.environ.get('endpoint', '')
 osa_endpoint= os.environ.get('osa_endpoint', '')
 maxrows= os.environ.get('maxrows', '1000000')

@@ -10,11 +10,11 @@ try:
     import json
     import config as config
     import logging
-    import pycurl
     import io
     import uuid
     import urllib.request
     from core.query_engine import QueryEngine
+    import requests
 except Exception as e:
     logging.exception(e)
     
@@ -85,62 +85,30 @@ class AdqlResource(BaseResource):
         
         Returns    
         -------
-        adqlschema: string
             The AdqlSchema created
         
         """
-        
         ## Needs refactoring to not use temp file
       
         response_json={}
+        files = {}
         
         if (metadoc!=None):
-            #buf = StringIO()
-            buf = io.BytesIO()
+            
             try:
                
-                c = pycurl.Curl()   
-    
                 if (metadoc.lower().startswith("http://") or metadoc.lower().startswith("https://")):
-                    unique_filename = str(uuid.uuid4())
-                    tmpname = "/tmp/" + unique_filename
-    
-                    with urllib.request.urlopen(metadoc) as response, open(tmpname, 'wb') as out_file:
-                        data = response.read() # a `bytes` object
-                        out_file.write(data)
+                    rsrc = requests.get(metadoc)
+                    files = {'metadoc.file':  rsrc.content  }
+                else :
+                    files = {'metadoc.file':  open(metadoc,'rb') }
                     
-                    metadocfile = tmpname
-    
-                c = pycurl.Curl()    
-                url = self.url + "/metadoc/import"        
-                values = [  
-                          ("metadoc.base", str(jdbc_schema.url)),
-                          ("metadoc.file", (c.FORM_FILE, metadocfile))]
-     
-                c.setopt(c.URL, str(url))
-                c.setopt(c.HTTPPOST, values)
-                c.setopt(c.WRITEFUNCTION, buf.write)
-                if (self.account.password!=None and self.account.community!=None):
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                                  "firethorn.auth.password", self.account.password,
-                                                  "firethorn.auth.community",self.account.community
-                                                ])
-                elif (self.identity.password!=None ):
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                                  "firethorn.auth.password", self.account.password,
-                                                ])    
-                elif (self.identity.community!=None ):
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                                  "firethorn.auth.community", self.account.community,
-                                                ])    
-                else:
-                    c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.account.username,
-                                                ])    
-                         
-                c.perform()
-                c.close()
-                response_json = json.loads(buf.getvalue().decode("utf-8"))[0]
-                buf.close() 
+
+                urldst = self.url + "/metadoc/import"
+                values = {'metadoc.base': str(jdbc_schema.url)}
+                response = requests.post(urldst, files=files, data=values, headers=self.account.get_identity_as_headers())
+
+                response_json = json.loads(response.text)[0]
                 
             except Exception as e:
                 logging.exception(e)
@@ -157,7 +125,12 @@ class AdqlResource(BaseResource):
                         
             except Exception as e:
                 logging.exception(e)
-    
+                
+        if (response):
+            response.connection.close()
+        if (rsrc):
+            rsrc.connection.close()
+
         return models.adql.AdqlSchema(adql_resource = self, json_object = response_json)
     
         

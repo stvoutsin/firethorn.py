@@ -117,7 +117,7 @@ services:
             adminuser: "${adminuser}"
             adminpass: "${adminpass}"
             datadriver: "net.sourceforge.jtds.jdbc.Driver"
-            default_endpoint: "http://gillian:8080/firethorn"
+            endpoint: "${endpoint}"
             osa_endpoint: "${osa_endpoint}"
         depends_on:
             gillian:
