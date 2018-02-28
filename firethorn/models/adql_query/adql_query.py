@@ -3,7 +3,6 @@ Created on Feb 8, 2018
 
 @author: stelios
 '''
-from click.json_helpers import json_object_to_python
 
 try:
     import logging
