@@ -63,7 +63,7 @@ query_name_param = "adql.query.name"
 
 query_limit_rows_param = "adql.query.limit.rows"
 query_limit_time_param = "adql.query.limit.time"
-query_wait_time_param = "adql.query.limit.time"
+query_wait_time_param = "adql.query.wait.time"
 
 query_mode_param = "adql.query.mode"
 
