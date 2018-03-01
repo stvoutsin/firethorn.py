@@ -2,34 +2,25 @@
 
 Python client for the Firethorn project
 (http://wfau.metagrid.co.uk/code/firethorn)
-
-
+Contains functionality allowing users (admins) to create resources (jdbc/adql/ivoa) and users to create workspaces, 
+navigate the metadata, import schemas and run queries.
 
 
 ## Installation Instructions (virtualenv)
 
-
 ### Install pip
-
-#### Ubuntu
-
-`sudo apt-get install python-pip python-dev build-essential` 
-
 
 ### Install virtualenv
 
-`pip install virtualenv`
-
+`pip3 install virtualenv`
 
 ### Grab a copy of the github project  
 
 `git clone https://github.com/stvoutsin/firethorn.py.git`
 
-
 ### Initialize a virtual environment in the project directory
 
 `virtualenv --python=/usr/bin/python3 firethorn.py/`
-
 
 ### Activate the virtualenv 
 
@@ -37,15 +28,39 @@ Python client for the Firethorn project
 
 `source bin/activate`
 
+### (Optional) Set environment configuration variables
 
-### Update the configuration values
-`nano firethorn/config/resources.py`
+`datahost=`
+
+`datadata=`
+
+`datauser=`
+
+`datapass=`
+
+`datacatalog=`
+
+`datatype=`
+
+`adminuser=`
+
+`adminpass=`
+
+`admingroup=`
+
+`datadriver=`
+
+`endpoint=`
+
+`osa_endpoint=`
+
+`maxrows =`
+
 
 
 ### Install Firethorn using pip 
 
-`pip install firethorn`
-
+`pip3 install firethorn.py/`
 
 ## Run Python and import Firethorn
 
@@ -54,5 +69,7 @@ Python client for the Firethorn project
 ..
 
 `import firethorn`
+
+..
 
 ..
