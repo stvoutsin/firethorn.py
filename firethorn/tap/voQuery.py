@@ -6,19 +6,13 @@ Query TAP (and other VO) Services
 @author: stelios
 """
 
-import os
 import urllib
 import time
-import xml.dom.minidom
 try:
     import simplejson as json
 except ImportError:
     import json
-import numpy
-import re
 import logging
-import datetime
-from time import gmtime,  strftime
 from astropy.table import Table
 from io import StringIO
 import xml.etree.ElementTree as ET

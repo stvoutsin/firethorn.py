@@ -1,53 +1,45 @@
-from core.firethorn_engine import FirethornEngine
+'''
+Created on Nov 4, 2017
+
+@author: stelios
+'''
+import models
+from models.table import Table
 
 class Schema(object):
-    """Schema class, equivalent to a Firethorn ADQL Schema
-    
-    Attributes
-    ----------
-    ident: string, optional
-        The Identity URL of the schema
-        
-    name: string, optional
-        The Name of the Schema
-        
-    resource: string, optional
-        The URL of the parent resource    
+    """Column class, equivalent to a Firethorn ADQL Column
     """
+
+
+    def __init__(self, adql_schema=None):
+        self.__adql_schema = adql_schema
         
+        
+    def _get_adql_schema(self):
+        return self.__adql_schema  
     
-    def __init__(self, ident=None, name=None, resource=None):
-        self.ident = ident        
-        self.name = name             
-        self.firethorn_engine = FirethornEngine()
-        return        
-
-
-    @property
-    def ident(self):
-        return self.__ident
-        
-        
-    @ident.setter
-    def ident(self, ident):
-        self.__ident = ident
-
-
-    @property
+    
     def name(self):
-        return self.__name
+        return self.__adql_schema.name()
         
         
-    @name.setter
-    def name(self, name):
-        self.__name = name
-
-
-    @property
-    def resource(self):
-        return self.__resource
-        
-        
-    @resource.setter
-    def queryspace(self, resource):
-        self.__resource = resource
+    def get_table_names (self):
+        adql_tables=self.__adql_schema.select_tables()
+        table_name_list = [table.name() for table in adql_tables]
+        return table_name_list
+    
+    
+    def get_tables(self):
+        adql_tables=self.__adql_schema.select_tables()
+        table_list = [Table(table) for table in adql_tables]
+        return table_list
+    
+    
+    def get_table_by_name(self, name):
+        return models.table.Table(self.__adql_schema.select_table_by_name(name))
+                                
+                                
+    def __str__(self):
+        """Get class as string
+        """
+        return self.__adql_schema

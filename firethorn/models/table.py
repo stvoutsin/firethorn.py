@@ -5,82 +5,67 @@ Created on Nov 4, 2017
 '''
 
 from astropy.table import Table as astropy_Table
-import urllib.request
 import logging
 try:
     import simplejson as json
 except ImportError:
     import json
-from config import *
 import warnings
+from models.column import Column
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
+import config as config
 
 class Table(object):
     """Table class, equivalent to a Firethorn ADQL Table
-    
-    Attributes
-    ----------
-    tableident: string, optional
-        The Identity URL of the table  
     """
 
 
-    def __init__(self, firethorn_engine=None, table=None):
-        
-        self.table = table
-        self.firethorn_engine = firethorn_engine
-        if (self.table!=None):
-            self.astropy_table = astropy_Table.read(self.table.url + "/votable", format="votable")        
-        else:
-            self.astropy_table = None
-        
-                   
-    @property
-    def astropy_table(self):
-        return self.__astropy_table
+    def __init__(self, adql_table=None):
+        self.__adql_table = adql_table
         
         
-    @astropy_table.setter
-    def astropy_table(self, astropy_table):
-        self.__astropy_table = astropy_table
- 
- 
-    @property
-    def tableident(self):
-        return self.__tableident
+    def name(self):
+        return self.__adql_table.name()   
+
         
-        
-    @tableident.setter
-    def tableident(self, tableident):
-        self.__tableident = tableident       
- 
-        
-    def as_astropy (self):
+    def get_column_names (self):
+        adql_columns=self.__adql_table.select_columns()
+        column_name_list = [col.name() for col in adql_columns]
+        return column_name_list
+    
+    
+    def get_columns (self):
+        adql_columns=self.__adql_table.select_columns()
+        column_list = [Column(col) for col in adql_columns]
+        return column_list
+    
+            
+    def get_column_by_name(self, name):
+        return Column(self.__adql_table.select_column_by_name(name))
+    
+    
+    def as_astropy (self, limit=True):
         """Get Astropy table
-        
+                             
         Returns
         -------
         astropy_table: Astropy.Table
             Table as Astropy table 
         """
-        return self.astropy_table
+        if (self.__adql_table!=None):
+            if (limit):
+                if (self.__adql_table.count()>config.maxrows):
+                    raise Exception ("Max row limit exceeded")
+                else :
+                    return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")
+            else:
+                return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")        
+        else:
+            return None
                 
-                
-    def get_error (self):
-        """Get Error message
-        
-        Returns
-        -------
-        self.error: string
-            Error Message 
-        """        
-
-        if self.table!=None:
-            return self.table.get_error()
     
-    
-    def rwocount (self):
+    def rowcount (self):
         """Get Row count
         
         Returns
@@ -88,16 +73,15 @@ class Table(object):
         rowcount: integer
             Count of rows  
         """  
-        rowcount=None
-        try: 
-            rowcount = self.__get_json(self.tableident).get("metadata",[]).get("adql",[]).get("count",None)
-        except Exception as e:
-            logging.exception(e) 
-               
-        return rowcount    
+        
+        if (self.__adql_table!=None):
+            return self.__adql_table.count()  
+        else:
+            return None        
+          
     
                         
     def __str__(self):
         """Get class as string
         """
-        return 'Table ID: %s\n ' %(self.tableident) 
+        return self.__adql_table

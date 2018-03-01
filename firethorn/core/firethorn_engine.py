@@ -5,63 +5,33 @@ Created on Jul 22, 2013
 '''
 
 try:
-    import urllib
+    
     import json
     import logging
     from datetime import datetime
     import config as config
-    from models.identity import Identity
-    import pycurl
-    import io
-    import uuid
     import urllib.request
     from jdbc.jdbc_resource import JdbcResource
     from models.jdbc.jdbc_schema import JdbcSchema
-    from models.adql.adql_resource import AdqlResource
-    from models.ivoa.ivoa_resource import IvoaResource
+    import models as models
+    from core.account import Account
+    
 except Exception as e:
     logging.exception(e)
 
 
 class FirethornEngine(object):
     """ Provides the low level methods to setup Firethorn services, including JDBC connections and importing IVOA or local resources
-    
-    Attributes
-    ----------
-    jdbcspace: string, optional
-        JDBC URL Endpoint for the Firethorn service
-        
-    adqlspace: string, optional
-        ADQL Resource URL Endpoint for the Firethorn service
-
-    adqlschema: string, optional
-        ADQL Schema URL to initialize with
-
-    query_schema: string, optional 
-         Query schema URL for the Firethorn resource
-   
-    schema_name: string, optional
-        Name of the ADQL Schema URL to initialize with
-
-    schema_alias: string, optional
-        Ali1as of the ADQL Schema URL to initialize with
-        
-    driver: string, optional
-        Driver used in Firethorn JDBC Connections    
-
-    endpoint: string, optional
-        Endpoint used for the Firethorn services    
-
     """
 
 
-    def __init__(self, endpoint = "" , identity = None, driver="net.sourceforge.jtds.jdbc.Driver",**kwargs):
+    def __init__(self, endpoint = "" , account = None, driver="net.sourceforge.jtds.jdbc.Driver",**kwargs):
         self.driver = driver
         self.endpoint = endpoint
-        if (identity==None):
-            self.identity = self.create_temporary_user()
+        if (account==None):
+            self.account = self.create_temporary_account()
         else:
-            self.identity = identity
+            self.account = account
     
     
     def login(self, username=None, password=None, community=None):
@@ -81,28 +51,19 @@ class FirethornEngine(object):
             Community
         """    
           
-        loggedin = False
         
-        try :
-            
-            new_user = Identity(username, password, community)
-            req = urllib.request.Request(self.endpoint + config.system_info, headers=new_user.get_identity_as_headers())
+        new_auth = Account(endpoint=self.endpoint)
+        new_auth.login(username, password, community)
+        if (new_auth.logged_in):
+            self.account = new_auth
+        return new_auth.logged_in
+    
 
-            with urllib.request.urlopen(req) as response:
-                response.read().decode('utf-8')     
-                if (response.getcode()==200):
-                    loggedin = True
-                else:
-                    self.identity = Identity(None,None,None)
-        except Exception as e:
-            self.identity = Identity(None,None,None)
-            pass
-            
-        if loggedin:        
-            self.identity = Identity(username, password, community )
-            return True
-        else : 
-            return False
+    def identity(self):
+        if (self.account!=None):
+            return self.account.username
+        
+        return None
 
 
     def system_info_check(self):
@@ -110,7 +71,7 @@ class FirethornEngine(object):
         Check system info
         """
         try :
-            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.identity.get_identity_as_headers())
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.account.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 return (json.loads(response.read().decode('utf-8')))
         except Exception as e:
@@ -119,13 +80,14 @@ class FirethornEngine(object):
         return {} 
                      
 
-    def create_temporary_user(self):
+    def create_temporary_account(self):
         """
         Create a temporary user
         
         """            
         username = None
         community = None
+        
         try :
             
             req = urllib.request.Request(  self.endpoint + config.system_info, headers={"Accept" : "application/json"})
@@ -140,7 +102,9 @@ class FirethornEngine(object):
         except Exception as e:
             logging.exception(e)
             
-        self.identity = Identity(username = username, community = community)
+        self.account = Account(username = username, community = community, endpoint=self.endpoint)
+        
+        return
         
          
     def create_jdbc_resource(self, resource_name , database, catalog, connection_type, host, username, password):
@@ -161,7 +125,7 @@ class FirethornEngine(object):
                                     }).encode("utf-8")
     
 
-            req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.endpoint + config.jdbc_creator, headers=self.account.get_identity_as_headers())
             response = urllib.request.urlopen(req,data)
             jdbcspace = json.loads(response.read().decode("utf-8"))
             response.close()
@@ -169,7 +133,7 @@ class FirethornEngine(object):
         except Exception as e:
             logging.exception(e)
             
-        return JdbcResource(json_object=jdbcspace, firethorn_engine=self)    
+        return JdbcResource(json_object=jdbcspace, account=self.account)    
     
     
     
@@ -187,7 +151,6 @@ class FirethornEngine(object):
             The JdbcResource found
         """
         
-        response_json = {}
         return     
             
 
@@ -212,19 +175,19 @@ class FirethornEngine(object):
         
         try :
             data = urllib.parse.urlencode({config.jdbc_schema_catalog : catalog, config.jdbc_schema_schema : schema }).encode("utf-8")
-            req = urllib.request.Request( jdbcurl + "/schemas/select", headers=self.identity.get_identity_as_headers())
+            req = urllib.request.Request( jdbcurl + "/schemas/select", headers=self.account.get_identity_as_headers())
 
             with urllib.request.urlopen(req, data) as response:
                 response_json =  json.loads(response.read().decode('utf-8'))
-                
+            schema = JdbcSchema(json_object = response_json, jdbc_resource=models.adql.AdqlResource(url=response_json.get("parent"), account=self.account))
         except Exception as e:
             logging.exception(e)      
             
-        return JdbcSchema(json_object = response_json, firethorn_engine=self)
+        return schema
     
     
     def select_jdbc_resource_by_ident(self, ident):
-        return JdbcResource(url=ident, firethorn_engine=self)
+        return JdbcResource(url=ident, account=self.account)
 
     
     def create_adql_resource(self, adqlspacename=None):
@@ -251,14 +214,14 @@ class FirethornEngine(object):
                 t = datetime.now()
                 adqlspacename = 'workspace-' + t.strftime("%y%m%d_%H%M%S") 
             data = urllib.parse.urlencode({config.resource_create_name_params['http://data.metagrid.co.uk/wfau/firethorn/types/entity/adql-resource-1.0.json'] : adqlspacename}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.endpoint + config.workspace_creator, headers=self.account.get_identity_as_headers())
             with urllib.request.urlopen(req, data) as response:
                 adqlresource =  json.loads(response.read().decode('utf-8'))
             response.close()
         except Exception as e:
             logging.exception(e)
             
-        return AdqlResource(json_object = adqlresource, firethorn_engine=self)
+        return models.adql.AdqlResource(json_object = adqlresource, account=self.account)
                          
                          
     def select_adql_resources(self):
@@ -269,14 +232,18 @@ class FirethornEngine(object):
         
         try:
  
-            req = urllib.request.Request( self.endpoint + config.get_adql_resources_url, headers=self.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.endpoint + config.get_adql_resources_url, headers=self.account.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 adqlresources =  json.loads(response.read().decode('utf-8'))
             response.close()
         except Exception as e:
             logging.exception(e)
             
-        return adqlresources
+        resource_object_list = []
+        for resource in adqlresources:
+            resource_object_list.append(models.adql.AdqlResource(json_object=resource, account=self.account))
+
+        return resource_object_list
     
     
     def select_adql_resource_by_name(self, resource_name):
@@ -290,7 +257,7 @@ class FirethornEngine(object):
         """
         Select an ADQL resource by ident
         """
-        return AdqlResource(firethorn_engine=self, url=ident)
+        return models.adql.AdqlResource(account=self.account, url=ident)
 
 
     def select_ivoa_resources(self):
@@ -301,14 +268,19 @@ class FirethornEngine(object):
         
         try:
  
-            req = urllib.request.Request( self.endpoint + config.get_ivoa_resources_url, headers=self.identity.get_identity_as_headers())
+            req = urllib.request.Request( self.endpoint + config.get_ivoa_resources_url, headers=self.account.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 ivoaresources =  json.loads(response.read().decode('utf-8'))
             response.close()
         except Exception as e:
             logging.exception(e)
-            
-        return ivoaresources
+
+        resource_object_list = []
+        for resource in ivoaresources:
+            resource_object_list.append(models.ivoa.IvoaResource(json_object=resource, account=self.account))
+
+        return resource_object_list
+               
     
     
     def select_ivoa_resource_by_name(self, name):
@@ -319,7 +291,7 @@ class FirethornEngine(object):
         """
         Select an IVOA resource by ident
         """
-        return IvoaResource(firethorn_engine=self, url=ident)
+        return models.ivoa.IvoaResource(account=self.account, url=ident)
     
 
     def create_ivoa_resource(self, ivoa_space_name, url):
@@ -335,27 +307,23 @@ class FirethornEngine(object):
             
         Returns
         -------
-        ivoaspace: String
-            The IVOA resource URL 
-        
+        IvoaResource: IvoaResource
+            The IVOA resource 
+            
         """
         
         ivoa_resource = None
         try:
             data = urllib.parse.urlencode({"ivoa.resource.name" : ivoa_space_name , "ivoa.resource.endpoint" : url}).encode("utf-8")
-            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.identity.get_identity_as_headers()) 
+            req = urllib.request.Request( self.endpoint + config.ivoa_resource_create, headers=self.account.get_identity_as_headers()) 
             with urllib.request.urlopen(req, data) as response:
                 ivoa_resource =  json.loads(response.read().decode('utf-8'))
             response.close()
         except Exception as e:
             logging.exception(e)
 
-        return IvoaResource(firethorn_engine=self, json_object=ivoa_resource)
-    
-    
-    def make_identity (self, identity):
-        return Identity (identity)
-    
+        return models.ivoa.IvoaResource(account=self.account, json_object=ivoa_resource)
+
     
     def _get_attribute(self, ident, attr):
         """Get an attribute of a JSON HTTP resource
@@ -376,7 +344,7 @@ class FirethornEngine(object):
         
         attr_val = []
         try :
-            req_exc = urllib.request.Request( ident, headers=self.identity.get_identity_as_headers()).encode("utf-8")
+            req_exc = urllib.request.Request( ident, headers=self.account.get_identity_as_headers()).encode("utf-8")
             with urllib.request.urlopen(req_exc) as response:
                 response_exc_json =  response.read().decode('utf-8')       
             attr_val = json.loads(response_exc_json)[attr]
@@ -384,6 +352,23 @@ class FirethornEngine(object):
             logging.exception(e)
         return attr_val
     
+
+    def import_schema_list(self, schema_names, adql_resource, jdbc_resource):
+  
+        for schema in schema_names:
+            jdbc_schema = atlas_jdbc.select_schema_by_name(
+                mapping,
+                "dbo"
+                )
+            if (None != jdbc_schema):
+                metadoc="https://raw.githubusercontent.com/wfau/metadata/master/metadocs/" + mapping + "_TablesSchema.xml"
+                adql_schema = atlas_adql.import_jdbc_schema(
+                    jdbc_schema,
+                    mapping,
+                    metadoc=metadoc
+                    )
+        
+
 
 
     def get_json(self, ident):
@@ -399,7 +384,7 @@ class FirethornEngine(object):
         json_result = {}
         
         try :
-            req_exc = urllib.request.Request( ident, headers=self.identity.get_identity_as_headers())
+            req_exc = urllib.request.Request(ident, headers=self.account.get_identity_as_headers())
             with urllib.request.urlopen(req_exc) as response:
                 json_result =  json.loads(response.read().decode('utf-8'))
      

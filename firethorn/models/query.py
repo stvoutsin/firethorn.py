@@ -5,19 +5,16 @@ Created on Nov 4, 2017
 '''
 import logging
 from table import Table
-from core.query_engine import QueryEngine
-import urllib.request
-from models.adql import adql_resource
-import time
+from adql import adql_schema
 try:
     import simplejson as json
 except ImportError:
     import json
-import config as config
 
 
 class Query(object):
-    """Query Class, stores information for a Firethorn query 
+    """
+    Query Class, stores information for a Firethorn query 
     
     Attributes
     ----------
@@ -30,18 +27,21 @@ class Query(object):
     adql_query: string, optional
         The AdqlQuery object
         
-    firethorn_engine: FirethornEngine, optional
-        The Firethorn Engine currently driving this query   
+    account: Account, optional
+        Reference to the he Authentication Engine being used
                   
     """
 
-    def __init__(self, firethorn_engine=None, querystring=None,  adql_query=None):
-        self.table = Table()
+    def __init__(self,  querystring=None,  adql_query=None, mode="SYNC"):
         self.adql_query = adql_query
-        self.firethorn_engine = firethorn_engine
+        self.mode = mode
+        self.querystring = querystring
+        if (self.adql_query!=None):
+            self.account = self.adql_query.account
+        if (mode=="SYNC"):
+            self.run()
         pass
        
-            
             
     @property
     def querystring(self):
@@ -52,16 +52,6 @@ class Query(object):
     def querystring(self, querystring):
         self.__querystring = querystring
         
-        
-    @property
-    def adql_resource(self):
-        return self.__adql_resource
-        
-        
-    @adql_resource.setter
-    def adql_resource(self, adql_resource):
-        self.__adql_resource = adql_resource    
-        
     
     @property
     def adql_query(self):
@@ -71,78 +61,30 @@ class Query(object):
     @adql_query.setter
     def adql_query(self, adql_query):
         self.__adql_query = adql_query    
+ 
+ 
+    @property
+    def mode(self):
+        return self.__mode
         
+        
+    @mode.setter
+    def mode(self, mode):
+        self.__mode = mode    
+               
                      
     def run (self):
-        """Run a query
+        """
+        Run a query
         
         """
         try: 
-            self.adql_query.run_sync()
+            if (self.mode.upper()=="SYNC"):
+                self.adql_query.run_sync()
+            else :      
+                self.adql_query.update(adql_query_status_next="COMPLETED")
         except Exception as e:
             logging.exception(e)
-        return 
-    
-
-    def results (self):
-        """Get Results
-        
-        """
-        try: 
-            if not self.table.tableident:
-                self.table = Table(Query._get_json(self, self.adql_query.url).get("results",[]).get("table",None), firethorn_engine=self.firethorn_engine)
-        except Exception as e:
-            logging.exception(e)    
-
-        return self.table
-
-
-
-    def status (self):
-        """Get Status 
-        """
-        return self.adql_query.status()
-
-                   
-    def error (self):
-        """Get Error message
-        """
-        return self.adql_query.get_error()
-
-                        
-    def __str__(self):
-        """ Print class as string
-        """
-        return 'Query: %s\nQuery ID: %s\n ' %(self.querystring, self.adql_query.url) 
-    
-
-
-class AsyncQuery(Query):
-    """AsyncQuery Model, stores information for a Firethorn query 
-    
-    Attributes
-    ----------
-    querystring: string, optional
-        The Query as a sring
-
-    adql_query: string, optional
-        The AdqlQuery object
-                  
-                    
-    """
-
-    def __init__(self, firethorn_engine=None, querystring=None, adql_query=None):
-        super().__init__(firethorn_engine, querystring, adql_query)
-        
-                     
-    def run (self):
-        """
-        Run Query
-        """
-        try: 
-            self.adql_query.update(adql_query_status_next="COMPLETED")
-        except Exception as e:
-            logging.exception(e)    
             
         return 
     
@@ -158,10 +100,50 @@ class AsyncQuery(Query):
             
         return 
     
-
-    def __str__(self):
-        """ Print Class as string
+    
+    def results (self):
         """
-        return 'Query: %s\nQuery URL: %s\n ' %(self.querystring, self.adql_query.url) 
+        Get Results
+        
+        """
+        if (self.adql_query!=None):
+            if (self.adql_query.table()!=None):
+                return Table(adql_table=self.adql_query.table())
+        
+        return None
+
+
+    def status (self):
+        """
+        Get Status 
+        """
+        if self.adql_query!=None:
+            return self.adql_query.status()
+
+                   
+    def error (self):
+        """
+        Get Error message
+        """
+        if self.adql_query!=None:
+            return self.adql_query.error()
+
+
+    def isRunning(self):
+        """
+        Check if a Query is running
+        """
+        if self.adql_query!=None:
+            return self.adql_query.isRunning()
+    
+    
+    def __str__(self):
+        """ Print class as string
+        """
+        return 'Query: %s\nQuery ID: %s\n ' %(self.querystring, self.adql_query.url) 
+    
+
+
+
     
         

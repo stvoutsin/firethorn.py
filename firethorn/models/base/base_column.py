@@ -11,11 +11,12 @@ class BaseColumn(BaseObject):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, parent, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        self.parent = parent
+        super().__init__(parent.account, json_object, url) 
         
 
     def resource(self):
@@ -33,7 +34,7 @@ class BaseColumn(BaseObject):
         
     
     def table(self):
-        return     
+        return self.parent 
 
 
     def type(self):
@@ -63,10 +64,5 @@ class BaseColumn(BaseObject):
                 return self.json_object.get("meta").get("adql").get("utype","")
         return None
     
-    
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Column URL: %s' %(self.json_object.get("self",""))    
-    
+
     

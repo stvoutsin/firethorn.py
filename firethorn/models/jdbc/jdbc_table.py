@@ -5,6 +5,8 @@ Created on Feb 8, 2018
 '''
 from base.base_table import BaseTable
 import jdbc
+import logging
+
 
 class JdbcTable(BaseTable):
     """
@@ -12,38 +14,62 @@ class JdbcTable(BaseTable):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, jdbc_schema, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        self.jdbc_schema = jdbc_schema
+        super().__init__(jdbc_schema, json_object, url) 
         
         
     def resource(self):
-        if (self.json_object!=None):
-            return jdbc.JdbcResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("resource",""))
+        if (self.jdbc_schema!=None):
+            return self.jdbc_schema.resource()
         else:
             return None 
     
     
     def schema(self):
-        if (self.json_object!=None):
-            return jdbc.JdbcSchema(firethorn_engine=self.firethorn_engine, url=self.json_object.get("schema",""))
-        else:
-            return None 
-    
-    """    
+        return self.jdbc_schema
+        
+        
     def select_columns(self):
-        return self.firethorn_engine.get_json(self.json_object.get("columns",""))
-    """
+        column_list = []
+        json_list = self.get_json(self.json_object.get("columns",""))
+
+        for column in json_list:
+            column_list.append(jdbc.JdbcColumn(json_object=column, jdbc_table=self))
+            
+        return column_list
+    
     
     def select_column_by_ident(self, ident):
-        return jdbc.JdbcColumn(firethorn_engine=self.firethorn_engine, url=ident)
+        return jdbc.JdbcColumn(jdbc_table=self, url=ident)
  
     
     def select_column_by_name(self, column_name):
-        return 
+        """Get column by name
+        
+        Parameters
+        ----------
+        column_name: string, required
+            The name of the Table being searched
+         
+        Returns
+        -------
+        column_list: list
+            List of table names
+        """
+        response_json = {}
+        try :
+            response_json = self.get_json(  self.url + "/columns/select", { "jdbc.table.column.select.name": column_name })
+        except Exception as e:
+            logging.exception(e)   
+            
+        return jdbc.JdbcColumn(json_object = response_json, jdbc_table=self)    
                          
                          
     def create_column(self, column_name):
         return
+    
+    

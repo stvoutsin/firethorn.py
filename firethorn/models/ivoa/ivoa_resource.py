@@ -11,9 +11,9 @@ try:
     import json
     import config as config
     import logging
-    import pycurl
     import io
     import uuid
+    import requests
 except Exception as e:
     logging.exception(e)
 
@@ -24,34 +24,36 @@ class IvoaResource(BaseResource):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, account, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(account, json_object, url) 
         
 
     def select_schemas(self):
-        return self.firethorn_engine.get_json(self.url + "/schemas/select")
+        
+        schema_list = []
+        json_list = self.get_json(self.url + "/schemas/select")
+        
+        for schema in json_list:
+            schema_list.append(ivoa.IvoaSchema(json_object=schema, ivoa_resource=self))
+        
+        return schema_list
     
     
     def select_schema_by_ident(self, ident):
-        return ivoa.IvoaSchema(url=ident, firethorn_engine=self.firethorn_engine)
+        return ivoa.IvoaSchema(url=ident,  ivoa_resource=self)
     
     
     def select_schema_by_name(self,schema_name):
         response_json = {}
         try :
-            data = urllib.parse.urlencode({config.ivoa_schema_select_by_name_param : schema_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/schemas/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json(self.url + "/schemas/select", {config.ivoa_schema_select_by_name_param : schema_name })
         except Exception as e:
             logging.exception(e)      
             
-        return ivoa.IvoaSchema(json_object = response_json, firethorn_engine=self.firethorn_engine)  
+        return ivoa.IvoaSchema(json_object = response_json, ivoa_resource=self)  
     
 
     def import_ivoa_metadoc(self, metadoc):
@@ -70,51 +72,17 @@ class IvoaResource(BaseResource):
         
         """
       
-
-        buf = io.BytesIO()
-        vosi_file = None
-        
         try:
-           
-            c = pycurl.Curl()   
             if (metadoc.lower().startswith("http://") or metadoc.lower().startswith("https://")):
-                unique_filename = str(uuid.uuid4())
-                tmpname = "/tmp/" + unique_filename
-
-                with urllib.request.urlopen(metadoc) as response, open(tmpname, 'wb') as out_file:
-                    data = response.read() # a `bytes` object
-                    out_file.write(data)
-                
-                vosi_file = tmpname
-
-            url = self.url + "/vosi/import"        
-            values = [  
-                      ("vosi.tableset", (c.FORM_FILE, vosi_file ))]
-                       
-            c.setopt(c.URL, str(url))
-            c.setopt(c.HTTPPOST, values)
-            c.setopt(c.WRITEFUNCTION, buf.write)
-            if (self.firethorn_engine.identity.password!=None and self.firethorn_engine.identity.community!=None):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.firethorn_engine.identity.username,
-                                              "firethorn.auth.password", self.firethorn_engine.identity.password,
-                                              "firethorn.auth.community",self.firethorn_engine.identity.community
-                                            ])
-            elif (self.firethorn_engine.identity.password!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.firethorn_engine.identity.username,
-                                              "firethorn.auth.password", self.firethorn_engine.identity.password,
-                                            ])    
-            elif (self.firethorn_engine.identity.community!=None ):
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.firethorn_engine.identity.username,
-                                              "firethorn.auth.community", self.firethorn_engine.identity.community,
-                                            ])    
-            else:
-                c.setopt(pycurl.HTTPHEADER, [ "firethorn.auth.username", self.firethorn_engine.identity.username,
-                                            ])    
-                                                   
-            c.perform()
-            c.close()
-            buf.close() 
+                rsrc = requests.get(metadoc)
+                files = {'vosi.tableset':  rsrc.content  }
+            else :
+                files = {'vosi.tableset':  open(metadoc,'rb') }
+               
             
+            urldst = self.url + "/vosi/import"
+            requests.post(urldst, files=files, headers=self.account.get_identity_as_headers())
+                       
         except Exception as e:
             logging.exception(e)
      

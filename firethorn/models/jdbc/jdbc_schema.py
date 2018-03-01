@@ -5,10 +5,8 @@ Created on Feb 8, 2018
 '''
 from base.base_schema import BaseSchema
 import jdbc
-import urllib
-import json
 import logging
-import config as config
+
 
 class JdbcSchema(BaseSchema):
     """
@@ -16,19 +14,17 @@ class JdbcSchema(BaseSchema):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, jdbc_resource, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(jdbc_resource, json_object, url) 
+        self.jdbc_resource = jdbc_resource
     
     
     def resource(self):
-        if (self.json_object!=None):
-            return jdbc.JdbcResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("parent",""))
-        else:
-            return None 
-    
+        return self.jdbc_resource
+        
         
     def catalog_name(self):
         if (self.json_object!=None):
@@ -38,11 +34,17 @@ class JdbcSchema(BaseSchema):
     
     
     def select_tables(self):
-        return self.firethorn_engine.get_json(self.json_object.get("tables",""))
+        table_list = []
+        json_list = self.get_json(self.json_object.get("tables",""))
+
+        for column in json_list:
+            table_list.append(jdbc.JdbcTable(json_object=column, jdbc_schema=self))
+            
+        return table_list
     
         
     def select_table_by_ident(self, ident):
-        return jdbc.JdbcTable(firethorn_engine=self.firethorn_engine, url=ident)
+        return jdbc.JdbcTable(jdbc_schema=self, url=ident)
     
     
     def select_table_by_name(self, table_name):
@@ -60,17 +62,11 @@ class JdbcSchema(BaseSchema):
         """
         response_json = {}
         try :
-            data = urllib.parse.urlencode({ "jdbc.table.name": table_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/tables/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json(self.url + "/tables/select", { "jdbc.table.name": table_name })                
         except Exception as e:
-            #logging.exception(e)   
-            print (e)   
+            logging.exception(e)   
             
-        return jdbc.JdbcTable(json_object = response_json, firethorn_engine=self.firethorn_engine)    
+        return jdbc.JdbcTable(json_object = response_json, jdbc_schema=self)    
     
                            
     def create_table(self, table_name):

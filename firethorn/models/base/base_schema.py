@@ -11,15 +11,20 @@ class BaseSchema(BaseObject):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, parent, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        self.parent = parent
+        super().__init__(parent.account, json_object, url) 
         
         
     def resource(self):
-        return 
+        return self.parent
+    
+    
+    def name(self):
+        return self.schema_name()
     
     
     def schema_name(self):
@@ -40,8 +45,3 @@ class BaseSchema(BaseObject):
     def select_table_by_name(self, table_name):
         return
     
-    
-    def __str__(self):
-        """ Print Class as string
-        """
-        return 'Schema URL: %s' %(self.json_object.get("self",""))

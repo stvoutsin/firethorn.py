@@ -10,40 +10,42 @@ import json
 import logging
 import jdbc
 
+
 class JdbcResource(BaseResource):
     """
     classdocs
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, account, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(account, json_object, url) 
         
 
     def select_schemas(self):
-        return self.firethorn_engine.get_json(self.url + "/schemas/select")
+        schema_list = []
+        json_list = self.get_json(self.url + "/schemas/select")
+        
+        for schema in json_list:
+            schema_list.append(jdbc.JdbcSchema(json_object=schema, jdbc_resource=self))
+        
+        return schema_list
     
     
     def select_schema_by_ident(self, ident):
-        return jdbc.JdbcSchema(url=ident, firethorn_engine=self.firethorn_engine)
+        return jdbc.JdbcSchema(url=ident, jdbc_resource=self)
     
     
     def select_schema_by_name(self, catalog_name, schema_name):
         response_json = {}
         try :
-            data = urllib.parse.urlencode({config.jdbc_schema_catalog : catalog_name, config.jdbc_schema_schema : schema_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/schemas/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json(self.url + "/schemas/select", {config.jdbc_schema_catalog : catalog_name, config.jdbc_schema_schema : schema_name })                
         except Exception as e:
             logging.exception(e)      
             
-        return jdbc.JdbcSchema(json_object = response_json, firethorn_engine=self.firethorn_engine)
+        return jdbc.JdbcSchema(json_object = response_json, jdbc_resource=self)
     
     
     def create_schema(self, catalog_name, schema_name):

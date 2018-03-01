@@ -7,14 +7,7 @@ Created on Feb 8, 2018
 try:
     import logging
     from models.base.base_object import BaseObject
-    import urllib
-    import json
-    import config as config
     import os
-    import pycurl
-    import io
-    import uuid
-    import urllib.request
     import core as core
     import adql
     import time
@@ -28,18 +21,19 @@ class AdqlQuery(BaseObject):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, adql_resource, json_object=None, url=None):
         """
         Constructor    
         """
-        super().__init__(firethorn_engine, json_object, url) 
-        self.query_engine = core.query_engine.QueryEngine(self.firethorn_engine)
+        self.adql_resource = adql_resource
+        super().__init__(self.adql_resource.account, json_object, url) 
+        self.query_engine = core.query_engine.QueryEngine(self.account)
         
         
     def ident(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return os.path.basename(self.json_object.get("self",""))
         else:
             return os.path.basename(self.json_object.get("self",""))
@@ -47,7 +41,7 @@ class AdqlQuery(BaseObject):
         
     def resource(self):
         if (self.json_object!=None):
-            return adql.AdqlResource(firethorn_engine=self.firethorn_engine, url=self.json_object.get("workspace",""))
+            return adql.AdqlResource(account=self.account, url=self.json_object.get("workspace",""))
         else:
             return None 
         
@@ -55,7 +49,7 @@ class AdqlQuery(BaseObject):
     def osql(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("osql","")
         else:
             return self.json_object.get("osql","")
@@ -64,7 +58,7 @@ class AdqlQuery(BaseObject):
     def adql(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("adql","")
         else:
             return self.json_object.get("adql","")
@@ -73,54 +67,78 @@ class AdqlQuery(BaseObject):
     def error (self):
         """Get Error message
         """
+        error = ""
         try: 
-            error = self.adql_query.getAttr("syntax").get("friendly",None)
+            error = self.json_object.get("syntax").get("friendly",None)
         except Exception as e:
             logging.exception(e) 
                
         return error
 
         
-    def status(self):
-        if (self.json_object==None):
-            if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
-                return self.json_object.get("status","").upper()
-        else:
+    def status(self, refresh=True):
+        if (refresh):
+            self.json_object = self.get_json(self.url)
             return self.json_object.get("status","").upper()
+        else:
+            if (self.json_object==None):
+                if (self.url!=None):
+                    self.json_object = self.get_json(self.url)
+                    return self.json_object.get("status","").upper()
+            else:
+                return self.json_object.get("status","").upper()
         
         
     def results(self):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get("results","")
         else:
             return self.json_object.get("results","")
+
+
+    def table(self):
+        if (self.json_object==None):
+            if (self.url!=None):
+                self.json_object = self.get_json(self.url)
+               
+        table_json = self.get_json(self.json_object.get("results",None).get("table",None))
+        schema_json = self.get_json(table_json.get("schema",None))
+        resource_json = self.get_json(schema_json.get("resource",None))
+        new_resource = adql.AdqlResource(json_object=resource_json, account=self.account)
+        new_schema = adql.AdqlSchema(json_object=schema_json, adql_resource = new_resource)
+        return adql.AdqlTable(url=self.json_object.get("results",None).get("table",None), adql_schema=new_schema)
         
         
     def getAttr(self, attribute):
         if (self.json_object==None):
             if (self.url!=None):
-                self.json_object = self.firethorn_engine.get_json(self.url)
+                self.json_object = self.get_json(self.url)
                 return self.json_object.get(attribute,"")
         else:
             return self.json_object.get(attribute,"")
         
     
     def update(self, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None):
-        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, firethorn_engine=self.firethorn_engine, adql_query_wait_time=adql_query_wait_time)
+        return self.query_engine.update_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_query=self, adql_query_wait_time=adql_query_wait_time)
 
 
     def run_sync(self):
-        self.query_engine.run_query(self.adql(), "", self.resource(), "AUTO", None, "SYNC")
+        self.update(adql_query_status_next="COMPLETED")
         while self.status()=="RUNNING" or self.status()=="READY":
-            time.sleep(5)
+            time.sleep(3)
         
         return 
              
              
-    def __str__(self):
-        """ Print Class as string
+    def isRunning(self):
         """
-        return 'Query URL: %s' %(self.json_object.get("self",""))
+        Check if a Query is running
+        """
+        
+        if (self.status(True)=="RUNNING" or self.status(True)=="READY"):
+            return True
+        else:
+            return False           
+        

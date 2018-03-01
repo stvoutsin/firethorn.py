@@ -20,33 +20,34 @@ class IvoaSchema(BaseSchema):
     """
 
 
-    def __init__(self, firethorn_engine, json_object=None, url=None):
+    def __init__(self, ivoa_resource, json_object=None, url=None):
         """
         Constructor
         """
-        super().__init__(firethorn_engine, json_object, url) 
+        super().__init__(ivoa_resource, json_object, url) 
         
 
     def select_tables(self):
-        return self.firethorn_engine.get_json(self.url + "/tables/select")
+        table_list = []
+        json_list = self.get_json(self.json_object.get("tables",""))
+
+        for table in json_list:
+            table_list.append(ivoa.IvoaTable(json_object=table, ivoa_schema=self))
+            
+        return table_list
     
     
     def select_table_by_ident(self, ident):
-        return ivoa.IvoaTable(url=ident, firethorn_engine=self.firethorn_engine)
+        return ivoa.IvoaTable(url=ident, ivoa_schema=self)
     
     
     def select_table_by_name(self,table_name):
         response_json = {}
         try :
-            data = urllib.parse.urlencode({config.ivoa_table_select_by_name_param : table_name }).encode("utf-8")
-            req = urllib.request.Request( self.url + "/tables/select", headers=self.firethorn_engine.identity.get_identity_as_headers())
-
-            with urllib.request.urlopen(req, data) as response:
-                response_json =  json.loads(response.read().decode('utf-8'))
-                
+            response_json = self.get_json( self.url + "/tables/select", {config.ivoa_table_select_by_name_param : table_name })
         except Exception as e:
             logging.exception(e)      
             
-        return ivoa.IvoaTable(json_object = response_json, firethorn_engine=self.firethorn_engine)  
+        return ivoa.IvoaTable(json_object = response_json, ivoa_schema=self)  
             
             

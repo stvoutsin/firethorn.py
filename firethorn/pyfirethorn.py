@@ -1,11 +1,8 @@
 try:
     import logging
-    from models.query import Query
-    from models.workspace import Workspace 
-    from models import Identity
+    from models.resource import Resource 
     from core.firethorn_engine import FirethornEngine
     import config as config
-    import time
     from adql.adql_resource import AdqlResource
     
 except Exception as e:
@@ -31,23 +28,21 @@ class Firethorn(object):
     endpoint : string, optional
         URL Endpoint to intialise Firethorn class with
         
-    driver : string, optional
-        Driver used in Firethorn JDBC Connections    
     """
 
 
-    __predefined_workspaces__ = {"OSA": config.osa_endpoint}
+    __predefined_resources__ = {"OSA": config.osa_endpoint}
     __id__ = ""
     
     
-    def __init__(self, username=None, password=None, endpoint = config.default_endpoint + "/firethorn", community=None):
+    def __init__(self, username=None, password=None, endpoint = config.endpoint, community=None):
         self.endpoint = endpoint
         self.firethorn_engine =  FirethornEngine(endpoint=endpoint)
 
         if username!=None:
             self.firethorn_engine.login(username, password, community)            
         else:
-            self.firethorn_engine.create_temporary_user()
+            self.firethorn_engine.create_temporary_account()
         return        
 
 
@@ -59,7 +54,6 @@ class Firethorn(object):
             if (self.firethorn_engine.login(username, password, community)):
                 return "Successfully logged in as: " + username
             else:
-                print("Incorrect username/password")
                 return "Incorrect username/password"
         else:
             return "Please enter a valid username"
@@ -71,14 +65,33 @@ class Firethorn(object):
         """
         Get the name of the identity currently logged in
         """
-        if (self.firethorn_engine.identity!=None and self.firethorn_engine.identity.username!=None):
-            return (self.firethorn_engine.identity.username)
-        else :
-            return "anonymous identity"
+        return self.firethorn_engine.account
     
     
-    def get_workspace(self, name):
-        """ Select a workspace from the predefined list of workspaces, by name
+    def get_public_resources(self):
+        """ Get public resource list 
+        """
+        resource_list = []
+        
+        for resource in self.__predefined_resources__:
+            resource_list.append(Resource(adql_resource=AdqlResource(url=self.__predefined_resources__.get(resource,None), account=self.firethorn_engine.account)))             
+      
+        return resource_list
+    
+    
+    def get_public_resource_names(self):
+        """ Get a list of available public predefined resources
+               
+        Returns
+        -------
+        list : list
+            List of resource names (strings)
+        """
+        return list(self.__predefined_resources__.keys())
+    
+    
+    def get_public_resource_by_name(self, name):
+        """ Select a resource from the public list of resources, by name
         
         Parameters
         ----------
@@ -88,9 +101,9 @@ class Firethorn(object):
         Returns
         -------
         Workspace : Workspace
-            A copy of the selected Workspace object
+            A copy of the selected Resource object
         """
-        return Workspace(adql_resource=AdqlResource(url=self.__predefined_workspaces__.get(name,None),firethorn_engine=self.firethorn_engine), firethorn_engine=self.firethorn_engine)
+        return Resource(adql_resource=AdqlResource(url=self.__predefined_resources__.get(name,None), account=self.firethorn_engine.account))
     
     
     def new_workspace(self, name=None):
@@ -103,23 +116,15 @@ class Firethorn(object):
                       
         Returns
         -------
-        Workspace : Workspace
-            The newly created Workspace
+        Resource : Resource
+            The newly created Resource
         """
         
         resource = self.firethorn_engine.create_adql_resource(name)
-        return Workspace(adql_resource=resource, firethorn_engine = self.firethorn_engine)
+        return Resource(adql_resource=resource)
     
     
-    def get_public_workspaces(self):
-        """ Get a list of available public predefined workspaces
-               
-        Returns
-        -------
-        list : list
-            List of workspace names (strings)
-        """
-        return list(self.__predefined_workspaces__.keys())
+
     
 
 
