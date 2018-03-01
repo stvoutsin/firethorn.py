@@ -6,6 +6,8 @@ Created on Feb 8, 2018
 from base.base_table import BaseTable
 import adql
 import logging
+from astropy.table import Table as astropy_Table
+import config as config
 
 
 class AdqlTable(BaseTable):
@@ -80,3 +82,21 @@ class AdqlTable(BaseTable):
         return rowcount
     
     
+    def as_astropy (self, limit=True):
+        """Get Astropy table
+                             
+        Returns
+        -------
+        astropy_table: Astropy.Table
+            Table as Astropy table 
+        """
+        if (self.__adql_table!=None):
+            if (limit):
+                if (self.__adql_table.count()>config.maxrows):
+                    raise Exception ("Max row limit exceeded")
+                else :
+                    return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")
+            else:
+                return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")        
+        else:
+            return None   

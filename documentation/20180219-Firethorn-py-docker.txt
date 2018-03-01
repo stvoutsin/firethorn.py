@@ -168,8 +168,8 @@ python3
 import firethorn
 import time
 
-ft = firethorn.Firethorn(endpoint=firethorn.config.default_endpoint)
-ft.login("orinoco", "wombleden", "wombles")
+ft = firethorn.Firethorn(endpoint=firethorn.config.endpoint)
+ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
 
 
 #  Create a JdbcResource to represent the local JDBC database.
