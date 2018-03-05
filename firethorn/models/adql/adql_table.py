@@ -94,7 +94,7 @@ class AdqlTable(BaseTable):
             if (self.count()>config.maxrows):
                 raise Exception ("Max row limit exceeded")
             else :
-                return astropy_Table.read(self.url + "/votable", format="votable")
+                return astropy_Table.read(self.url + "/votable", format="votable",use_names_over_ids=True)
         else:
-            return astropy_Table.read(self.url + "/votable", format="votable")        
+            return astropy_Table.read(self.url + "/votable", format="votable", use_names_over_ids=True)        
  
