@@ -24,6 +24,8 @@ firethorn_limits_rows_default=sql_rowlimit
 firethorn_limits_cells_default=0
 firethorn_limits_time_default=0
 
+adql_query_delay = "adql.query.delay.first"
+
 #firethorn.limits.rows.absolute=1000000
 firethorn_limits_rows_absolute=sql_rowlimit
 firethorn_limits_cells_absolute=0

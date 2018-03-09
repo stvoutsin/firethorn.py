@@ -54,16 +54,6 @@ class Query(object):
         
     
     @property
-    def adql_query(self):
-        return self.__adql_query
-        
-        
-    @adql_query.setter
-    def adql_query(self, adql_query):
-        self.__adql_query = adql_query    
- 
- 
-    @property
     def mode(self):
         return self.__mode
         

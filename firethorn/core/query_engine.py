@@ -96,7 +96,7 @@ class QueryEngine(object):
         return row_length
         
     
-    def create_query(self, adql_query_input, adql_query_status_next, adql_resource, account, adql_query_wait_time=600000, jdbc_schema_ident=None):
+    def create_query(self, adql_query_input, adql_query_status_next, adql_resource, account, adql_query_wait_time=600000, jdbc_schema_ident=None, adql_query_delay=100):
         """
         Create query
         """
@@ -115,6 +115,9 @@ class QueryEngine(object):
                 urlenc.update({config.query_wait_time_param : adql_query_wait_time})
             if (jdbc_schema_ident!=None):
                 urlenc.update({config.jdbc_schema_ident : jdbc_schema_ident})   
+            if (adql_query_delay!=None):
+                urlenc.update({config.adql_query_delay : adql_query_delay})   
+              
             
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
             request = urllib.request.Request(adql_resource.url + config.query_create_uri, headers=account.get_identity_as_headers())
@@ -130,7 +133,7 @@ class QueryEngine(object):
         return AdqlQuery(json_object=json_result, adql_resource=adql_resource)
 
 
-    def update_query(self,  adql_query, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None):
+    def update_query(self,  adql_query, adql_query_input=None, adql_query_status_next=None, adql_query_wait_time=None, adql_query_delay=100):
         """
         Create query
         """
@@ -147,6 +150,8 @@ class QueryEngine(object):
                 urlenc.update({config.query_status_update : adql_query_status_next})
             if (adql_query_wait_time!=None):
                 urlenc.update({config.query_wait_time_param : adql_query_wait_time})
+            if (adql_query_delay!=None):
+                urlenc.update({config.adql_query_delay : adql_query_delay})   
                                                 
             data = urllib.parse.urlencode(urlenc).encode('utf-8')
             request = urllib.request.Request(adql_query.url, headers=adql_query.account.get_identity_as_headers())

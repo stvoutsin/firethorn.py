@@ -4,8 +4,6 @@ Created on Nov 4, 2017
 @author: stelios
 '''
 
-from astropy.table import Table as astropy_Table
-import logging
 try:
     import simplejson as json
 except ImportError:
@@ -14,7 +12,6 @@ import warnings
 from models.column import Column
 from astropy.utils.exceptions import AstropyWarning
 warnings.simplefilter('ignore', category=AstropyWarning)
-import config as config
 
 class Table(object):
     """Table class, equivalent to a Firethorn ADQL Table
@@ -54,16 +51,10 @@ class Table(object):
             Table as Astropy table 
         """
         if (self.__adql_table!=None):
-            if (limit):
-                if (self.__adql_table.count()>config.maxrows):
-                    raise Exception ("Max row limit exceeded")
-                else :
-                    return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")
-            else:
-                return astropy_Table.read(self.__adql_table.url + "/votable", format="votable")        
+            return self.__adql_table.as_astropy()  
         else:
-            return None
-                
+            return None     
+    
     
     def rowcount (self):
         """Get Row count

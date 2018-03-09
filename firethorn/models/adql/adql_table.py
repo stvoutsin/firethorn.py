@@ -6,6 +6,8 @@ Created on Feb 8, 2018
 from base.base_table import BaseTable
 import adql
 import logging
+from astropy.table import Table as astropy_Table
+import config as config
 
 
 class AdqlTable(BaseTable):
@@ -50,7 +52,7 @@ class AdqlTable(BaseTable):
         """
         response_json = {}
         try :
-            response_json = self.get_json(  self.url + "/columns/select", { "adql.table.column.select.name": column_name })
+            response_json = self.get_json(  self.url + "/columns/select", { "adql.column.name": column_name })
         except Exception as e:
             logging.exception(e)   
             
@@ -80,3 +82,19 @@ class AdqlTable(BaseTable):
         return rowcount
     
     
+    def as_astropy (self, limit=True):
+        """Get Astropy table
+                             
+        Returns
+        -------
+        astropy_table: Astropy.Table
+            Table as Astropy table 
+        """
+        if (limit):
+            if (self.count()>config.maxrows):
+                raise Exception ("Max row limit exceeded")
+            else :
+                return astropy_Table.read(self.url + "/votable", format="votable",use_names_over_ids=True)
+        else:
+            return astropy_Table.read(self.url + "/votable", format="votable", use_names_over_ids=True)        
+ 

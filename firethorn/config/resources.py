@@ -19,4 +19,4 @@ datadriver="net.sourceforge.jtds.jdbc.Driver"
 dataurl=os.environ.get('dataurl', '')
 endpoint=os.environ.get('endpoint', '')
 osa_endpoint= os.environ.get('osa_endpoint', '')
-maxrows= os.environ.get('maxrows', '1000000')
+maxrows= os.environ.get('maxrows', 1000000)

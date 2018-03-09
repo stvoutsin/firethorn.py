@@ -90,12 +90,7 @@ class AdqlQuery(BaseObject):
         
         
     def results(self):
-        if (self.json_object==None):
-            if (self.url!=None):
-                self.json_object = self.get_json(self.url)
-                return self.json_object.get("results","")
-        else:
-            return self.json_object.get("results","")
+        return self.table()
 
 
     def table(self):
