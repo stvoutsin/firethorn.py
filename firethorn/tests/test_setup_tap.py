@@ -18,10 +18,10 @@ class Test(unittest.TestCase):
 
     def testSetupTap(self):
         
-        with open('data/osa-tap.json') as json_data:
+        with open('../data/osa-tap.json') as json_data:
             json_obect = json.load(json_data)
             name = json_obect.get("name")
-            adql_resources = json_obect.get("AdqlResources")
+            databases = json_obect.get("Databases")
             jdbc_resource = json_obect.get("JdbcResource")
             metadata = json_obect.get("Metadata")
 
@@ -41,16 +41,16 @@ class Test(unittest.TestCase):
         tap_adql = ft.firethorn_engine.create_adql_resource(tap_name)
         
 
-        for adql_resource in adql_resources:
+        for database in databases:
             jdbc_schema = tap_jdbc.select_schema_by_name(
-                adql_resource.get("name"),
+                database.get("name"),
                 "dbo"
                 )
             if (jdbc_schema!=None):
-                metadoc="https://raw.githubusercontent.com/wfau/metadata/master/metadocs/" + adql_resource.get("name") + "_TablesSchema.xml"
+                metadoc="https://raw.githubusercontent.com/wfau/metadata/master/metadocs/" + database.get("name") + "_TablesSchema.xml"
                 adql_schema = tap_adql.import_jdbc_schema(
                     jdbc_schema,
-                    adql_resource.get("name"),
+                    database.get("name"),
                     metadoc=metadoc
                     )
                 print (adql_schema)
@@ -60,7 +60,7 @@ class Test(unittest.TestCase):
         tap_schema_user = metadata["user"]
         tap_schema_pass = metadata["pass"]
         tap_schema_url = metadata["url"]
-        tap_schema_driver=  "net.sourceforge.jtds.jdbc.Driver"
+        tap_schema_driver =  "net.sourceforge.jtds.jdbc.Driver"
         tap_schema_db = metadata["database"]
         
         data = urllib.parse.urlencode({"url": tap_schema_url, 

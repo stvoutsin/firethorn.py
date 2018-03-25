@@ -1,0 +1,173 @@
+{
+
+	"name": "VSA",
+	"Databases": [
+                {
+                        "name": "VVVDR1"
+
+                },
+                {
+                        "name": "VVVDR2"
+
+                },
+                {
+                        "name": "VVVDR4"
+
+                },
+                {
+                        "name": "VHSDR1"
+
+                },
+                {
+                        "name": "VHSDR2"
+
+                },
+                {
+                        "name": "VHSDR3"
+
+                },
+                {
+                        "name": "VHSDR4"
+
+                },
+                {
+                        "name": "VHSDR5"
+
+                },
+                {
+                        "name": "VMCDR1"
+
+                },
+                {
+                        "name": "VMCDR2"
+
+                },
+                {
+                        "name": "VMCDR3"
+
+                },
+                {
+                        "name": "VMCDR4"
+
+                },
+                {
+                        "name": "VIKINGDR2"
+
+                },
+                {
+                        "name": "VIKINGDR3"
+
+                },
+                {
+                        "name": "VIKINGDR4"
+
+                },
+                {
+                        "name": "VIDEODR2"
+
+                },
+                {
+                        "name": "VIDEODR3"
+
+                },
+                {
+                        "name": "VIDEODR4"
+
+                },
+                {
+                        "name": "UKIDSSDR4PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR5PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR7PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR8PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR10PLUS"
+
+                },
+                {
+                        "name": "BestDR7"
+
+                },
+                {
+                        "name": "SEGUEDR6"
+
+                },
+                {
+                        "name": "TWOMASS"
+
+                },
+                {
+                        "name": "ROSAT"
+
+                },
+                {
+                        "name": "FIRST"
+
+                },
+                {
+                        "name": "IRAS"
+
+                },
+                {
+                        "name": "SSA"
+
+                },
+                {
+                        "name": "GLIMPSE"
+
+                },
+                {
+                        "name": "TWOXMM"
+
+                },
+                {
+                        "name": "MGC"
+
+                },
+                {
+                        "name": "NVSS"
+
+                },
+                {
+                        "name": "Stripe82"
+
+                },
+                {
+                        "name": "WISE"
+
+                }
+
+
+
+	],
+
+	"JdbcResource": {
+		"datahost" : "",
+		"datadata" : "VVVDR4",
+		"datauser" : "",
+		"datapass" : "",
+		"datacatalog" : "*",
+		"datatype" : "mssql",
+		"driver" : "net.sourceforge.jtds.jdbc.Driver"
+	},
+	
+    "Metadata": {
+        "host": "",
+        "database" : "",
+        "user": "",
+        "pass": "",
+        "url" : "jdbc:postgresql://bethany/postgres",
+        "driver": "org.postgresql.Driver"
+    }
+
+}
