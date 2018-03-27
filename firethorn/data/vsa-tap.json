@@ -1,7 +1,7 @@
 {
 
 	"name": "VSA",
-	"Databases": [
+	"AdqlResources": [
                 {
                         "name": "VVVDR1"
 
@@ -152,22 +152,23 @@
 	],
 
 	"JdbcResource": {
-		"datahost" : "",
-		"datadata" : "VVVDR4",
-		"datauser" : "",
-		"datapass" : "",
-		"datacatalog" : "*",
-		"datatype" : "mssql",
+		"host" : "",
+		"database" : "VVVDR4",
+		"catalog" : "*",
+		"user" : "",
+		"pass" : "",
+		"type" : "mssql",
 		"driver" : "net.sourceforge.jtds.jdbc.Driver"
 	},
-	
+
     "Metadata": {
         "host": "",
         "database" : "",
+        "catalog" : "",
         "user": "",
         "pass": "",
-        "url" : "jdbc:postgresql://bethany/postgres",
-        "driver": "org.postgresql.Driver"
+        "type" : "",
+        "driver": "org.postgresql.Driver",
+        "port" : 
     }
-
 }

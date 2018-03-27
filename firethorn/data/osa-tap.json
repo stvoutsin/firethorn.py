@@ -56,7 +56,7 @@
 
 	"JdbcResource": {
 	    "datahost" : "",
-	    "datadata" : "ATLASDR1",
+	    "datadata" : "",
 	    "datauser" : "",
 	    "datapass" : "",
 	    "datacatalog" : "*",
@@ -64,13 +64,13 @@
 	    "driver" : "net.sourceforge.jtds.jdbc.Driver"
 	},
 	
-    "Metadata": {
-        "host": "bethany",
-        "database" : "postgres",
-        "user": "",
-        "pass": "",
-        "url" : "jdbc:postgresql://bethany/postgres",
-        "driver": "org.postgresql.Driver"
-    }
+       "Metadata": {
+            "host": "",
+            "database" : "",
+            "user": "",
+            "pass": "",
+            "url" : "jdbc:postgresql://bethany/postgres",
+            "driver": "org.postgresql.Driver"
+        }
 
 }

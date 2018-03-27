@@ -128,22 +128,24 @@
         ],
 
 	"JdbcResource": {
-	    "datahost" : "",
-	    "datadata" : "UKIDSSDR10PLUS",
-	    "datauser" : "",
-	    "datapass" : "",
-	    "datacatalog" : "*",
-	    "datatype" : "mssql",
-	    "driver" : "net.sourceforge.jtds.jdbc.Driver"
+		"host" : "",
+		"database" : "UKIDSSDR10PLUS",
+		"catalog" : "*",
+		"user" : "",
+		"pass" : "",
+		"type" : "mssql",
+		"driver" : "net.sourceforge.jtds.jdbc.Driver"
 	},
-	
-       "Metadata": {
-           "host": "",
-           "database" : "",
-           "user": "",
-           "pass": "",
-           "url" : "jdbc:postgresql://bethany/postgres",
-           "driver": "org.postgresql.Driver"
+
+    "Metadata": {
+        "host": "",
+        "database" : "",
+        "catalog" : "",
+        "user": "",
+        "pass": "",
+        "type" : "",
+        "driver": "org.postgresql.Driver",
+        "port" : 
     }
 
 }
