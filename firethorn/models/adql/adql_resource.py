@@ -107,9 +107,10 @@ class AdqlResource(BaseResource):
                 urldst = self.url + "/metadoc/import"
                 values = {'metadoc.base': str(jdbc_schema.url)}
                 response = requests.post(urldst, files=files, data=values, headers=self.account.get_identity_as_headers())
-
-                response_json = json.loads(response.text)[0]
-                
+                response_json_list = json.loads(response.text)
+                if len(response_json_list)>0:
+                    response_json = response_json_list[0]
+                    
             except Exception as e:
                 logging.exception(e)
         else :

@@ -1,0 +1,76 @@
+{
+
+	"name": "OSA",
+	"Databases": [
+                {
+                        "name": "ATLASDR1"
+
+                },
+                {
+			"name": "ATLASDR3"
+
+		},
+                {
+                        "name": "ATLASDR2"
+
+                },
+		{
+			"name": "TWOMASS"
+
+		},
+              	{
+                        "name": "TWOXMM"
+
+                },
+              	{
+                        "name": "WISE"
+
+                },
+              	{
+                        "name": "VIKINGDR3"
+
+                },
+              	{
+                        "name": "VHSDR1"
+
+                },
+              	{
+                        "name": "MGC"
+
+                },
+                {
+                        "name": "GLIMPSE"
+
+                },
+                {
+                        "name": "FIRST"
+
+                },
+                {
+                        "name": "DENIS"
+
+                }
+
+	],
+
+
+	"JdbcResource": {
+	    "datahost" : "",
+	    "datadata" : "ATLASDR1",
+	    "datauser" : "",
+	    "datapass" : "",
+	    "datacatalog" : "*",
+	    "datatype" : "mssql",
+	    "driver" : "net.sourceforge.jtds.jdbc.Driver"
+	},
+	
+    "Metadata": {
+        "host": "bethany",
+        "database" : "postgres",
+        "user": "",
+        "pass": "",
+        "url" : "jdbc:postgresql://bethany/postgres",
+        "driver": "org.postgresql.Driver"
+    }
+
+}

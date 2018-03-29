@@ -21,7 +21,7 @@ class Account(object):
         self.logged_in = False
         self.endpoint = endpoint
         if (self.username!=None):
-            self.login(username=None, password=None, community=None)
+            self.login(username, password, community)
         
         
     @property
@@ -66,8 +66,7 @@ class Account(object):
     def login(self, username=None, password=None, community=None):
         try :
             
-            new_auth = Account(username, password, community)
-            req = urllib.request.Request(self.endpoint + config.system_info, headers=new_auth.get_identity_as_headers())
+            req = urllib.request.Request(self.endpoint + config.system_info, headers=self.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 response.read().decode('utf-8')     
                 if (response.getcode()==200):

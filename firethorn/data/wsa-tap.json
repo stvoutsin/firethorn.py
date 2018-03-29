@@ -1,0 +1,149 @@
+{
+
+	"name": "WSA",
+        "Databases": [
+                {
+                        "name": "UKIDSSDR1"
+
+                },
+                {
+                        "name": "UKIDSSDR1PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR2PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR3PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR4PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR5PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR6PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR7PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR8PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR9PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR10PLUS"
+
+                },
+                {
+                        "name": "UKIDSSDR11PLUSUDSONLY"
+
+                },
+                {
+                        "name": "BestDR1"
+
+                },
+                {
+                        "name": "BestDR2"
+
+                },
+                {
+                        "name": "BestDR3"
+
+                },
+                {
+                        "name": "BestDR4"
+
+                },
+                {
+                        "name": "BestDR5"
+
+                },
+                {
+                        "name": "BestDR7"
+
+                },
+                {
+                        "name": "SEGUEDR6"
+
+                },
+                {
+                        "name": "TWOMASS"
+
+                },
+                {
+                        "name": "USNOB"
+
+                },
+                {
+                        "name": "ROSAT"
+
+                },
+                {
+                        "name": "FIRST"
+
+                },
+                {
+                        "name": "IRAS"
+
+                },
+                {
+                        "name": "SSA"
+
+                },
+                {
+                        "name": "GLIMPSE"
+
+                },
+                {
+                        "name": "TWOXMM"
+
+                },
+                {
+                        "name": "MGC"
+
+                },
+                {
+                        "name": "Stripe82"
+
+                },
+                {
+                        "name": "WISE"
+
+                }
+
+
+
+        ],
+
+	"JdbcResource": {
+	    "datahost" : "",
+	    "datadata" : "UKIDSSDR10PLUS",
+	    "datauser" : "",
+	    "datapass" : "",
+	    "datacatalog" : "*",
+	    "datatype" : "mssql",
+	    "driver" : "net.sourceforge.jtds.jdbc.Driver"
+	},
+	
+       "Metadata": {
+           "host": "",
+           "database" : "",
+           "user": "",
+           "pass": "",
+           "url" : "jdbc:postgresql://bethany/postgres",
+           "driver": "org.postgresql.Driver"
+    }
+
+}
