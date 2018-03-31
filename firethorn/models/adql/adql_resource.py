@@ -193,12 +193,12 @@ class AdqlResource(BaseResource):
         return models.adql.AdqlSchema(json_object = response_json, adql_resource=self) 
     
 
-    def create_query(self, adql_query_input, adql_query_status_next=None, jdbc_schema_ident=None, adql_query_wait_time=600000):
+    def create_query(self, adql_query_input, adql_query_status_next=None, jdbc_schema_ident=None, adql_query_wait_time=600000, params=None):
         """
         Create a query on this resource
         """
         qry_engine = QueryEngine()
-        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, account=self.account, adql_query_wait_time=adql_query_wait_time, jdbc_schema_ident=jdbc_schema_ident)
+        return qry_engine.create_query(adql_query_input=adql_query_input, adql_query_status_next=adql_query_status_next, adql_resource=self, account=self.account, adql_query_wait_time=adql_query_wait_time, jdbc_schema_ident=jdbc_schema_ident, params=params)
     
     
     def select_queries(self):
