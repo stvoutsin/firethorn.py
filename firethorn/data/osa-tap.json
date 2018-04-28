@@ -1,76 +1,142 @@
 {
-
-	"name": "OSA",
-	"Databases": [
-                {
-                        "name": "ATLASDR1"
-
-                },
-                {
-			"name": "ATLASDR3"
-
-		},
-                {
-                        "name": "ATLASDR2"
-
-                },
-		{
-			"name": "TWOMASS"
-
-		},
-              	{
-                        "name": "TWOXMM"
-
-                },
-              	{
-                        "name": "WISE"
-
-                },
-              	{
-                        "name": "VIKINGDR3"
-
-                },
-              	{
-                        "name": "VHSDR1"
-
-                },
-              	{
-                        "name": "MGC"
-
-                },
-                {
-                        "name": "GLIMPSE"
-
-                },
-                {
-                        "name": "FIRST"
-
-                },
-                {
-                        "name": "DENIS"
-
+    "AdqlResources" :[{
+       "id": "vie0DohJ",
+       "name": "OSA",
+       "Schemas": [
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "ATLASDR1",
+                "adqlschema": "ATLASDR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/ATLASDR1_TablesSchema.xml",
+                    "catalog": "ATLASDR1"
                 }
-
-	],
-
-
-	"JdbcResource": {
-	    "datahost" : "",
-	    "datadata" : "",
-	    "datauser" : "",
-	    "datapass" : "",
-	    "datacatalog" : "*",
-	    "datatype" : "mssql",
-	    "driver" : "net.sourceforge.jtds.jdbc.Driver"
-	},
+            },
+            {
+                "jdbcid" : "avASDeA0",   
+                "jdbcschema" : "dbo",         
+                "jdbccatalog": "ATLASDR2",
+                "adqlschema": "ATLASDR2",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/ATLASDR2_TablesSchema.xml",
+                    "catalog": "ATLASDR2"
+                }
+            },            
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "ATLASDR3",
+                "adqlschema": "ATLASDR3",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/ATLASDR3_TablesSchema.xml",
+                    "catalog": "ATLASDR3"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "TWOMASS",
+                "adqlschema": "TWOMASS",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
+                    "catalog": "TWOMASS"
+                }
+            },               
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "TWOXMM",
+                "adqlschema": "TWOXMM",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOXMM_TablesSchema.xml",
+                    "catalog": "TWOXMM"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "WISE",
+                "adqlschema": "WISE",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/WISE_TablesSchema.xml",
+                    "catalog": "WISE"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "VIKINGDR3",
+                "adqlschema": "VIKINGDR3",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/VIKINGDR3_TablesSchema.xml",
+                    "catalog": "VIKINGDR3"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "VHSDR1",
+                "adqlschema": "VHSDR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/VHSDR1_TablesSchema.xml",
+                    "catalog": "VHSDR1"
+                }
+            },     
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "MGC",
+                "adqlschema": "MGC",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/MGC_TablesSchema.xml",
+                    "catalog": "MGC"
+                }
+            }, 
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "GLIMPSE",
+                "adqlschema": "GLIMPSE",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/GLIMPSE_TablesSchema.xml",
+                    "catalog": "GLIMPSE"
+                }
+            }, 
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "FIRST",
+                "adqlschema": "FIRST",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/FIRST_TablesSchema.xml",
+                    "catalog": "FIRST"
+                }
+            }, 
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "DENIS",
+                "adqlschema": "DENIS",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/DENIS_TablesSchema.xml",
+                    "catalog": "DENIS"
+                }
+            } 
+             
+        ]
+	   
+	}],
 	
-       "Metadata": {
-            "host": "",
-            "database" : "",
-            "user": "",
-            "pass": "",
-            "url" : "jdbc:postgresql://bethany/postgres",
-            "driver": "org.postgresql.Driver"
-        }
-
+	"JdbcResources": [{
+		 "id": "avASDeA0",
+		 "name" : "OSA JDBC",
+		 "datahost": "",
+		 "datadata": "",
+		 "datauser": "",
+		 "datapass": "",
+		 "datacatalog": "*",
+		 "datatype": "mssql",
+		 "driver": "net.sourceforge.jtds.jdbc.Driver"
+	}]
 }
