@@ -1,66 +1,112 @@
 {
-
-	"name": "SSA",
-	"AdqlResources": [
-                {
-                        "name": "SSA"
-
-                },
-                {
-                        "name": "PSSA"
-
-                },
-                {
-                        "name": "TWOMASS"
-
-                },
-                {
-                        "name": "TWOMPZ"
-
-                },
-                {
-                        "name": "WISExSCOSPZ"
-
-                },
-                {
-                        "name": "EDR"
-
-                },
-                {
-                        "name": "BESTDR2"
-
-                },
-                {
-                        "name": "BESTDR5"
-
-                },
-                {
-                        "name": "6dFGS"
-
+    "AdqlResources" :[{
+       "id": "vie0DohJ",
+       "name": "SSA",
+       "Schemas": [
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "SSA",
+                "adqlschema": "SSA",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/SSA_TablesSchema.xml",
+                    "catalog": "SSA"
                 }
-
-
-	],
-
-	"JdbcResource": {
-		"host" : "",
-		"database" : "SSA",
-		"catalog" : "*",
-		"user" : "",
-		"pass" : "",
-		"type" : "mssql",
-		"driver" : "net.sourceforge.jtds.jdbc.Driver"
-	},
-
-    "Metadata": {
-        "host": "",
-        "database" : "",
-        "catalog" : "",
-        "user": "",
-        "pass": "",
-        "type" : "",
-        "driver": "org.postgresql.Driver",
-        "port" : 
-    }
-
+            },
+            {
+                "jdbcid" : "avASDeA0",   
+                "jdbcschema" : "dbo",         
+                "jdbccatalog": "PSSA",
+                "adqlschema": "PSSA",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/PSSA_TablesSchema.xml",
+                    "catalog": "PSSA"
+                }
+            },            
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "TWOMASS",
+                "adqlschema": "TWOMASS",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
+                    "catalog": "TWOMASS"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "TWOMPZ",
+                "adqlschema": "TWOMPZ",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMPZ_TablesSchema.xml",
+                    "catalog": "TWOMPZ"
+                }
+            },               
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "WISExSCOSPZ",
+                "adqlschema": "WISExSCOSPZ",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/WISExSCOSPZ_TablesSchema.xml",
+                    "catalog": "WISExSCOSPZ"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "EDR",
+                "adqlschema": "EDR",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/EDR_TablesSchema.xml",
+                    "catalog": "EDR"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "BESTDR2",
+                "adqlschema": "BESTDR2",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR2_TablesSchema.xml",
+                    "catalog": "BESTDR2"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "BESTDR5",
+                "adqlschema": "BESTDR5",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR5_TablesSchema.xml",
+                    "catalog": "BESTDR5"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "6dFGS",
+                "adqlschema": "6dFGS",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/6dFGS_TablesSchema.xml",
+                    "catalog": "6dFGS"
+                }
+            }
+             
+        ]
+	   
+	}],
+	
+	"JdbcResources": [{
+		 "id": "avASDeA0",
+		 "name" : "SSA JDBC",
+		 "datahost": "",
+		 "datadata": "",
+		 "datauser": "",
+		 "datapass": "",
+		 "datacatalog": "*",
+		 "datatype": "mssql",
+		 "driver": "net.sourceforge.jtds.jdbc.Driver"
+	}]
 }

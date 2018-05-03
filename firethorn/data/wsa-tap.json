@@ -1,151 +1,323 @@
 {
-
-	"name": "WSA",
-        "Databases": [
+    "AdqlResources" :[{
+       "id": "vie0DohJ",
+       "name": "WSA",
+       "Schemas": [
                 {
-                        "name": "UKIDSSDR1"
-
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR1",
+	                "adqlschema": "UKIDSSDR1",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR1_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR1"
+	                }
                 },
                 {
-                        "name": "UKIDSSDR1PLUS"
-
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR1PLUS",
+	                "adqlschema": "UKIDSSDR1PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR1PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR1PLUS"
+	                }
                 },
                 {
-                        "name": "UKIDSSDR2PLUS"
-
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR2PLUS",
+	                "adqlschema": "UKIDSSDR2PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR2PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR2PLUS"
+	                }
+                },    
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR3PLUS",
+	                "adqlschema": "UKIDSSDR3PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR3PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR3PLUS"
+	                }
+                },    
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR4PLUS",
+	                "adqlschema": "UKIDSSDR4PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR4PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR4PLUS"
+	                }
+                },  
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR5PLUS",
+	                "adqlschema": "UKIDSSDR5PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR5PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR5PLUS"
+	                }
+                },  
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR6PLUS",
+	                "adqlschema": "UKIDSSDR6PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR6PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR6PLUS"
+	                }
+                },                
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR7PLUS",
+	                "adqlschema": "UKIDSSDR7PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR7PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR7PLUS"
+	                }
+                },                  
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR8PLUS",
+	                "adqlschema": "UKIDSSDR8PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR8PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR8PLUS"
+	                }
                 },
                 {
-                        "name": "UKIDSSDR3PLUS"
-
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR9PLUS",
+	                "adqlschema": "UKIDSSDR9PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR9PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR9PLUS"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR10PLUS",
+	                "adqlschema": "UKIDSSDR10PLUS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR10PLUS_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR10PLUS"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "UKIDSSDR11PLUSUDSONLY",
+	                "adqlschema": "UKIDSSDR11PLUSUDSONLY",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR11PLUSUDSONLY_TablesSchema.xml",
+	                    "catalog": "UKIDSSDR11PLUSUDSONLY"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR1",
+	                "adqlschema": "BestDR1",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR1_TablesSchema.xml",
+	                    "catalog": "BestDR1"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR2",
+	                "adqlschema": "BestDR2",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR2_TablesSchema.xml",
+	                    "catalog": "BestDR2"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR3",
+	                "adqlschema": "BestDR3",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR3_TablesSchema.xml",
+	                    "catalog": "BestDR3"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR4",
+	                "adqlschema": "BestDR4",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR4_TablesSchema.xml",
+	                    "catalog": "BestDR4"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR5",
+	                "adqlschema": "BestDR5",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR5_TablesSchema.xml",
+	                    "catalog": "BestDR5"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR7",
+	                "adqlschema": "BestDR7",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR7_TablesSchema.xml",
+	                    "catalog": "BestDR7"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "SEGUEDR6",
+	                "adqlschema": "SEGUEDR6",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/SEGUEDR6_TablesSchema.xml",
+	                    "catalog": "SEGUEDR6"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "TWOMASS",
+	                "adqlschema": "TWOMASS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
+	                    "catalog": "TWOMASS"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "USNOB",
+	                "adqlschema": "USNOB",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/USNOB_TablesSchema.xml",
+	                    "catalog": "USNOB"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "ROSAT",
+	                "adqlschema": "ROSAT",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/ROSAT_TablesSchema.xml",
+	                    "catalog": "ROSAT"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "FIRST",
+	                "adqlschema": "FIRST",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/FIRST_TablesSchema.xml",
+	                    "catalog": "FIRST"
+	                }
                 },
                 {
-                        "name": "UKIDSSDR4PLUS"
-
-                },
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "IRAS",
+	                "adqlschema": "IRAS",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/IRAS_TablesSchema.xml",
+	                    "catalog": "IRAS"
+	                }
+                },  
                 {
-                        "name": "UKIDSSDR5PLUS"
-
-                },
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "SSA",
+	                "adqlschema": "SSA",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/SSA_TablesSchema.xml",
+	                    "catalog": "SSA"
+	                }
+                },  
                 {
-                        "name": "UKIDSSDR6PLUS"
-
-                },
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "GLIMPSE",
+	                "adqlschema": "GLIMPSE",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/GLIMPSE_TablesSchema.xml",
+	                    "catalog": "GLIMPSE"
+	                }
+                },  
                 {
-                        "name": "UKIDSSDR7PLUS"
-
-                },
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "TWOXMM",
+	                "adqlschema": "TWOXMM",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOXMM_TablesSchema.xml",
+	                    "catalog": "TWOXMM"
+	                }
+                },  
                 {
-                        "name": "UKIDSSDR8PLUS"
-
-                },
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "MGC",
+	                "adqlschema": "MGC",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/MGC_TablesSchema.xml",
+	                    "catalog": "MGC"
+	                }
+                },  
                 {
-                        "name": "UKIDSSDR9PLUS"
-
-                },
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "Stripe82",
+	                "adqlschema": "Stripe82",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/Stripe82_TablesSchema.xml",
+	                    "catalog": "Stripe82"
+	                }
+                },  
                 {
-                        "name": "UKIDSSDR10PLUS"
-
-                },
-                {
-                        "name": "UKIDSSDR11PLUSUDSONLY"
-
-                },
-                {
-                        "name": "BestDR1"
-
-                },
-                {
-                        "name": "BestDR2"
-
-                },
-                {
-                        "name": "BestDR3"
-
-                },
-                {
-                        "name": "BestDR4"
-
-                },
-                {
-                        "name": "BestDR5"
-
-                },
-                {
-                        "name": "BestDR7"
-
-                },
-                {
-                        "name": "SEGUEDR6"
-
-                },
-                {
-                        "name": "TWOMASS"
-
-                },
-                {
-                        "name": "USNOB"
-
-                },
-                {
-                        "name": "ROSAT"
-
-                },
-                {
-                        "name": "FIRST"
-
-                },
-                {
-                        "name": "IRAS"
-
-                },
-                {
-                        "name": "SSA"
-
-                },
-                {
-                        "name": "GLIMPSE"
-
-                },
-                {
-                        "name": "TWOXMM"
-
-                },
-                {
-                        "name": "MGC"
-
-                },
-                {
-                        "name": "Stripe82"
-
-                },
-                {
-                        "name": "WISE"
-
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "WISE",
+	                "adqlschema": "WISE",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/WISE_TablesSchema.xml",
+	                    "catalog": "WISE"
+	                }
                 }
-
-
-
-        ],
-
-	"JdbcResource": {
-		"host" : "",
-		"database" : "UKIDSSDR10PLUS",
-		"catalog" : "*",
-		"user" : "",
-		"pass" : "",
-		"type" : "mssql",
-		"driver" : "net.sourceforge.jtds.jdbc.Driver"
-	},
-
-    "Metadata": {
-        "host": "",
-        "database" : "",
-        "catalog" : "",
-        "user": "",
-        "pass": "",
-        "type" : "",
-        "driver": "org.postgresql.Driver",
-        "port" : 
-    }
-
+      
+             
+        ]
+	   
+	}],
+	
+	"JdbcResources": [{
+		 "id": "avASDeA0",
+		 "name" : "WSA JDBC",
+		 "datahost": "",
+		 "datadata": "",
+		 "datauser": "",
+		 "datapass": "",
+		 "datacatalog": "*",
+		 "datatype": "mssql",
+		 "driver": "net.sourceforge.jtds.jdbc.Driver"
+	}]
 }
