@@ -24,6 +24,16 @@
 	                }
 	            },
 	            {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "VVVDR4",
+	                "adqlschema": "VVVDR4",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/VVVDR4_TablesSchema.xml",
+	                    "catalog": "VVVDR4"
+	                }
+	            },
+	            {
 	                "jdbcid" : "avASDeA0",   
 	                "jdbcschema" : "dbo",         
 	                "jdbccatalog": "VHSDR1",
