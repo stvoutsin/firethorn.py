@@ -10,6 +10,7 @@ try:
     import firethorn
     import json    
     import logging
+    import os
 except Exception as e:
     logging.exception(e)
 
@@ -32,8 +33,23 @@ class SetupEngine(object):
         for jdbc_resource in jdbc_resources_json:
             _id = jdbc_resource.get("id","")
             name = jdbc_resource.get("name","")
-            jdbc_name = name   
-            jdbc_resource["jdbc_object"] = self.ft.firethorn_engine.create_jdbc_resource(jdbc_name, jdbc_resource["datadata"], jdbc_resource["datacatalog"], jdbc_resource["datatype"], jdbc_resource["datahost"], jdbc_resource["datauser"], jdbc_resource["datapass"])
+            
+            if  jdbc_resource["datauser" ]=="{datauser}":
+                datauser = os.getenv('datauser', "")
+            else:
+                datauser = jdbc_resource["datauser"]
+                
+            if  jdbc_resource["datapass" ]=="{datapass}":
+                datapass = os.getenv('datapass', "")
+            else:
+                datapass = jdbc_resource["datapass"]
+                
+            if  jdbc_resource["datahost" ]=="{datahost}":
+                datahost = os.getenv('datahost', "")
+            else:
+                datahost = jdbc_resource["datahost"]       
+                        
+            jdbc_resource["jdbc_object"] = self.ft.firethorn_engine.create_jdbc_resource(name, jdbc_resource["datadata"], jdbc_resource["datacatalog"], jdbc_resource["datatype"], datahost, datauser, datapass)
             self.jdbc_resources[_id] = jdbc_resource
   
         
@@ -89,5 +105,5 @@ class SetupEngine(object):
 
 
 if __name__ == "__main__":
-    sEng = SetupEngine(json_file="../data/osa-tap.json", firethorn_base="http://gworewia.metagrid.xyz/firethorn")
+    sEng = SetupEngine(json_file="/home/stelios/firethornquery/firethornquery/firethorn/data/ssa-tap.json", firethorn_base="http://localhost:8081/firethorn")
     sEng.setup_resources()
