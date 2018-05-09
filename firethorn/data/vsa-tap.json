@@ -163,6 +163,16 @@
 	                    "catalog": "VIDEODR4"
 	                }
 	            },       
+	            {
+	                "jdbcid" : "avASDeA0",   
+	                "jdbcschema" : "dbo",         
+	                "jdbccatalog": "VIDEODR5",
+	                "adqlschema": "VIDEODR5",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/VIDEODR5_TablesSchema.xml",
+	                    "catalog": "VIDEODR5"
+	                }
+	            },  
                     {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
@@ -301,6 +311,26 @@
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR7_TablesSchema.xml",
 	                    "catalog": "BestDR7"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR8",
+	                "adqlschema": "BestDR8",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR8_TablesSchema.xml",
+	                    "catalog": "BestDR8"
+	                }
+                }, 
+                {
+	                "jdbcid" : "avASDeA0",
+	                "jdbcschema" : "dbo",
+	                "jdbccatalog": "BestDR9",
+	                "adqlschema": "BestDR9",
+	                "metadata": {
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR9_TablesSchema.xml",
+	                    "catalog": "BestDR9"
 	                }
                 }, 
                 {
