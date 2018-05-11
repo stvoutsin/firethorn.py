@@ -332,10 +332,10 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "WSA JDBC",
-		 "datahost": "${datahost}",
+		 "datahost": "{datahost}",
 		 "datadata": "UKIDSSDR8PLUS",
-		 "datauser": "${datauser}",
-		 "datapass": "${datapass}",
+		 "datauser": "{datauser}",
+		 "datapass": "{datapass}",
 		 "datacatalog": "*",
 		 "datatype": "mssql",
 		 "driver": "net.sourceforge.jtds.jdbc.Driver"

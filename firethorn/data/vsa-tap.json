@@ -471,10 +471,10 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "VVV JDBC",
-		 "datahost": "${datahost}",
+		 "datahost": "{datahost}",
 		 "datadata": "VVVDR4",
-		 "datauser": "${datauser}",
-		 "datapass": "${datapass}",
+		 "datauser": "{datauser}",
+		 "datapass": "{datapass}",
 		 "datacatalog": "*",
 		 "datatype": "mssql",
 		 "driver" : "net.sourceforge.jtds.jdbc.Driver"

@@ -121,10 +121,10 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "SSA JDBC",
-		 "datahost": "${datahost}",
+		 "datahost": "{datahost}",
 		 "datadata": "SSA",
-		 "datauser": "${datauser}",
-		 "datapass": "${datapass}",
+		 "datauser": "{datauser}",
+		 "datapass": "{datapass}",
 		 "datacatalog": "*",
 		 "datatype": "mssql",
 		 "driver": "net.sourceforge.jtds.jdbc.Driver"

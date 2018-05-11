@@ -36,7 +36,6 @@ class SetupEngine(object):
         for jdbc_resource in jdbc_resources_json:
             _id = jdbc_resource.get("id","")
             name = jdbc_resource.get("name","")
-            
             if  jdbc_resource["datauser" ]=="{datauser}":
                 datauser = os.getenv('datauser', "")
             else:
@@ -51,7 +50,7 @@ class SetupEngine(object):
                 datahost = os.getenv('datahost', "")
             else:
                 datahost = jdbc_resource["datahost"]       
-                        
+                                     
             jdbc_resource["jdbc_object"] = self.ft.firethorn_engine.create_jdbc_resource(name, jdbc_resource["datadata"], jdbc_resource["datacatalog"], jdbc_resource["datatype"], datahost, datauser, datapass)
             self.jdbc_resources[_id] = jdbc_resource
   
@@ -124,10 +123,10 @@ class SetupEngine(object):
                 tap = self.create_tap_service(new_adql_resource)        
                 print ("TAP Service available at: " + tap)
             print ("")
-
+            
 
 if __name__ == "__main__":
-    ft = firethorn.Firethorn(endpoint=firethorn.config.endpoint)
+    ft = firethorn.FirethornEngine(endpoint=firethorn.config.endpoint)
     ft.load_resources("https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json")
     #sEng = SetupEngine(json_file="https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
     #sEng.setup_resources()

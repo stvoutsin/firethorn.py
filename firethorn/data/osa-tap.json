@@ -131,10 +131,10 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "OSA JDBC",
-		 "datahost": "${datahost}",
+		 "datahost": "{datahost}",
 		 "datadata": "ATLASDR1",
-		 "datauser": "${datauser}",
-		 "datapass": "${datapass}",
+		 "datauser": "{datauser}",
+		 "datapass": "{datapass}",
 		 "datacatalog": "*",
 		 "datatype": "mssql",
 		 "driver": "net.sourceforge.jtds.jdbc.Driver"
