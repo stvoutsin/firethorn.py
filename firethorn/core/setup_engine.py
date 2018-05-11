@@ -11,6 +11,7 @@ try:
     import json    
     import logging
     import os
+    import urllib.request
 except Exception as e:
     logging.exception(e)
 
@@ -29,7 +30,9 @@ class SetupEngine(object):
     
     
     def load_jdbc_resources(self, jdbc_resources_json):
-                
+        """
+        Load JDBC resources into map from json_file
+        """
         for jdbc_resource in jdbc_resources_json:
             _id = jdbc_resource.get("id","")
             name = jdbc_resource.get("name","")
@@ -54,7 +57,9 @@ class SetupEngine(object):
   
         
     def create_adql_resource(self, resource):
-                     
+        """
+        Create an ADQL Resource for the resource params passed from the json_file
+        """                     
         name = resource.get("name","")
         _id = resource.get("id","")
         adql_schemas = resource.get("Schemas","")
@@ -83,18 +88,34 @@ class SetupEngine(object):
                 
         return new_adql_resource
 
+
     def create_tap_service(self, new_adql_resource):
+        """
+        Create a TAP service for a given resource
+        """
+        
         req = urllib.request.Request( self.ft.endpoint + "/tap/"+ new_adql_resource.ident() + "/generateTapSchema", headers=new_adql_resource.account.get_identity_as_headers())
         response = urllib.request.urlopen(req)
         response.close()
         return self.ft.endpoint + "/tap/"+ new_adql_resource.ident() + "/"
+
     
     def setup_resources(self):
-        with open(self.json_file) as json_data:
-            json_obect = json.load(json_data)
-            name = json_obect.get("name")
-            adql_resources_json = json_obect.get("AdqlResources")
-            jdbc_resources_json = json_obect.get("JdbcResources")
+        """
+        For every AdqlResource in the json_file, setup the Resources (and TAP service if tap_included=true)
+        """
+        
+        
+        if (self.json_file.lower().startswith("http")):
+            with urllib.request.urlopen(self.json_file) as url:
+                json_obect = json.loads(url.read().decode())
+        else :
+            data = open(self.json_file)
+            json_obect = json.load(data)
+    
+        name = json_obect.get("name")
+        adql_resources_json = json_obect.get("AdqlResources")
+        jdbc_resources_json = json_obect.get("JdbcResources")
 
         self.load_jdbc_resources(jdbc_resources_json)
         for resource in adql_resources_json:
@@ -106,5 +127,5 @@ class SetupEngine(object):
 
 
 if __name__ == "__main__":
-    sEng = SetupEngine(json_file="/home/stelios/firethornquery/firethornquery/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
+    sEng = SetupEngine(json_file="https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
     sEng.setup_resources()

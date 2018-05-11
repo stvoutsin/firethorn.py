@@ -109,9 +109,11 @@ services:
             jarmila:
                 condition: service_healthy            
 
-    tester:
+    firethorn-py:
+        hostname:
+            "firethorn-py"
         image:
-           "firethorn/tester:${buildtag}"
+           "firethorn-py"
         read_only:
             false
         stdin_open:
@@ -123,16 +125,24 @@ services:
             - /tmp
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - ${HOME}/tester.properties:/etc/tester.properties
         networks:
             - miriam
         environment:
-            datahost:    "patricia"
-            datadriver:  "net.sourceforge.jtds.jdbc.Driver"
-            endpointurl: "http://gillian:8080/firethorn"
+            datahost: "${datahost}"
+            datauser: "${datauser}"
+            datapass: "${datapass}"
+            datadata: "${datadata}" 
+            datacatalog: "${datadata}" 
+            datatype: "${datatype}" 
+            admingroup: "${admingroup}"
+            adminuser: "${adminuser}"
+            adminpass: "${adminpass}"
+            datadriver: "net.sourceforge.jtds.jdbc.Driver"
+            endpoint: "${endpoint}"
+            osa_endpoint: "${osa_endpoint}"
         depends_on:
             gillian:
-                condition: service_healthy            
+                condition: service_healthy
         command:
             [bash]
 
