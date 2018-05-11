@@ -127,5 +127,7 @@ class SetupEngine(object):
 
 
 if __name__ == "__main__":
-    sEng = SetupEngine(json_file="https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
-    sEng.setup_resources()
+    ft = firethorn.Firethorn(endpoint=firethorn.config.endpoint)
+    ft.load_resources("https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json")
+    #sEng = SetupEngine(json_file="https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
+    #sEng.setup_resources()

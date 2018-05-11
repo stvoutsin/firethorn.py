@@ -14,6 +14,7 @@ try:
     from jdbc.jdbc_resource import JdbcResource
     from models.jdbc.jdbc_schema import JdbcSchema
     import models as models
+    from core.setup_engine import SetupEngine
     from core.account import Account
     
 except Exception as e:
@@ -368,7 +369,13 @@ class FirethornEngine(object):
                     metadoc=metadoc
                     )
         
-
+        
+    def load_resources(self, config_file):
+        """
+        Load a set of Resources (and TAP) from a local or remote JSON configuration file
+        """
+        sEng = SetupEngine(json_file=config_file, firethorn_base=self.endpoint)
+        sEng.setup_resources()
 
 
     def get_json(self, ident):
