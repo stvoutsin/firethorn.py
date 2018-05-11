@@ -20,9 +20,9 @@ class SetupEngine(object):
     """
 
 
-    def __init__(self, json_file="", firethorn_base="", tap=True):
+    def __init__(self, json_file="", firethorn_base="", tap_included=True):
         self.json_file = json_file
-        self.tap = tap
+        self.tap_included = tap_included
         self.jdbc_resources = {}
         self.ft = firethorn.Firethorn(endpoint=firethorn_base)
         self.ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
@@ -87,7 +87,7 @@ class SetupEngine(object):
         req = urllib.request.Request( self.ft.endpoint + "/tap/"+ new_adql_resource.ident() + "/generateTapSchema", headers=new_adql_resource.account.get_identity_as_headers())
         response = urllib.request.urlopen(req)
         response.close()
-
+        return self.ft.endpoint + "/tap/"+ new_adql_resource.ident() + "/"
     
     def setup_resources(self):
         with open(self.json_file) as json_data:
@@ -99,11 +99,12 @@ class SetupEngine(object):
         self.load_jdbc_resources(jdbc_resources_json)
         for resource in adql_resources_json:
             new_adql_resource = self.create_adql_resource(resource)
-            if (self.tap):
-                self.create_tap_service(new_adql_resource)        
-
+            if (self.tap_included):
+                tap = self.create_tap_service(new_adql_resource)        
+                print ("TAP Service available at: " + tap)
+            print ("")
 
 
 if __name__ == "__main__":
-    sEng = SetupEngine(json_file="/home/stelios/firethornquery/firethornquery/firethorn/data/ssa-tap.json", firethorn_base="http://localhost:8081/firethorn")
+    sEng = SetupEngine(json_file="/home/stelios/firethornquery/firethornquery/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
     sEng.setup_resources()
