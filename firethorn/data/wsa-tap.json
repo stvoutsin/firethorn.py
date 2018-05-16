@@ -222,17 +222,7 @@
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
 	                    "catalog": "TWOMASS"
 	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "USNOB",
-	                "adqlschema": "USNOB",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/USNOB_TablesSchema.xml",
-	                    "catalog": "USNOB"
-	                }
-                }, 
+                },
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
@@ -332,7 +322,7 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "WSA JDBC",
-		 "datahost": "{datahost}",
+		 "datahost": "ramses19",
 		 "datadata": "UKIDSSDR8PLUS",
 		 "datauser": "{datauser}",
 		 "datapass": "{datapass}",

@@ -131,7 +131,7 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "OSA JDBC",
-		 "datahost": "{datahost}",
+		 "datahost": "ramses19",
 		 "datadata": "ATLASDR1",
 		 "datauser": "{datauser}",
 		 "datapass": "{datapass}",

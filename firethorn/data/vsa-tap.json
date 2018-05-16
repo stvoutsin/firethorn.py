@@ -356,16 +356,6 @@
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "USNOB",
-	                "adqlschema": "USNOB",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/USNOB_TablesSchema.xml",
-	                    "catalog": "USNOB"
-	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "ROSAT",
 	                "adqlschema": "ROSAT",
 	                "metadata": {
@@ -426,16 +416,6 @@
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "NVSS",
-	                "adqlschema": "NVSS",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/NVSS_TablesSchema.xml",
-	                    "catalog": "NVSS"
-	                }
-                },  
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "MGC",
 	                "adqlschema": "MGC",
 	                "metadata": {
@@ -471,8 +451,8 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "VVV JDBC",
-		 "datahost": "{datahost}",
-		 "datadata": "VVVDR4",
+		 "datahost": "ramses17",
+		 "datadata": "VVVDR2",
 		 "datauser": "{datauser}",
 		 "datapass": "{datapass}",
 		 "datacatalog": "*",
