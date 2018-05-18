@@ -92,7 +92,9 @@ class AdqlResource(BaseResource):
       
         response_json={}
         files = {}
-        
+
+        rsrc = None        
+
         if (metadoc!=None):
             
             try:
