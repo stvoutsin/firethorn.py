@@ -12,16 +12,6 @@
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/SSA_TablesSchema.xml",
                     "catalog": "SSA"
                 }
-            },
-            {
-                "jdbcid" : "avASDeA0",   
-                "jdbcschema" : "dbo",         
-                "jdbccatalog": "PSSA",
-                "adqlschema": "PSSA",
-                "metadata": {
-                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/PSSA_TablesSchema.xml",
-                    "catalog": "PSSA"
-                }
             },            
             {
                 "jdbcid" : "avASDeA0",
@@ -52,44 +42,34 @@
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/WISExSCOSPZ_TablesSchema.xml",
                     "catalog": "WISExSCOSPZ"
                 }
-            },   
-            {
-                "jdbcid" : "avASDeA0",
-                "jdbcschema" : "dbo",
-                "jdbccatalog": "EDR",
-                "adqlschema": "EDR",
-                "metadata": {
-                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/EDR_TablesSchema.xml",
-                    "catalog": "EDR"
-                }
             },
             {
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
-                "jdbccatalog": "BESTDR2",
-                "adqlschema": "BESTDR2",
-                "metadata": {
-                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR2_TablesSchema.xml",
-                    "catalog": "BESTDR2"
-                }
-            },
-            {
-                "jdbcid" : "avASDeA0",
-                "jdbcschema" : "dbo",
-                "jdbccatalog": "BESTDR5",
-                "adqlschema": "BESTDR5",
+                "jdbccatalog": "BestDR5",
+                "adqlschema": "SDSSDR5",
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR5_TablesSchema.xml",
-                    "catalog": "BESTDR5"
+                    "catalog": "BestDR5"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "BestDR7",
+                "adqlschema": "SDSSDR7",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR7_TablesSchema.xml",
+                    "catalog": "BestDR7"
                 }
             },
             {
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
                 "jdbccatalog": "BestDR8",
-                "adqlschema": "BestDR8",
+                "adqlschema": "SDSSDR8",
                 "metadata": {
-                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR8_TablesSchema.xml",
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR8_TablesSchema.xml",
                     "catalog": "BestDR8"
                 }
            }, 
@@ -97,20 +77,20 @@
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
                 "jdbccatalog": "BestDR9",
-                "adqlschema": "BestDR9",
+                "adqlschema": "SDSSDR9",
                 "metadata": {
-                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR9_TablesSchema.xml",
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR9_TablesSchema.xml",
                     "catalog": "BestDR9"
                 }
             }, 
             {
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
-                "jdbccatalog": "6dFGS",
-                "adqlschema": "6dFGS",
+                "jdbccatalog": "SIXDF",
+                "adqlschema": "6dF",
                 "metadata": {
-                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/6dFGS_TablesSchema.xml",
-                    "catalog": "6dFGS"
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/SIXDF_TablesSchema.xml",
+                    "catalog": "SIXDF"
                 }
             }
              

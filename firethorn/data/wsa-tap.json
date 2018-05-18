@@ -116,60 +116,30 @@
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "UKIDSSDR11PLUSUDSONLY",
-	                "adqlschema": "UKIDSSDR11PLUSUDSONLY",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR11PLUSUDSONLY_TablesSchema.xml",
-	                    "catalog": "UKIDSSDR11PLUSUDSONLY"
-	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR1",
-	                "adqlschema": "BestDR1",
+	                "adqlschema": "SDSSDR1",
 	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR1_TablesSchema.xml",
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR1_TablesSchema.xml",
 	                    "catalog": "BestDR1"
 	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "BestDR2",
-	                "adqlschema": "BestDR2",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR2_TablesSchema.xml",
-	                    "catalog": "BestDR2"
-	                }
-                }, 
+                },
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR3",
-	                "adqlschema": "BestDR3",
+	                "adqlschema": "SDSSDR3",
 	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR3_TablesSchema.xml",
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR3_TablesSchema.xml",
 	                    "catalog": "BestDR3"
 	                }
                 }, 
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "BestDR4",
-	                "adqlschema": "BestDR4",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR4_TablesSchema.xml",
-	                    "catalog": "BestDR4"
-	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR5",
-	                "adqlschema": "BestDR5",
+	                "adqlschema": "SDSSDR5",
 	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR5_TablesSchema.xml",
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR5_TablesSchema.xml",
 	                    "catalog": "BestDR5"
 	                }
                 }, 
@@ -177,9 +147,9 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR7",
-	                "adqlschema": "BestDR7",
+	                "adqlschema": "SDSSDR7",
 	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR7_TablesSchema.xml",
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR7_TablesSchema.xml",
 	                    "catalog": "BestDR7"
 	                }
                 }, 
@@ -187,9 +157,9 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR8",
-	                "adqlschema": "BestDR8",
+	                "adqlschema": "SDSSDR8",
 	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR8_TablesSchema.xml",
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR8_TablesSchema.xml",
 	                    "catalog": "BestDR8"
 	                }
                 }, 
@@ -197,20 +167,10 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR9",
-	                "adqlschema": "BestDR9",
+	                "adqlschema": "SDSSDR9",
 	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BestDR9_TablesSchema.xml",
+	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR9_TablesSchema.xml",
 	                    "catalog": "BestDR9"
-	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "SEGUEDR6",
-	                "adqlschema": "SEGUEDR6",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/SEGUEDR6_TablesSchema.xml",
-	                    "catalog": "SEGUEDR6"
 	                }
                 }, 
                 {
