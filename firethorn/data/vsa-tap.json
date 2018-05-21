@@ -246,16 +246,6 @@
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "UKIDSSDR11PLUSUDSONLY",
-	                "adqlschema": "UKIDSSDR11PLUSUDSONLY",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR11PLUSUDSONLY_TablesSchema.xml",
-	                    "catalog": "UKIDSSDR11PLUSUDSONLY"
-	                }
-                }, 
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "BestDR1",
 	                "adqlschema": "SDSSDR1",
 	                "metadata": {
@@ -317,7 +307,7 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "TWOMASS",
-	                "adqlschema": "TWOMASS",
+	                "adqlschema": "2MASS",
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
 	                    "catalog": "TWOMASS"
@@ -377,7 +367,7 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "TWOXMM",
-	                "adqlschema": "TWOXMM",
+	                "adqlschema": "2XMM",
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOXMM_TablesSchema.xml",
 	                    "catalog": "TWOXMM"

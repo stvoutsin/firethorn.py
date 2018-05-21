@@ -17,7 +17,7 @@
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
                 "jdbccatalog": "TWOMASS",
-                "adqlschema": "TWOMASS",
+                "adqlschema": "2MASS",
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
                     "catalog": "TWOMASS"

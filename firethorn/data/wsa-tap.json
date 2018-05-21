@@ -6,16 +6,6 @@
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "UKIDSSDR1",
-	                "adqlschema": "UKIDSSDR1",
-	                "metadata": {
-	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/UKIDSSDR1_TablesSchema.xml",
-	                    "catalog": "UKIDSSDR1"
-	                }
-                },
-                {
-	                "jdbcid" : "avASDeA0",
-	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "UKIDSSDR1PLUS",
 	                "adqlschema": "UKIDSSDR1PLUS",
 	                "metadata": {
@@ -177,7 +167,7 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "TWOMASS",
-	                "adqlschema": "TWOMASS",
+	                "adqlschema": "2MASS",
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
 	                    "catalog": "TWOMASS"

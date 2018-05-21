@@ -37,7 +37,7 @@
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
                 "jdbccatalog": "TWOMASS",
-                "adqlschema": "TWOMASS",
+                "adqlschema": "2MASS",
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
                     "catalog": "TWOMASS"
@@ -47,7 +47,7 @@
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
                 "jdbccatalog": "TWOXMM",
-                "adqlschema": "TWOXMM",
+                "adqlschema": "2XMM",
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOXMM_TablesSchema.xml",
                     "catalog": "TWOXMM"
