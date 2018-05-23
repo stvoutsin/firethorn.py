@@ -1,0 +1,132 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2018, ROE (http://www.roe.ac.uk/)
+#
+#     This information is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This information is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#  
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#   </meta:licence>
+# </meta:header>
+#
+#
+
+# -----------------------------------------------------
+# Test login modes ...
+
+import os
+import time
+import firethorn as ftpy
+
+#
+# Create our firethorn client (unnamed param).
+# FAIL This makes three login calls to the server, creates two temp accounts on the server, creates two Accounts in the client, one of which has the endpoint as the username.
+firethorn = ftpy.Firethorn(
+    os.environ.get(
+        'endpoint'
+        )
+    )
+
+#
+# Login as the admin account.
+# FAIL - This appears to work, but for the wrong reason.
+# It ignores the admin name, pass amd communiyt and makes an anon request, creating a new anon guest account on the server.
+# It catches to 200 response, but ignores the returnes values, and sets logged_in to True, on the local Account.
+firethorn.login(
+    os.environ.get('adminuser'),
+    os.environ.get('adminpass'),
+    os.environ.get('admingroup')
+    )
+
+#
+# Login as the admin account (bad password).
+# FAIL - this should not work.
+# This seems to work, because it sends an anon login, gets a 200 response but doesn't check the response values.
+firethorn.login(
+    os.environ.get('adminuser'),
+    'bogus',
+    os.environ.get('admingroup')
+    )
+
+# -----------------------------------------------------
+# Test login modes ...
+#[user@pyclient]
+
+import os
+import time
+import firethorn as ftpy
+
+#
+# Create our firethorn client (using named param).
+# FAIL This makes three login calls to the server, creates two temp accounts on the server and creates two Accounts in the client.
+firethorn = ftpy.Firethorn(
+    endpoint = os.environ.get(
+        'endpoint'
+        )
+    )
+
+#
+# Login as the admin account.
+# FAIL - This appears to work, but for the wrong reason.
+# It ignores the admin name, pass amd communiyt and makes an anon request, creating a new anon guest account on the server.
+# It catches to 200 response, but ignores the returnes values, and sets logged_in to True, on the local Account.
+firethorn.login(
+    os.environ.get('adminuser'),
+    os.environ.get('adminpass'),
+    os.environ.get('admingroup')
+    )
+
+#
+# Login as the admin account (bad password).
+# FAIL - this should not work.
+# This seems to work, because it sends an anon login, gets a 200 response but doesn't check the response values.
+firethorn.login(
+    os.environ.get('adminuser'),
+    'bogus',
+    os.environ.get('admingroup')
+    )
+
+#
+# This works, but for the wrong reasons.
+# This seems to work, because it sends an anon login, gets a 200 response but doesn't check the response values.
+# It never sends the 'frog' username to the server.
+firethorn.login(
+    'frog',
+    '1234'
+    )
+
+#
+# FAIL - this should not work because 'frog' has already been created with a password.
+# This seems to work, because it sends an anon login, gets a 200 response but doesn't check the response values.
+# It never sends the username to the server.
+firethorn.login(
+    'frog'
+    )
+
+#
+# This works, but for the wrong reasons.
+# This seems to work, because it sends an anon login, gets a 200 response but doesn't check the response values.
+# It never sends the 'toad' username to the server.
+firethorn.login(
+    'toad'
+    )
+
+#
+# FAIL - this should not work because 'toad' has already been created with no password.
+# This seems to work, because it sends an anon login, gets a 200 response but doesn't check the response values.
+# It never sends the username to the server.
+firethorn.login(
+    'toad',
+    'abcd'
+    )
+
+
