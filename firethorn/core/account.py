@@ -77,6 +77,7 @@ class Account(object):
    
 
     def login(self, username=None, password=None, community=None):
+        self.logged_in = False
         try :
             print("Account: login()")
             print("  username  [{}]".format(username))
@@ -92,17 +93,35 @@ class Account(object):
             req = urllib.request.Request(self.endpoint + config.system_info, headers=self.get_identity_as_headers())
             with urllib.request.urlopen(req) as response:
                 response.read().decode('utf-8')     
-                if (response.getcode()==200):
+
+                if (response.getcode()!=200):
+                    self.logged_in = False
+                    print("Login FAIL")
+                    print("  response code [{}]".format(response.getcode()))
+                else:
                     print("Request PASS")
                     print("  response code [{}]".format(response.getcode()))
-                    self.logged_in = True
-                    self.username=username
-                    self.password=password
-                    self.community=community
-                else:
-                    self.logged_in = False
-                    print("Request FAIL")
-                    print("  response code [{}]".format(response.getcode()))
+                    response_username  = response.info()["firethorn.auth.username"]
+                    response_community = response.info()["firethorn.auth.community"]
+                    print("  response username  [{}]".format(response_username))
+                    print("  response community [{}]".format(response_community))
+                    if ((self.username != None) and (self.username != response_username)):
+                        self.logged_in = False
+                        print("Login FAIL")
+                        print("Usernames don't match")
+                    elif ((self.community != None) and (self.community != response_community)):
+                        self.logged_in = False
+                        print("Login FAIL")
+                        print("Communities don't match")
+                    else:
+                        self.logged_in = True
+                        self.username  = response_username
+                        self.community = response_community
+                        print("Login PASS")
+                        print("  logged_in [{}]".format(self.logged_in))
+                        print("  username  [{}]".format(self.username))
+                        print("  password  [{}]".format(self.password))
+                        print("  community [{}]".format(self.community))
         except Exception as e:
             logging.exception(e)
             pass
