@@ -33,7 +33,7 @@ class FirethornEngine(object):
             self.account = self.create_temporary_account()
         else:
             self.account = account
-    
+        return
     
     def login(self, username=None, password=None, community=None):
         """
@@ -105,7 +105,7 @@ class FirethornEngine(object):
             
         self.account = Account(username = username, community = community, endpoint=self.endpoint)
         
-        return
+        return self.account
         
          
     def create_jdbc_resource(self, resource_name , database, catalog, connection_type, host, username, password):
@@ -374,7 +374,7 @@ class FirethornEngine(object):
         """
         Load a set of Resources (and TAP) from a local or remote JSON configuration file
         """
-        sEng = SetupEngine(json_file=config_file, firethorn_base=self.endpoint)
+        sEng = SetupEngine(json_file=config_file, firethorn_base=self.endpoint, firethorn_engine = self)
         sEng.setup_resources()
 
 

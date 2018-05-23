@@ -159,7 +159,6 @@ class AdqlResource(BaseResource):
             else:
                 importname = adql_schema.name()
                 
-            print (importname)
             if importname!="":
                 response_json = self.get_json( self.url + config.workspace_import_uri, {config.workspace_import_schema_base : adql_schema.url, config.workspace_import_schema_name : importname})
 

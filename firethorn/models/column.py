@@ -15,7 +15,15 @@ class Column(object):
     
     def name(self):
         return self.__adql_column.name()                    
+ 
+    def type(self):
+        return self.__adql_column.type()     
     
+    def ucd(self):
+        return self.__adql_column.ucd()  
+    
+    def utype(self):
+        return self.__adql_column.utype()             
     
     def __str__(self):
         """Get class as string
