@@ -36,13 +36,27 @@ class Firethorn(object):
     
     
     def __init__(self, username=None, password=None, endpoint = config.endpoint, community=None):
+        print("Firethorn: init()")
+        print("  username  [{}]".format(username))
+        print("  password  [{}]".format(password))
+        print("  community [{}]".format(community))
+        print("  endpoint  [{}]".format(endpoint))
         self.endpoint = endpoint
+        print("Firethorn: creating engine")
         self.firethorn_engine =  FirethornEngine(endpoint=endpoint)
+        print("Firethorn: engine created")
 
+        print("Firethorn: checking username")
         if username!=None:
+            print("Firethorn: engine.loggin()")
             self.firethorn_engine.login(username, password, community)            
+            print("Firethorn: engine.loggin() done")
         else:
+            print("Firethorn: creating temp account")
             self.firethorn_engine.create_temporary_account()
+            print("Firethorn: temp account created")
+        print("Firethorn: init() done")
+        print("  endpoint  [{}]".format(self.endpoint))
         return        
 
 
@@ -50,10 +64,23 @@ class Firethorn(object):
         """
         Login 
         """
+        print("Firethorn: login()")
+        print("  username  [{}]".format(username))
+        print("  password  [{}]".format(password))
+        print("  community [{}]".format(community))
         if username!=None:
+            print("Firethorn: calling engine.login()")
             if (self.firethorn_engine.login(username, password, community)):
+                print("Firethorn: engine.login() passed")
+                print("  username  [{}]".format(self.firethorn_engine.account.username))
+                print("  password  [{}]".format(self.firethorn_engine.account.password))
+                print("  community [{}]".format(self.firethorn_engine.account.community))
                 return "Successfully logged in as: " + username
             else:
+                print("Firethorn: engine.login() failed")
+                print("  username  [{}]".format(self.firethorn_engine.account.username))
+                print("  password  [{}]".format(self.firethorn_engine.account.password))
+                print("  community [{}]".format(self.firethorn_engine.account.community))
                 return "Incorrect username/password"
         else:
             return "Please enter a valid username"

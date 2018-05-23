@@ -26,12 +26,26 @@ class FirethornEngine(object):
 
 
     def __init__(self, endpoint = "" , account = None, driver="net.sourceforge.jtds.jdbc.Driver",**kwargs):
+        print("FirethornEngine: init()")
+        print("  endpoint [{}]".format(endpoint))
+        print("  account  [{}]".format(account))
         self.driver = driver
         self.endpoint = endpoint
         if (account==None):
+            print("FirethornEngine: creating temp account")
             self.account = self.create_temporary_account()
+            print("FirethornEngine: temp account created")
         else:
+            print("FirethornEngine: using existing account")
             self.account = account
+        print("FirethornEngine: init() done")
+        print("  account  [{}]".format(self.account))
+        if (self.account!=None):
+            print("  logged_in [{}]".format(self.account.logged_in))
+            print("  username  [{}]".format(self.account.username))
+            print("  password  [{}]".format(self.account.password))
+            print("  community [{}]".format(self.account.community))
+            print("  endpoint  [{}]".format(self.endpoint))
     
     
     def login(self, username=None, password=None, community=None):
@@ -50,12 +64,30 @@ class FirethornEngine(object):
         community: string, optional
             Community
         """    
-          
-        
+        print("FirethornEngine: login()")
+        print("  username  [{}]".format(username))
+        print("  password  [{}]".format(password))
+        print("  community [{}]".format(community))
+        print("  endpoint  [{}]".format(self.endpoint))
+
+        #new_auth = Account(username, password, community, self.endpoint)
+        #new_auth.login()
+
+        print("FirethornEngine: creating new_auth")
         new_auth = Account(endpoint=self.endpoint)
+        print("FirethornEngine: new_auth created")
+
+        print("FirethornEngine: calling new_auth.login()")
         new_auth.login(username, password, community)
         if (new_auth.logged_in):
             self.account = new_auth
+
+        print("FirethornEngine: login() done")
+        print("  logged_in [{}]".format(self.account.logged_in))
+        print("  username  [{}]".format(self.account.username))
+        print("  password  [{}]".format(self.account.password))
+        print("  community [{}]".format(self.account.community))
+        print("  endpoint  [{}]".format(self.endpoint))
         return new_auth.logged_in
     
 
@@ -85,6 +117,7 @@ class FirethornEngine(object):
         Create a temporary user
         
         """            
+        print("FirethornEngine: create_temporary_account()")
         username = None
         community = None
         
@@ -92,17 +125,33 @@ class FirethornEngine(object):
             
             req = urllib.request.Request(  self.endpoint + config.system_info, headers={"Accept" : "application/json"})
             with urllib.request.urlopen(req) as response:
+                print("Response code [{}]".format(response.getcode()))
                 info = response.info()
                 for header in info:
+                    print("  header [{}]".format(header))
                     if (header.lower()=="firethorn.auth.username"):
                         username =  info[header]
+                        print("    username  [{}]".format(username))
                     if (header.lower()=="firethorn.auth.community"):
                         community =  info[header]
+                        print("    community [{}]".format(community))
+                print("Response data")
+                print("  username  [{}]".format(username))
+                print("  community [{}]".format(community))
                         
         except Exception as e:
             logging.exception(e)
-            
+        print("FirethornEngine: Creating Account")
+        print("  username  [{}]".format(username))
+        print("  community [{}]".format(community))
+        print("  endpoint  [{}]".format(self.endpoint))
+
         self.account = Account(username = username, community = community, endpoint=self.endpoint)
+#       self.account = Account(username = username, password=None, community = community, endpoint=self.endpoint)
+        print("FirethornEngine: create_temporary_account() done")
+        print("  username  [{}]".format(self.account.username))
+        print("  password  [{}]".format(self.account.password))
+        print("  community [{}]".format(self.account.community))
         
         return
         
