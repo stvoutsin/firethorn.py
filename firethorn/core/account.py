@@ -27,8 +27,7 @@ class Account(object):
         self.endpoint = endpoint
         if (self.username!=None):
             print("Account: calling self.login()")
-            self.login(username, password, community)
-            #self.login()
+            self.login()
         print("Account: init() done")
         print("  logged_in [{}]".format(self.logged_in))
         print("  username  [{}]".format(self.username))
@@ -76,14 +75,9 @@ class Account(object):
         self.__logged_in = logged_in
    
 
-    def login(self, username=None, password=None, community=None):
+    def login(self):
         self.logged_in = False
         print("Account: login()")
-        print("  username  [{}]".format(username))
-        print("  password  [{}]".format(password))
-        print("  community [{}]".format(community))
-
-        print("Account: Making request using self properties")
         print("  logged_in [{}]".format(self.logged_in))
         print("  username  [{}]".format(self.username))
         print("  password  [{}]".format(self.password))
