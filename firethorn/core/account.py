@@ -25,9 +25,9 @@ class Account(object):
         self.__community = community     
         self.__logged_in = False
         self.__endpoint = endpoint
-        if (self.__username!=None):
-            print("Account: calling self.login()")
-            self.login()
+        #if (self.__username!=None):
+        #   print("Account: calling self.login()")
+        #   self.login()
         print("Account: init() done")
         print("  logged_in [{}]".format(self.__logged_in))
         print("  username  [{}]".format(self.__username))

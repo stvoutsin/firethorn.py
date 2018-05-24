@@ -48,6 +48,7 @@ class Firethorn(object):
 
         print("Firethorn: checking username")
         if username!=None:
+            # Why use a different login() method ?
             print("Firethorn: engine.loggin()")
             self.firethorn_engine.login(username, password, community)            
             print("Firethorn: engine.loggin() done")
@@ -81,6 +82,7 @@ class Firethorn(object):
                 print("  username  [{}]".format(self.firethorn_engine.account.username))
                 print("  password  [{}]".format(self.firethorn_engine.account.password))
                 print("  community [{}]".format(self.firethorn_engine.account.community))
+                # We don't know why, just true/false
                 return "Incorrect username/password"
         else:
             return "Please enter a valid username"

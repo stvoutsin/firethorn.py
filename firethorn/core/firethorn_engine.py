@@ -70,12 +70,10 @@ class FirethornEngine(object):
         print("  community [{}]".format(community))
         print("  endpoint  [{}]".format(self.endpoint))
 
-        #new_auth = Account(username, password, community, self.endpoint)
-        #new_auth.login()
-
         print("FirethornEngine: creating new_auth")
         new_auth = Account(username, password, community, endpoint=self.endpoint)
-        print("FirethornEngine: new_auth created")
+        print("FirethornEngine: calling new_auth login")
+        new_auth.login()
 
         if (new_auth.logged_in):
             self.account = new_auth
