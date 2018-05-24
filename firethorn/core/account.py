@@ -20,75 +20,50 @@ class Account(object):
         print("  password  [{}]".format(password))
         print("  community [{}]".format(community))
         print("  endpoint  [{}]".format(endpoint))
-        self.username = username
-        self.password = password
-        self.community = community     
-        self.logged_in = False
-        self.endpoint = endpoint
-        if (self.username!=None):
+        self.__username = username
+        self.__password = password
+        self.__community = community     
+        self.__logged_in = False
+        self.__endpoint = endpoint
+        if (self.__username!=None):
             print("Account: calling self.login()")
             self.login()
         print("Account: init() done")
-        print("  logged_in [{}]".format(self.logged_in))
-        print("  username  [{}]".format(self.username))
-        print("  password  [{}]".format(self.password))
-        print("  community [{}]".format(self.community))
-        print("  endpoint  [{}]".format(self.endpoint))
-        
+        print("  logged_in [{}]".format(self.__logged_in))
+        print("  username  [{}]".format(self.__username))
+        print("  password  [{}]".format(self.__password))
+        print("  community [{}]".format(self.__community))
         
     @property
     def username(self):
         return self.__username
         
-        
-    @username.setter
-    def username(self, username):
-        self.__username = username
-
-
     @property
     def password(self):
         return self.__password
-        
-        
-    @password.setter
-    def password(self, password):
-        self.__password = password
-        
         
     @property
     def community(self):
         return self.__community
         
-        
-    @community.setter
-    def community(self, community):
-        self.__community = community
-
     @property
     def logged_in(self):
         return self.__logged_in
         
-        
-    @logged_in.setter
-    def logged_in(self, logged_in):
-        self.__logged_in = logged_in
-   
 
     def login(self):
-        self.logged_in = False
+        self.__logged_in = False
         print("Account: login()")
         print("  logged_in [{}]".format(self.logged_in))
         print("  username  [{}]".format(self.username))
         print("  password  [{}]".format(self.password))
         print("  community [{}]".format(self.community))
-        print("  endpoint  [{}]".format(self.endpoint))
         req = urllib.request.Request(self.endpoint + config.system_info, headers=self.get_identity_as_headers())
         with urllib.request.urlopen(req) as response:
             response.read().decode('utf-8')     
 
             if (response.getcode()!=200):
-                self.logged_in = False
+                self.__logged_in = False
                 print("Login FAIL")
                 print("  response code [{}]".format(response.getcode()))
             else:
@@ -99,17 +74,17 @@ class Account(object):
                 print("  response username  [{}]".format(response_username))
                 print("  response community [{}]".format(response_community))
                 if ((self.username != None) and (self.username != response_username)):
-                    self.logged_in = False
+                    self.__logged_in = False
                     print("Login FAIL")
                     print("Usernames don't match")
                 elif ((self.community != None) and (self.community != response_community)):
-                    self.logged_in = False
+                    self.__logged_in = False
                     print("Login FAIL")
                     print("Communities don't match")
                 else:
-                    self.logged_in = True
-                    self.username  = response_username
-                    self.community = response_community
+                    self.__logged_in = True
+                    self.__username  = response_username
+                    self.__community = response_community
                     print("Login PASS")
                     print("  logged_in [{}]".format(self.logged_in))
                     print("  username  [{}]".format(self.username))
@@ -121,7 +96,6 @@ class Account(object):
         print("  username  [{}]".format(self.username))
         print("  password  [{}]".format(self.password))
         print("  community [{}]".format(self.community))
-        print("  endpoint  [{}]".format(self.endpoint))
         return self.logged_in
             
         
