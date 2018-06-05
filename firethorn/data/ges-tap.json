@@ -1,0 +1,82 @@
+{
+    "AdqlResources" :[{
+       "id": "vie0DohJ",
+       "name": "GES",
+       "Schemas": [
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "gesiDR5",
+                "adqlschema": "gesiDR5",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/gesiDR5_TablesSchema.xml",
+                    "catalog": "gesiDR5"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",   
+                "jdbcschema" : "dbo",         
+                "jdbccatalog": "gesiDR4",
+                "adqlschema": "gesiDR4",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/gesiDR4_TablesSchema.xml",
+                    "catalog": "gesiDR4"
+                }
+            },            
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "gesiDR2",
+                "adqlschema": "gesiDR2",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/gesiDR2_TablesSchema.xml",
+                    "catalog": "gesiDR2"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "gesiDR1",
+                "adqlschema": "gesiDR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/gesiDR1_TablesSchema.xml",
+                    "catalog": "gesiDR1"
+                }
+            },               
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "GAIADR1",
+                "adqlschema": "GAIADR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/GAIADR1_TablesSchema.xml",
+                    "catalog": "GAIADR1"
+                }
+            },   
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "TWOMASS",
+                "adqlschema": "TWOMASS",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
+                    "catalog": "TWOMASS"
+                }
+            }
+             
+        ]
+	   
+	}],
+	
+	"JdbcResources": [{
+		 "id": "avASDeA0",
+		 "name" : "GES JDBC",
+		 "datahost": "",
+		 "datadata": "",
+		 "datauser": "",
+		 "datapass": "",
+		 "datacatalog": "*",
+		 "datatype": "mssql",
+		 "driver": "net.sourceforge.jtds.jdbc.Driver"
+	}]
+}

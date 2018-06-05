@@ -14,6 +14,7 @@ try:
     from jdbc.jdbc_resource import JdbcResource
     from models.jdbc.jdbc_schema import JdbcSchema
     import models as models
+    from core.setup_engine import SetupEngine
     from core.account import Account
     
 except Exception as e:
@@ -38,6 +39,7 @@ class FirethornEngine(object):
         else:
             print("FirethornEngine: using existing account")
             self.account = account
+            
         print("FirethornEngine: init() done")
         print("  account  [{}]".format(self.account))
         if (self.account!=None):
@@ -47,6 +49,7 @@ class FirethornEngine(object):
             print("  community [{}]".format(self.account.community))
             print("  endpoint  [{}]".format(self.endpoint))
     
+        return
     
     def login(self, username=None, password=None, community=None):
         """
@@ -149,7 +152,7 @@ class FirethornEngine(object):
         print("  password  [{}]".format(self.account.password))
         print("  community [{}]".format(self.account.community))
         
-        return
+        return self.account
         
          
     def create_jdbc_resource(self, resource_name , database, catalog, connection_type, host, username, password):
@@ -413,7 +416,13 @@ class FirethornEngine(object):
                     metadoc=metadoc
                     )
         
-
+        
+    def load_resources(self, config_file):
+        """
+        Load a set of Resources (and TAP) from a local or remote JSON configuration file
+        """
+        sEng = SetupEngine(json_file=config_file, firethorn_base=self.endpoint, firethorn_engine = self)
+        sEng.setup_resources()
 
 
     def get_json(self, ident):
