@@ -21,12 +21,12 @@ class SetupEngine(object):
     """
 
 
-    def __init__(self, json_file="", firethorn_base="", tap_included=True):
+    def __init__(self, json_file="", firethorn_base="", tap_included=True, firethorn_engine=None):
         self.json_file = json_file
         self.tap_included = tap_included
         self.jdbc_resources = {}
-        self.ft = firethorn.Firethorn(endpoint=firethorn_base)
-        self.ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
+        self.firethorn_engine = firethorn_engine
+        self.endpoint = firethorn_engine.endpoint
     
     
     def load_jdbc_resources(self, jdbc_resources_json):
@@ -51,7 +51,7 @@ class SetupEngine(object):
             else:
                 datahost = jdbc_resource["datahost"]       
                                      
-            jdbc_resource["jdbc_object"] = self.ft.firethorn_engine.create_jdbc_resource(name, jdbc_resource["datadata"], jdbc_resource["datacatalog"], jdbc_resource["datatype"], datahost, datauser, datapass)
+            jdbc_resource["jdbc_object"] = self.firethorn_engine.create_jdbc_resource(name, jdbc_resource["datadata"], jdbc_resource["datacatalog"], jdbc_resource["datatype"], datahost, datauser, datapass)
             self.jdbc_resources[_id] = jdbc_resource
   
         
@@ -64,7 +64,7 @@ class SetupEngine(object):
         adql_schemas = resource.get("Schemas","")
         
         tap_name= name + " ADQL resource"
-        new_adql_resource = self.ft.firethorn_engine.create_adql_resource(tap_name)
+        new_adql_resource = self.firethorn_engine.create_adql_resource(tap_name)
         
         for schema in adql_schemas:
             schema_name = schema.get("adqlschema")
@@ -93,10 +93,10 @@ class SetupEngine(object):
         Create a TAP service for a given resource
         """
         
-        req = urllib.request.Request( self.ft.endpoint + "/tap/"+ new_adql_resource.ident() + "/generateTapSchema", headers=new_adql_resource.account.get_identity_as_headers())
+        req = urllib.request.Request( self.endpoint + "/tap/"+ new_adql_resource.ident() + "/generateTapSchema", headers=new_adql_resource.account.get_identity_as_headers())
         response = urllib.request.urlopen(req)
         response.close()
-        return self.ft.endpoint + "/tap/"+ new_adql_resource.ident() + "/"
+        return self.endpoint + "/tap/"+ new_adql_resource.ident() + "/"
 
     
     def setup_resources(self):
@@ -126,7 +126,8 @@ class SetupEngine(object):
             
 
 if __name__ == "__main__":
-    ft = firethorn.FirethornEngine(endpoint=firethorn.config.endpoint)
-    ft.load_resources("https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json")
+    ft = firethorn.Firethorn(endpoint=firethorn.config.endpoint)
+    ft.login(firethorn.config.adminuser, firethorn.config.adminpass, firethorn.config.admingroup)
+    ft.firethorn_engine.load_resources("../data/vsa-tap.json")
     #sEng = SetupEngine(json_file="https://raw.githubusercontent.com/stvoutsin/firethorn.py/dev/firethorn/data/osa-tap.json", firethorn_base="http://localhost:8081/firethorn")
     #sEng.setup_resources()

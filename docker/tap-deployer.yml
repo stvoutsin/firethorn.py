@@ -84,7 +84,7 @@ services:
             firethorn.meta.pass: "${metapass}"
             firethorn.meta.driver: "org.postgresql.Driver"
             firethorn.user.type: "mssql"
-            firethorn.user.host: "patricia"
+            firethorn.user.host: "${userhost}"
             firethorn.user.data: "${userdata}"
             firethorn.user.user: "${useruser}"
             firethorn.user.pass: "${userpass}"
