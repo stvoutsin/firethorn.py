@@ -116,21 +116,21 @@
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "BestDR3",
+	                "jdbccatalog": "BESTDR3",
 	                "adqlschema": "SDSSDR3",
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR3_TablesSchema.xml",
-	                    "catalog": "BestDR3"
+	                    "catalog": "BESTDR3"
 	                }
                 }, 
                 {
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
-	                "jdbccatalog": "BestDR5",
+	                "jdbccatalog": "BESTDR5",
 	                "adqlschema": "SDSSDR5",
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR5_TablesSchema.xml",
-	                    "catalog": "BestDR5"
+	                    "catalog": "BESTDR5"
 	                }
                 }, 
                 {
@@ -227,7 +227,7 @@
 	                "jdbcid" : "avASDeA0",
 	                "jdbcschema" : "dbo",
 	                "jdbccatalog": "TWOXMM",
-	                "adqlschema": "TWOXMM",
+	                "adqlschema": "2XMM",
 	                "metadata": {
 	                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOXMM_TablesSchema.xml",
 	                    "catalog": "TWOXMM"
@@ -272,8 +272,8 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "WSA JDBC",
-		 "datahost": "ramses19",
-		 "datadata": "UKIDSSDR8PLUS",
+		 "datahost": "192.168.137.11",
+		 "datadata": "UKIDSSDR9PLUS",
 		 "datauser": "{datauser}",
 		 "datapass": "{datapass}",
 		 "datacatalog": "*",

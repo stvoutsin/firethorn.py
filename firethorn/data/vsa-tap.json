@@ -411,7 +411,7 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "VVV JDBC",
-		 "datahost": "ramses17",
+		 "datahost": "192.168.137.28",
 		 "datadata": "VVVDR2",
 		 "datauser": "{datauser}",
 		 "datapass": "{datapass}",

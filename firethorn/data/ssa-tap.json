@@ -27,7 +27,7 @@
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
                 "jdbccatalog": "TWOMPZ",
-                "adqlschema": "TWOMPZ",
+                "adqlschema": "2MPZ",
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMPZ_TablesSchema.xml",
                     "catalog": "TWOMPZ"
@@ -41,6 +41,16 @@
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/WISExSCOSPZ_TablesSchema.xml",
                     "catalog": "WISExSCOSPZ"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "BestDR1",
+                "adqlschema": "SDSSDR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR1_TablesSchema.xml",
+                    "catalog": "BestDR1"
                 }
             },
             {
@@ -101,7 +111,7 @@
 	"JdbcResources": [{
 		 "id": "avASDeA0",
 		 "name" : "SSA JDBC",
-		 "datahost": "ramses8",
+		 "datahost": "192.168.137.53",
 		 "datadata": "SSA",
 		 "datauser": "{datauser}",
 		 "datapass": "{datapass}",
