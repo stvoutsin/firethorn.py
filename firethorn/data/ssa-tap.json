@@ -56,11 +56,11 @@
             {
                 "jdbcid" : "avASDeA0",
                 "jdbcschema" : "dbo",
-                "jdbccatalog": "BestDR5",
+                "jdbccatalog": "BESTDR5",
                 "adqlschema": "SDSSDR5",
                 "metadata": {
                     "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/BESTDR5_TablesSchema.xml",
-                    "catalog": "BestDR5"
+                    "catalog": "BESTDR5"
                 }
             },
             {
