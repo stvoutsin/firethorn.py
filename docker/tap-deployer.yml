@@ -113,7 +113,7 @@ services:
         hostname:
             "firethorn-py"
         image:
-           "firethorn-py"
+           "firethorn/firethorn-py:latest"
         read_only:
             false
         stdin_open:
