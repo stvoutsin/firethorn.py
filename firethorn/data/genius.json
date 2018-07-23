@@ -1,0 +1,97 @@
+{
+    "AdqlResources" :[{
+       "id": "vie0DohJ",
+       "name": "GENIUS",
+       "Schemas": [
+            {
+                "ivoaid" : "kweFaas2",
+                "ivoaschema" : "gaiadr1",
+                "adqlschema" : "gaiadr1",
+                "ivoacatalog": "gaia"
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "ATLASDR1",
+                "adqlschema": "ATLASDR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/ATLASDR1_TablesSchema.xml",
+                    "catalog": "ATLASDR1"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "TWOMASS",
+                "adqlschema": "2MASS",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/TWOMASS_TablesSchema.xml",
+                    "catalog": "TWOMASS"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "VHSDR1",
+                "adqlschema": "VHSDR1",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/VHSDR1_TablesSchema.xml",
+                    "catalog": "VHSDR1"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "BestDR9",
+                "adqlschema": "SDSSDR9",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/stvoutsin/metadata/master/metadocs/BESTDR9_TablesSchema.xml",
+                    "catalog": "BestDR9"
+                }
+            }, 
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "VIKINGDR3",
+                "adqlschema": "VIKINGDR3",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/VIKINGDR3_TablesSchema.xml",
+                    "catalog": "VIKINGDR3"
+                }
+            },
+            {
+                "jdbcid" : "avASDeA0",
+                "jdbcschema" : "dbo",
+                "jdbccatalog": "WISE",
+                "adqlschema": "WISE",
+                "metadata": {
+                    "metadoc": "https://raw.githubusercontent.com/wfau/metadata/master/metadocs/WISE_TablesSchema.xml",
+                    "catalog": "WISE"
+                }
+            }
+       
+             
+        ]
+	   
+	}],
+	
+	"IvoaResources": [{
+		 "id": "kweFaas2",
+		 "name" : "Gaia TAP Service",
+		 "url" : "http://gea.esac.esa.int/tap-server/tap",
+		 "metadoc" : "https://raw.githubusercontent.com/stvoutsin/pyrothorn/master/testing/metadocs/gaia-tableset.xml"
+	}],
+	
+	"JdbcResources": [{
+		 "id": "avASDeA0",
+		 "name" : "OSA JDBC",
+		 "datahost": "192.168.137.53",
+		 "datadata": "ATLASDR1",
+		 "datauser": "{datauser}",
+		 "datapass": "{datapass}",
+		 "datacatalog": "*",
+		 "datatype": "mssql",
+		 "driver": "net.sourceforge.jtds.jdbc.Driver"
+	}]
+}
+
