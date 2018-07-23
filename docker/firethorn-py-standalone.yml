@@ -1,0 +1,47 @@
+
+version: '2.1'
+
+networks:
+
+    # External network
+    rosana:
+
+    # Internal network
+    miriam:
+
+services:
+
+    firethorn-py:
+        hostname:
+            "firethorn-py"
+        image:
+           "firethorn/firethorn-py:${buildtag:-latest}"
+        read_only:
+            false
+        stdin_open:
+            true
+        tty:
+            true
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+            - miriam
+        environment:
+            datahost: "${datahost}"
+            datauser: "${datauser}"
+            datapass: "${datapass}"
+            datadata: "${datadata}" 
+            datacatalog: "${datadata}" 
+            datatype: "${datatype}" 
+            admingroup: "${admingroup}"
+            adminuser: "${adminuser}"
+            adminpass: "${adminpass}"
+            datadriver: "net.sourceforge.jtds.jdbc.Driver"
+            endpoint: "${endpoint}"
+            osa_endpoint: "${osa_endpoint}"
+        command:
+            [bash]
+
