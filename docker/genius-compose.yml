@@ -11,21 +11,13 @@ networks:
 services:
 
     clearwing:
-        hostname:
+	hostname:
             "clearwing"
         image:
-           "firethorn/clearwing:latest"
+           "firethorn/clearwing:${buildtag:-latest}"
         read_only:
             false
-        stdin_open:
-            true
-        tty:
-            true
-        tmpfs:
-            - /run
-            - /tmp
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - "80:80"
         networks:
             - miriam
-
