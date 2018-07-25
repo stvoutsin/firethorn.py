@@ -14,7 +14,7 @@ services:
         hostname:
             "clearwing"
         image:
-           "firethorn/clearwing:${buildtag:-latest}"
+           "firethorn/clearwing:${clearwing_buildtag:-latest}"
         read_only:
             false
         ports:
