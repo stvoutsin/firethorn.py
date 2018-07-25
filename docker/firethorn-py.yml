@@ -118,7 +118,6 @@ services:
             adminpass: "${adminpass}"
             datadriver: "net.sourceforge.jtds.jdbc.Driver"
             endpoint: "${endpoint}"
-            osa_endpoint: "${osa_endpoint}"
         depends_on:
             gillian:
                 condition: service_healthy
