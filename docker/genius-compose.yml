@@ -11,13 +11,17 @@ networks:
 services:
 
     clearwing:
-	hostname:
+        hostname:
             "clearwing"
         image:
            "firethorn/clearwing:${buildtag:-latest}"
         read_only:
             false
         ports:
-            - "80:80"
+            - 80:80
+        volumes:
+            - ${properties_dir}/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+            - ${properties_dir}/config.py:/var/www/html/app/config.py
+            - ${properties_dir}/firethorn.ini:/var/www/html/app/firethorn.ini
         networks:
             - miriam
