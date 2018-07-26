@@ -92,7 +92,7 @@ services:
         hostname:
             "firethorn-py"
         image:
-           "firethorn-py"
+           "firethorn-py:${buildtag:-latest}"
         read_only:
             false
         stdin_open:
