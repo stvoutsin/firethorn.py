@@ -43,5 +43,5 @@ services:
             endpoint: "${endpoint}"
             osa_endpoint: "${osa_endpoint}"
         command:
-            [bash]
+            [python3]
 

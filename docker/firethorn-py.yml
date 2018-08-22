@@ -122,5 +122,5 @@ services:
             gillian:
                 condition: service_healthy
         command:
-            [bash]
+            [python3]
 
