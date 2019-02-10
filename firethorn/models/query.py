@@ -85,6 +85,7 @@ class Query(object):
         """
         try: 
             self.adql_query.update(adql_query_input=query_input)
+            self.querystring = query_input
         except Exception as e:
             logging.exception(e)    
             

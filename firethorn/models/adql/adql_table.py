@@ -71,7 +71,7 @@ class AdqlTable(BaseTable):
         rowcount: integer
             Count of rows  
         """  
-        rowcount=None
+        rowcount=-1
         
         try:
             if (self.json_object!=None):  
