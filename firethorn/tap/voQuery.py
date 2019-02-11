@@ -94,6 +94,7 @@ class VOQuery():
                 time.sleep(1)
         except Exception as e:
             logging.exception(e)
+            self.error = str(e)
             return None
 
         return return_vot
@@ -132,6 +133,7 @@ class VOQuery():
 
         except Exception as e:
             logging.exception(e)
+            self.error = str(e)
 
         return self.votable
 
@@ -174,6 +176,7 @@ class VOQuery():
 
         except Exception as e:
             logging.exception(e)
+            self.error = str(e)
 
         return self.votable
 
