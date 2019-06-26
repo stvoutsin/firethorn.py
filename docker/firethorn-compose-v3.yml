@@ -1,0 +1,114 @@
+
+version: '3'
+
+networks:
+
+    # External network
+    rosana:
+
+    # Internal network
+    miriam:
+
+services:
+
+    bethany:
+        image:
+           "firethorn/postgres:${buildtag:-latest}"
+        read_only:
+            false
+        tmpfs:
+            - /run
+            - /tmp
+        env_file:
+            - .metadata_env
+        networks:
+            - miriam
+
+    carolina:
+        image:
+           "firethorn/postgres:${buildtag:-latest}"
+        read_only:
+            false
+        tmpfs:
+            - /run
+            - /tmp
+        env_file:
+            - .tapschema_env
+        networks:
+            - miriam
+
+    jarmila:
+        image:
+           "firethorn/ogsadai:${buildtag:-latest}"
+        read_only:
+            false
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+            - miriam
+        env_file:
+            - .env
+        healthcheck:
+            test: [
+                "CMD",
+                "curl", "-f",  "http://localhost:8080/ogsadai/services"
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    gillian:
+        image:
+           "firethorn/firethorn:${buildtag:-latest}"
+        read_only:
+            false
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+            - ${HOME}/firethorn.properties:/etc/firethorn.properties
+        networks:
+            - miriam
+            - rosana
+        ports:
+            - "8080:8080"
+        depends_on:
+            - bethany
+            - carolina
+            - jarmila
+        env_file:
+            - .env
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8080/firethorn/system/info"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    firethorn-py:
+        hostname:
+            "firethorn-py"
+        image:
+           "firethorn/firethorn-py:${buildtag:-latest}"
+        read_only:
+            false
+        stdin_open:
+            true
+        tty:
+            true
+        tmpfs:
+            - /run
+            - /tmp
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+            - miriam
+        env_file:
+            - .env
+        depends_on:
+            - gillian
+        command:
+            [python3]
