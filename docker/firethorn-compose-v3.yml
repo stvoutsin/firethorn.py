@@ -59,6 +59,7 @@ services:
             interval: 20s
             timeout: 10s
             retries: 5
+            # We are healthchecking Firethorn, because we need to restart OGSADAI, if Firethorn locks up and becomes unresponsive
 
     gillian:
         image:
